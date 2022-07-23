@@ -7,6 +7,8 @@ import BioLinksSetting from "./view/admin/BioLinksSetting";
 import NFTsSetting from "./view/admin/NFTsSetting";
 import BioLinks from "./view/BioLinks";
 import Galaxy from "./view/Galaxy";
+import Intro from "./view/Intro";
+import Mint from "./view/Mint";
 import NFTs from "./view/NFTs";
 import DiscountSetting from "./view/owner/DiscountSetting";
 
@@ -17,7 +19,10 @@ import DiscountSetting from "./view/owner/DiscountSetting";
     }
     msg.parseCSV((await superagent.get("/msg.csv")).text);
 
-    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["admin", "admin/links", "owner"]);
+    SkyRouter.route("", Intro);
+    SkyRouter.route("mint", Mint);
+
+    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["mint", "admin", "admin/links", "owner"]);
     SkyRouter.route("{addressOrEns}/nfts", NFTs);
     SkyRouter.route("{addressOrEns}/galaxy", Galaxy);
 

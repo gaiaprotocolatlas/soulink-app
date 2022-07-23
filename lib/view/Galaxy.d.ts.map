@@ -1,0 +1,1 @@
+{"version":3,"file":"Galaxy.d.ts","sourceRoot":"","sources":["../../src/view/Galaxy.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,UAAU,EAAE,MAAM,gBAAgB,CAAC;AAElD,MAAM,CAAC,OAAO,OAAO,MAAO,YAAW,IAAI;IAEhC,YAAY,CAAC,MAAM,EAAE,UAAU,EAAE,GAAG,EAAE,MAAM,GAAG,IAAI;IAGnD,KAAK,IAAI,IAAI;CAEvB"}

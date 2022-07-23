@@ -1,0 +1,1 @@
+{"version":3,"file":"AppearanceSetting.d.ts","sourceRoot":"","sources":["../../../src/view/admin/AppearanceSetting.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,UAAU,EAAE,MAAM,gBAAgB,CAAC;AAElD,MAAM,CAAC,OAAO,OAAO,iBAAkB,YAAW,IAAI;IAE3C,YAAY,CAAC,MAAM,EAAE,UAAU,EAAE,GAAG,EAAE,MAAM,GAAG,IAAI;IAGnD,KAAK,IAAI,IAAI;CAEvB"}

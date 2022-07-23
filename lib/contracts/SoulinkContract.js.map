@@ -1,0 +1,1 @@
+{"version":3,"file":"SoulinkContract.js","sourceRoot":"","sources":["../../src/contracts/SoulinkContract.ts"],"names":[],"mappings":";;;;;AAAA,uDAA+B;AAC/B,8GAAyF;AAEzF,0EAAkD;AAElD,MAAM,eAAgB,SAAQ,qBAAoB;IAE9C;QACI,KAAK,CAAC,gBAAM,CAAC,SAAS,CAAC,OAAO,EAAE,sBAAe,CAAC,GAAG,CAAC,CAAC;IACzD,CAAC;CACJ;AAED,kBAAe,IAAI,eAAe,EAAE,CAAC"}

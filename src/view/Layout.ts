@@ -1,5 +1,8 @@
 import { BodyNode, DomNode, el } from "skydapp-browser";
-import { View } from "skydapp-common";
+import { SkyUtil, View } from "skydapp-common";
+import NotExistsDisplay from "../components/NotExistsDisplay";
+import Config from "../Config";
+import Bio from "../datamodel/Bio";
 
 export default class Layout extends View {
 
@@ -7,6 +10,8 @@ export default class Layout extends View {
     public content: DomNode;
 
     private container: DomNode;
+
+    public bio: Bio = { links: [] };
 
     constructor() {
         super();
@@ -17,8 +22,18 @@ export default class Layout extends View {
         ));
     }
 
-    public set title(title: string) {
-        document.title = `${title} | Soulink`;
+    public async ready(addressOrEns: string) {
+        const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
+        const str = await result.text();
+        if (str === "") {
+            document.title = "Soulink | Page Not Found";
+            this.content.empty().append(new NotExistsDisplay());
+            return false;
+        } else {
+            document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
+            this.bio = JSON.parse(str);
+            return true;
+        }
     }
 
     public close(): void {

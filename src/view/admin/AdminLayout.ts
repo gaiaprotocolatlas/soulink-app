@@ -45,7 +45,7 @@ export default class AdminLayout extends View {
             }
 
             if (address === undefined) {
-                this.container.append(el("p", "Not connected to wallet."));
+                this.content.empty().append(el("p", "Not connected to wallet."));
                 return false;
             } else {
                 const result = await fetch(`${Config.apiURI}/bio/${address}`);

@@ -1,12 +1,11 @@
 import { DomNode, el } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
-import NotExistsDisplay from "../components/NotExistsDisplay";
-import Config from "../Config";
 import Layout from "./Layout";
 
 export default class BioLinks extends View {
 
     private container: DomNode | undefined;
+    private linkContainer: DomNode | undefined;
 
     constructor(params: ViewParams) {
         super();
@@ -14,17 +13,19 @@ export default class BioLinks extends View {
     }
 
     private async load(addressOrEns: string) {
-        const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
-        const str = await result.text();
-        if (this.closed !== true) {
-            if (str === "") {
-                Layout.current.title = "Page Not Found";
-                Layout.current.content.append(this.container = new NotExistsDisplay());
-            } else {
-                Layout.current.title = addressOrEns;
+        if (await Layout.current.ready(addressOrEns) === true) {
+            if (this.closed !== true) {
+                
                 Layout.current.content.append(this.container = el(".bio-links-view",
-                    "TEST!",
+                    this.linkContainer = el(".link-container"),
                 ));
+
+                for (const link of Layout.current.bio.links) {
+                    this.linkContainer.append(el("a",
+                        el(".title", link.title),
+                        { href: link.url },
+                    ));
+                }
             }
         }
     }

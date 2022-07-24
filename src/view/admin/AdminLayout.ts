@@ -24,6 +24,7 @@ export default class AdminLayout extends View {
             el("header",
                 el("a", "Links", { click: () => { SkyRouter.go("/admin", undefined, true) } }),
                 el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
+                el("a", "Requests", { click: () => { SkyRouter.go("/admin/requests", undefined, true) } }),
                 el("a", "Save", { click: () => this.save() }),
             ),
             this.content = el(".content"),
@@ -47,7 +48,7 @@ export default class AdminLayout extends View {
                 this.content.empty().append(el("p", "Not connected to wallet."));
                 return false;
             } else {
-                const balance = await SoulinkContract.balanceOf(AdminLayout.current.address);
+                const balance = await SoulinkContract.balanceOf(address);
                 if (balance.eq(0)) {
                     SkyRouter.go("/mint", undefined, true);
                     return false;

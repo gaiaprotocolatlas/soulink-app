@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, ethers } from "ethers";
+import { ethers } from "ethers";
 import { EventContainer } from "skydapp-common";
 declare class Wallet extends EventContainer {
     private ethereum;
@@ -18,36 +18,11 @@ declare class Wallet extends EventContainer {
         symbol: string;
         decimals: number;
     }, rpc: string, blockExplorer?: string): Promise<void>;
-    signTypedData(owner: string | undefined, name: string, version: string, verifyingContract: string, Permit: {
+    signMessage(message: string): Promise<any>;
+    signTypedData(owner: string | undefined, name: string, version: string, verifyingContract: string, primaryType: string, types: {
         name: string;
         type: string;
-    }[], message: any): Promise<{
-        v: number;
-        r: string;
-        s: string;
-    }>;
-    signERC20Permit(name: string, version: string, verifyingContract: string, spender: string, amount: BigNumberish, nonce: BigNumber, deadline: number): Promise<{
-        v: number;
-        r: string;
-        s: string;
-    }>;
-    signERC721Permit(name: string, version: string, verifyingContract: string, spender: string, id: BigNumber, nonce: BigNumber, deadline: number): Promise<{
-        v: number;
-        r: string;
-        s: string;
-    }>;
-    signERC721PermitAll(name: string, version: string, verifyingContract: string, spender: string, nonce: BigNumber, deadline: number): Promise<{
-        v: number;
-        r: string;
-        s: string;
-    }>;
-    signERC1155Permit(name: string, version: string, verifyingContract: string, spender: string, nonce: BigNumber, deadline: number): Promise<{
-        v: number;
-        r: string;
-        s: string;
-    }>;
-    addToken(address: string, symbol: string, decimals: number, image: string): Promise<void>;
-    signMessage(message: string): Promise<any>;
+    }[], message: any): Promise<string>;
 }
 declare const _default: Wallet;
 export default _default;

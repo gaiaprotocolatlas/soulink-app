@@ -1,6 +1,5 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { BigNumber, BigNumberish, ethers } from "ethers";
-import { splitSignature } from "ethers/lib/utils";
+import { BigNumber, ethers } from "ethers";
 import { EventContainer } from "skydapp-common";
 import Config from "../Config";
 
@@ -110,214 +109,6 @@ class Wallet extends EventContainer {
         }
     }
 
-    public async signTypedData(
-        owner: string | undefined,
-
-        name: string,
-        version: string,
-        verifyingContract: string,
-
-        Permit: {
-            name: string;
-            type: string;
-        }[],
-        message: any,
-    ) {
-        const EIP712Domain = [
-            { name: "name", type: "string" },
-            { name: "version", type: "string" },
-            { name: "chainId", type: "uint256" },
-            { name: "verifyingContract", type: "address" },
-        ];
-
-        const domain = {
-            name,
-            version,
-            chainId: Config.chainId,
-            verifyingContract,
-        };
-
-        const data = JSON.stringify({
-            types: {
-                EIP712Domain,
-                Permit,
-            },
-            domain,
-            primaryType: "Permit",
-            message,
-        });
-
-        let signedMessage;
-        if (this.existsInjectedProvider === true) {
-            signedMessage = await this.ethereum.request({
-                method: "eth_signTypedData_v4",
-                params: [owner, data],
-                from: owner,
-            });
-        } else {
-            signedMessage = await this.walletConnectProvider?.request({
-                method: "eth_signTypedData",
-                params: [owner, data],
-                from: owner,
-            });
-        }
-
-        const signature = splitSignature(signedMessage);
-        return {
-            v: signature.v,
-            r: signature.r,
-            s: signature.s,
-        };
-    }
-
-    public async signERC20Permit(
-
-        name: string,
-        version: string,
-        verifyingContract: string,
-
-        spender: string,
-        amount: BigNumberish,
-        nonce: BigNumber,
-        deadline: number,
-    ) {
-        const owner = await this.loadAddress();
-
-        const Permit = [
-            { name: "owner", type: "address" },
-            { name: "spender", type: "address" },
-            { name: "value", type: "uint256" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
-        ];
-
-        const message = {
-            owner,
-            spender,
-            value: BigNumber.from(amount).toString(),
-            nonce: BigNumber.from(nonce).toHexString(),
-            deadline: BigNumber.from(deadline).toString(),
-        };
-
-        return await this.signTypedData(owner, name, version, verifyingContract, Permit, message);
-    }
-
-    public async signERC721Permit(
-
-        name: string,
-        version: string,
-        verifyingContract: string,
-
-        spender: string,
-        id: BigNumber,
-        nonce: BigNumber,
-        deadline: number,
-    ) {
-        const owner = await this.loadAddress();
-
-        const Permit = [
-            { name: "spender", type: "address" },
-            { name: "id", type: "uint256" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
-        ];
-
-        const message = {
-            spender,
-            id: BigNumber.from(id).toHexString(),
-            nonce: BigNumber.from(nonce).toHexString(),
-            deadline: BigNumber.from(deadline).toString(),
-        };
-
-        return await this.signTypedData(owner, name, version, verifyingContract, Permit, message);
-    }
-
-    public async signERC721PermitAll(
-
-        name: string,
-        version: string,
-        verifyingContract: string,
-
-        spender: string,
-        nonce: BigNumber,
-        deadline: number,
-    ) {
-        const owner = await this.loadAddress();
-
-        const Permit = [
-            { name: "owner", type: "address" },
-            { name: "spender", type: "address" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
-        ];
-
-        const message = {
-            owner,
-            spender,
-            nonce: BigNumber.from(nonce).toHexString(),
-            deadline: BigNumber.from(deadline).toString(),
-        };
-
-        return await this.signTypedData(owner, name, version, verifyingContract, Permit, message);
-    }
-
-    public async signERC1155Permit(
-
-        name: string,
-        version: string,
-        verifyingContract: string,
-
-        spender: string,
-        nonce: BigNumber,
-        deadline: number,
-    ) {
-        const owner = await this.loadAddress();
-
-        const Permit = [
-            { name: "owner", type: "address" },
-            { name: "spender", type: "address" },
-            { name: "nonce", type: "uint256" },
-            { name: "deadline", type: "uint256" },
-        ];
-
-        const message = {
-            owner,
-            spender,
-            nonce: BigNumber.from(nonce).toHexString(),
-            deadline: BigNumber.from(deadline).toString(),
-        };
-
-        return await this.signTypedData(owner, name, version, verifyingContract, Permit, message);
-    }
-
-    public async addToken(
-        address: string,
-        symbol: string,
-        decimals: number,
-        image: string,
-    ) {
-        if (await this.loadChainId() !== Config.chainId) {
-            alert(`Wrong Network. Please change to ${Config.network}.`);
-            this.disconnectFromWalletConnect();
-        } else {
-            let provider;
-            if (this.existsInjectedProvider === true) {
-                provider = this.ethereum;
-            } else {
-                provider = this.walletConnectProvider;
-            }
-            if (provider !== undefined) {
-                provider.request({
-                    method: "wallet_watchAsset",
-                    params: {
-                        type: "ERC20",
-                        options: { address, symbol, decimals, image },
-                    },
-                });
-            }
-        }
-    }
-
     public async signMessage(message: string) {
         const address = await this.loadAddress();
         let signedMessage;
@@ -333,6 +124,56 @@ class Wallet extends EventContainer {
             });
         }
         return signedMessage;
+    }
+
+    public async signTypedData(
+        owner: string | undefined,
+
+        name: string,
+        version: string,
+        verifyingContract: string,
+
+        primaryType: string,
+        types: {
+            name: string;
+            type: string;
+        }[],
+
+        message: any,
+    ): Promise<string> {
+        const data = JSON.stringify({
+            types: {
+                EIP712Domain: [
+                    { name: "name", type: "string" },
+                    { name: "version", type: "string" },
+                    { name: "chainId", type: "uint256" },
+                    { name: "verifyingContract", type: "address" },
+                ],
+                [primaryType]: types,
+            },
+            domain: {
+                name,
+                version,
+                chainId: Config.chainId,
+                verifyingContract,
+            },
+            primaryType,
+            message,
+        });
+
+        if (this.existsInjectedProvider === true) {
+            return await this.ethereum.request({
+                method: "eth_signTypedData_v4",
+                params: [owner, data],
+                from: owner,
+            });
+        } else {
+            return await this.walletConnectProvider?.request({
+                method: "eth_signTypedData",
+                params: [owner, data],
+                from: owner,
+            });
+        }
     }
 }
 

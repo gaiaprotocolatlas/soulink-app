@@ -9,13 +9,15 @@ export default class BioLinks extends View {
 
     constructor(params: ViewParams) {
         super();
-        this.load(params.addressOrEns);
+        if (params.addressOrEns !== undefined) {
+            this.load(params.addressOrEns);
+        }
     }
 
     private async load(addressOrEns: string) {
         if (await Layout.current.ready(addressOrEns) === true) {
             if (this.closed !== true) {
-                
+
                 Layout.current.content.append(this.container = el(".bio-links-view",
                     this.linkContainer = el(".link-container"),
                 ));
@@ -31,7 +33,9 @@ export default class BioLinks extends View {
     }
 
     public changeParams(params: ViewParams, uri: string): void {
-        this.load(params.addressOrEns);
+        if (params.addressOrEns !== undefined) {
+            this.load(params.addressOrEns);
+        }
     }
 
     public close(): void {

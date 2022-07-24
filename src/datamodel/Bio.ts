@@ -11,7 +11,7 @@ export default interface Bio {
     },
     links: {
         icon?: string,
-        name: string,
+        title: string,
         url: string,
     }[];
 }

@@ -14,15 +14,13 @@ export default class BioLinks extends View {
     }
 
     private async load(addressOrEns: string) {
+        const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
+        const str = await result.text();
         if (this.closed !== true) {
-
-            const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
-            const str = await result.text();
             if (str === "") {
                 Layout.current.title = "Page Not Found";
                 Layout.current.content.append(this.container = new NotExistsDisplay());
             } else {
-
                 Layout.current.title = addressOrEns;
                 Layout.current.content.append(this.container = el(".bio-links-view",
                     "TEST!",

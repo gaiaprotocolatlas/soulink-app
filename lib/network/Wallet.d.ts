@@ -47,6 +47,7 @@ declare class Wallet extends EventContainer {
         s: string;
     }>;
     addToken(address: string, symbol: string, decimals: number, image: string): Promise<void>;
+    signMessage(message: string): Promise<any>;
 }
 declare const _default: Wallet;
 export default _default;

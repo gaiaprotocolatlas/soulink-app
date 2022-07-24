@@ -1,1 +1,1 @@
-{"version":3,"file":"BioLinksSetting.d.ts","sourceRoot":"","sources":["../../../src/view/admin/BioLinksSetting.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,gBAAgB,CAAC;AAEtC,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,IAAI;CAChD"}
+{"version":3,"file":"BioLinksSetting.d.ts","sourceRoot":"","sources":["../../../src/view/admin/BioLinksSetting.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,IAAI,EAAE,MAAM,gBAAgB,CAAC;AAItC,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,IAAI;IAE7C,OAAO,CAAC,SAAS,CAAsB;IACvC,OAAO,CAAC,aAAa,CAAsB;;YAO7B,IAAI;IA2BlB,OAAO,CAAC,SAAS;IAYV,KAAK,IAAI,IAAI;CAGvB"}

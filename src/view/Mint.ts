@@ -29,7 +29,7 @@ export default class Mint extends View {
         // when mint
         SoulinkContract.on("Transfer", async (from: string, to: string) => {
             if (from === "0x0000000000000000000000000000000000000000" && to === await Wallet.loadAddress()) {
-                SkyRouter.go("/", undefined, true);
+                SkyRouter.go("/admin", undefined, true);
             }
         });
     }

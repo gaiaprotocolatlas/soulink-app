@@ -1,10 +1,9 @@
 import { msg, SkyRouter } from "skydapp-browser";
 import superagent from "superagent";
 import AdminLayout from "./view/admin/AdminLayout";
-import Analytics from "./view/admin/Analytics";
 import AppearanceSetting from "./view/admin/AppearanceSetting";
 import BioLinksSetting from "./view/admin/BioLinksSetting";
-import NFTsSetting from "./view/admin/NFTsSetting";
+import LinkRequests from "./view/admin/LinkRequests";
 import BioLinks from "./view/BioLinks";
 import Galaxy from "./view/Galaxy";
 import Intro from "./view/Intro";
@@ -39,13 +38,12 @@ import OwnerLayout from "./view/owner/OwnerLayout";
         "admin", "admin/links",
         "admin/nfts",
         "admin/appearance",
-        "admin/analytics",
+        "admin/requests",
     ], AdminLayout);
 
     SkyRouter.route(["admin", "admin/links"], BioLinksSetting);
-    SkyRouter.route("admin/nfts", NFTsSetting);
     SkyRouter.route("admin/appearance", AppearanceSetting);
-    SkyRouter.route("admin/analytics", Analytics);
+    SkyRouter.route("admin/requests", LinkRequests);
 
     // owner
     SkyRouter.route([

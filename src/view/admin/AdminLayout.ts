@@ -2,6 +2,7 @@ import { constants } from "ethers";
 import { BodyNode, DomNode, el, SkyRouter } from "skydapp-browser";
 import { View } from "skydapp-common";
 import Config from "../../Config";
+import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
 import Wallet from "../../network/Wallet";
 
@@ -22,9 +23,7 @@ export default class AdminLayout extends View {
         BodyNode.append(this.container = el(".admin-layout",
             el("header",
                 el("a", "Links", { click: () => { SkyRouter.go("/admin", undefined, true) } }),
-                el("a", "NFTs", { click: () => { SkyRouter.go("/admin/nfts", undefined, true) } }),
                 el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
-                el("a", "Analytics", { click: () => { SkyRouter.go("/admin/analytics", undefined, true) } }),
                 el("a", "Save", { click: () => this.save() }),
             ),
             this.content = el(".content"),
@@ -48,11 +47,17 @@ export default class AdminLayout extends View {
                 this.content.empty().append(el("p", "Not connected to wallet."));
                 return false;
             } else {
-                const result = await fetch(`${Config.apiURI}/bio/${address}`);
-                const str = await result.text();
-                this.bio = str === "" ? { links: [] } : JSON.parse(str);
-                this.address = address;
-                return true;
+                const balance = await SoulinkContract.balanceOf(AdminLayout.current.address);
+                if (balance.eq(0)) {
+                    SkyRouter.go("/mint", undefined, true);
+                    return false;
+                } else {
+                    const result = await fetch(`${Config.apiURI}/bio/${address}`);
+                    const str = await result.text();
+                    this.bio = str === "" ? { links: [] } : JSON.parse(str);
+                    this.address = address;
+                    return true;
+                }
             }
         }
     }

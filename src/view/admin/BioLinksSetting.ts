@@ -45,8 +45,8 @@ export default class BioLinksSetting extends View {
             this.linkContainer.empty();
             for (const link of AdminLayout.current.bio.links) {
                 this.linkContainer.append(el(".link",
-                    el("input", { value: link.title, placeholder: "Title" }),
-                    el("input", { value: link.url, placeholder: "Url" }),
+                    el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => link.title = event.target.value }),
+                    el("input", { value: link.url, placeholder: "Url" }, { keyup: (event) => link.url = event.target.value }),
                 ));
             }
         }

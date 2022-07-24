@@ -24,6 +24,10 @@ class NetworkProvider extends EventContainer {
     public async resolveName(name: string) {
         return await this.provider.resolveName(name);
     }
+
+    public async lookupAddress(name: string) {
+        return await this.provider.lookupAddress(name);
+    }
 }
 
 export default new NetworkProvider();

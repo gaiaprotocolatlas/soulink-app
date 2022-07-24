@@ -1,1 +1,1 @@
-{"version":3,"file":"Galaxy.js","sourceRoot":"","sources":["../../src/view/Galaxy.ts"],"names":[],"mappings":";;AAEA,MAAqB,MAAM;IAEhB,YAAY,CAAC,MAAkB,EAAE,GAAW;IACnD,CAAC;IAEM,KAAK;IACZ,CAAC;CACJ;AAPD,yBAOC"}
+{"version":3,"file":"Galaxy.js","sourceRoot":"","sources":["../../src/view/Galaxy.ts"],"names":[],"mappings":";;AAAA,mDAAsC;AAEtC,MAAqB,MAAO,SAAQ,qBAAI;CACvC;AADD,yBACC"}

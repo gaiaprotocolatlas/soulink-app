@@ -1,5 +1,6 @@
 import { View, ViewParams } from "skydapp-common";
-export default class BioLinks implements View {
+export default class BioLinks extends View {
+    private container;
     constructor(params: ViewParams);
     private load;
     changeParams(params: ViewParams, uri: string): void;

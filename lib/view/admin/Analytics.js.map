@@ -1,1 +1,1 @@
-{"version":3,"file":"Analytics.js","sourceRoot":"","sources":["../../../src/view/admin/Analytics.ts"],"names":[],"mappings":";;AAEA,MAAqB,SAAS;IAEnB,YAAY,CAAC,MAAkB,EAAE,GAAW;IACnD,CAAC;IAEM,KAAK;IACZ,CAAC;CACJ;AAPD,4BAOC"}
+{"version":3,"file":"Analytics.js","sourceRoot":"","sources":["../../../src/view/admin/Analytics.ts"],"names":[],"mappings":";;AAAA,mDAAsC;AAEtC,MAAqB,SAAU,SAAQ,qBAAI;CAC1C;AADD,4BACC"}

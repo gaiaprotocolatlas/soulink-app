@@ -1,6 +1,7 @@
 const DEV_MODE = true;
 
 export default DEV_MODE ? {
+    apiURI: "https://localhost:1110",
     network: "Popcateum",
     rpc: "https://dataseed.popcateum.org",
     chainId: 1213,
@@ -10,6 +11,7 @@ export default DEV_MODE ? {
         DiscountDB: "0x00b930EE784A279B4bA7C8Ff778204C064789651",
     },
 } : {
+    apiURI: "https://api.soul.ink",
     network: "Ethereum",
     rpc: "https://cloudflare-eth.com",
     chainId: 1,

@@ -1,8 +1,4 @@
-import { View, ViewParams } from "skydapp-common";
-export default class Intro implements View {
-    constructor();
-    private load;
-    changeParams(params: ViewParams, uri: string): void;
-    close(): void;
+import { View } from "skydapp-common";
+export default class Intro extends View {
 }
 //# sourceMappingURL=Intro.d.ts.map

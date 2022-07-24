@@ -1,1 +1,1 @@
-{"version":3,"file":"NFTs.js","sourceRoot":"","sources":["../../src/view/NFTs.ts"],"names":[],"mappings":";;AAEA,MAAqB,IAAI;IAEd,YAAY,CAAC,MAAkB,EAAE,GAAW;IACnD,CAAC;IAEM,KAAK;IACZ,CAAC;CACJ;AAPD,uBAOC"}
+{"version":3,"file":"NFTs.js","sourceRoot":"","sources":["../../src/view/NFTs.ts"],"names":[],"mappings":";;AAAA,mDAAsC;AAEtC,MAAqB,IAAK,SAAQ,qBAAI;CACrC;AADD,uBACC"}

@@ -1,1 +1,1 @@
-{"version":3,"file":"BioLinksSetting.js","sourceRoot":"","sources":["../../../src/view/admin/BioLinksSetting.ts"],"names":[],"mappings":";;AAEA,MAAqB,eAAe;IAEzB,YAAY,CAAC,MAAkB,EAAE,GAAW;IACnD,CAAC;IAEM,KAAK;IACZ,CAAC;CACJ;AAPD,kCAOC"}
+{"version":3,"file":"BioLinksSetting.js","sourceRoot":"","sources":["../../../src/view/admin/BioLinksSetting.ts"],"names":[],"mappings":";;AAAA,mDAAsC;AAEtC,MAAqB,eAAgB,SAAQ,qBAAI;CAChD;AADD,kCACC"}

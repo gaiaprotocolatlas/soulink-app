@@ -1,15 +1,34 @@
+import { DomNode, el } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
-import NetworkProvider from "../network/NetworkProvider";
+import NotExistsDisplay from "../components/NotExistsDisplay";
+import Config from "../Config";
+import Layout from "./Layout";
 
-export default class BioLinks implements View {
+export default class BioLinks extends View {
+
+    private container: DomNode | undefined;
 
     constructor(params: ViewParams) {
+        super();
         this.load(params.addressOrEns);
     }
 
     private async load(addressOrEns: string) {
-        const address = await NetworkProvider.resolveName(addressOrEns);
-        console.log(address);
+        if (this.closed !== true) {
+
+            const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
+            const str = await result.text();
+            if (str === "") {
+                Layout.current.title = "Page Not Found";
+                Layout.current.content.append(this.container = new NotExistsDisplay());
+            } else {
+
+                Layout.current.title = addressOrEns;
+                Layout.current.content.append(this.container = el(".bio-links-view",
+                    "TEST!",
+                ));
+            }
+        }
     }
 
     public changeParams(params: ViewParams, uri: string): void {
@@ -17,5 +36,6 @@ export default class BioLinks implements View {
     }
 
     public close(): void {
+        this.container?.delete();
     }
 }

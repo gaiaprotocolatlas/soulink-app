@@ -36,7 +36,7 @@ export default abstract class Contract<CT extends ethers.Contract> extends Event
     }
 
     public async connectAndGetWalletContract() {
-        if (await Wallet.loadChainId() !== 1) {
+        if (await Wallet.loadChainId() !== Config.chainId) {
             alert(`Wrong Network. Please change to ${Config.network}.`);
             Wallet.disconnectFromWalletConnect();
         } else {

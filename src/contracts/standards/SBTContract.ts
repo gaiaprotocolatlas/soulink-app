@@ -1,4 +1,4 @@
-import { ContractInterface, ethers } from "ethers";
+import { BigNumber, BigNumberish, ContractInterface, ethers } from "ethers";
 import Contract from "../Contract";
 
 export default abstract class SBTContract<CT extends ethers.Contract> extends Contract<CT> {
@@ -9,5 +9,14 @@ export default abstract class SBTContract<CT extends ethers.Contract> extends Co
 
     public async name(): Promise<string> {
         return await this.contract.name();
+    }
+
+    public async balanceOf(owner: string): Promise<BigNumber> {
+        return await this.contract.balanceOf(owner);
+    }
+
+    public async burn(tokenId: BigNumberish) {
+        const contract = await this.connectAndGetWalletContract();
+        await contract?.burn(tokenId);
     }
 }

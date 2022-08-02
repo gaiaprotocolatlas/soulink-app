@@ -1,0 +1,171 @@
+.intro-view {
+    min-height    : 100%;
+    background    : linear-gradient(#5AADFB, #EA8889);
+    display       : flex;
+    flex-direction: column;
+
+    >header {
+        height: 200px;
+
+        @media @phone {
+            height: 110px;
+        }
+    }
+
+    >main {
+        flex-grow      : 1;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        gap            : 150px;
+
+        @media @tablet {
+            gap: 50px;
+        }
+
+        @media @phone {
+            display: block;
+            width  : 320px;
+            margin : auto;
+
+            >:nth-child(2) {
+                margin-top: 28px;
+            }
+        }
+
+        >:nth-child(1) {
+            position   : relative;
+            font-family: OCRAStd;
+            padding-top: 10px;
+
+            >h2 {
+                position : absolute;
+                top      : 0;
+                color    : #55ffb6;
+                font-size: 22px;
+            }
+
+            >h1 {
+                position : absolute;
+                top      : 30px;
+                font-size: 38px;
+                color    : #fff;
+            }
+
+            @media @phone {
+                padding-top: 30px;
+                text-align : right;
+
+                >img {
+                    width: 220px;
+                }
+            }
+        }
+
+        >:nth-child(2) {
+            >p {
+                font-size    : 20px;
+                line-height  : 34px;
+                margin-bottom: 25px;
+
+                @media @phone {
+                    font-size  : 18px;
+                    line-height: 28px;
+                }
+
+                >b {
+                    font-weight: bold;
+                    color      : #fff;
+                }
+
+                >strong {
+                    font-weight: bold;
+                    color      : #55ffb6;
+                }
+            }
+
+            >h6 {
+                font-family: OCRAStd;
+                font-size  : 38px;
+                color      : #fff;
+
+                >b {
+                    color: #55ffb6;
+                }
+
+                &.mobile {
+                    font-size : 14px;
+                    margin-top: 50px;
+                    text-align: center;
+
+                    @media @pc-and-tablet {
+                        display: none;
+                    }
+                }
+
+                &.no-mobile {
+                    margin-top: 35px;
+
+                    @media @phone {
+                        display: none;
+                    }
+
+                    @media @tablet {
+                        margin-top: 15px;
+                    }
+                }
+            }
+
+            >.button-container {
+                .float-wrapper();
+
+                >a {
+                    float        : left;
+                    margin-right : 15px;
+                    display      : block;
+                    width        : 195px;
+                    height       : 44px;
+                    font-family  : OCRAStd;
+                    font-size    : 13px;
+                    border-radius: 22px;
+                    border       : solid 2px #55ffb6;
+                    color        : #fff;
+                    text-align   : center;
+                    line-height  : 44px;
+
+                    >b {
+                        color: #55ffb6;
+                    }
+
+                    @media @phone {
+                        float     : none;
+                        margin    : auto;
+                        margin-top: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    >footer {
+        height     : 200px;
+        padding-top: 50px;
+
+        >img {
+            display: block;
+            margin : auto;
+        }
+
+        >.sns {
+            margin-top     : 35px;
+            display        : flex;
+            justify-content: center;
+            gap            : 20px;
+
+            >a {
+                color          : #000;
+                text-decoration: none;
+            }
+        }
+    }
+}

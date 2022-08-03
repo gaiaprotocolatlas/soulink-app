@@ -1,12 +1,14 @@
-import { BodyNode, el, ResponsiveImage } from "skydapp-browser";
+import { BodyNode, DomNode, el, ResponsiveImage } from "skydapp-browser";
 import { View } from "skydapp-common";
 import Alert from "../popup/Alert";
 
 export default class Intro extends View {
 
+    private container: DomNode;
+
     constructor() {
         super();
-        BodyNode.append(el(".intro-view",
+        BodyNode.append(this.container = el(".intro-view",
             el("header"),
             el("main",
                 el("section",
@@ -45,5 +47,10 @@ export default class Intro extends View {
                 ),
             ),
         ));
+    }
+
+    public close() {
+        this.container.delete();
+        super.close();
     }
 }

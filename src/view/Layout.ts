@@ -1,4 +1,4 @@
-import { BodyNode, DomNode, el, ResponsiveImage } from "skydapp-browser";
+import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View } from "skydapp-common";
 import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
@@ -29,7 +29,9 @@ export default class Layout extends View {
                 this.content = el(".content"),
             ),
             el("footer",
-                new ResponsiveImage("img", "/images/bottom-logo.png"),
+                el("a", new ResponsiveImage("img", "/images/bottom-logo.png"), {
+                    click: () => SkyRouter.go("/"),
+                }),
                 el(".sns",
                     el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
                     el("a", "Discord", { href: "https://discord.gg/u9hzMr848H", target: "_blank" }),

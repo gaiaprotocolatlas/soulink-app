@@ -355,10 +355,7 @@ body {
 .layout > footer {
   height: 200px;
   padding-top: 50px;
-}
-.layout > footer > img {
-  display: block;
-  margin: auto;
+  text-align: center;
 }
 .layout > footer > .sns {
   margin-top: 35px;
@@ -612,5 +609,8 @@ body {
   font-family: OCRAStd;
   font-size: 20px;
   color: #fff;
+}
+.not-exists {
+  text-align: center;
 }
 

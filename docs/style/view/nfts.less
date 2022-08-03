@@ -1,0 +1,34 @@
+.nfts-view {
+    >.nft-container {
+        margin               : auto;
+        width                : 336px;
+        display              : grid;
+        grid-template-columns: 78px 78px 78px 78px;
+        gap                  : 12px 8px;
+
+        >.nft {
+            font-family    : ProximaNovaCond-Light;
+            font-size      : 14px;
+            text-decoration: none;
+            color          : #000;
+            text-align     : center;
+
+            >img,
+            >video {
+                display         : block;
+                width           : 78px;
+                height          : 78px;
+                object-fit      : cover;
+                background-color: #fff;
+                border-radius   : 8px;
+            }
+
+            >.name {
+                margin-top   : 4px;
+                white-space  : nowrap;
+                overflow     : hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}

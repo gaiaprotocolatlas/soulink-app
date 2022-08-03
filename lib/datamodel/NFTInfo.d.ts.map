@@ -1,0 +1,1 @@
+{"version":3,"file":"NFTInfo.d.ts","sourceRoot":"","sources":["../../src/datamodel/NFTInfo.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,WAAW,OAAO;IAC5B,gBAAgB,EAAE,MAAM,CAAC;IACzB,QAAQ,EAAE,MAAM,CAAC;IACjB,IAAI,EAAE,MAAM,CAAC;IACb,eAAe,EAAE,MAAM,CAAC;CAC3B"}

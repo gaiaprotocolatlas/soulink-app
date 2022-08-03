@@ -5,6 +5,7 @@ import Loading from "../../components/Loading";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
+import NFTInfo from "../../datamodel/NFTInfo";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
 
@@ -19,6 +20,7 @@ export default class AdminLayout extends View {
 
     private prevBio: Bio = { links: [] };
     public bio: Bio = { links: [] };
+    public nfts: NFTInfo[] = [];
 
     private currentLink: DomNode | undefined;
     private links: { [name: string]: DomNode } = {};
@@ -70,9 +72,11 @@ export default class AdminLayout extends View {
                 if (balance.eq(0)) {
                     SkyRouter.go("/mint", undefined, true);
                 } else {
-                    const result = await fetch(`${Config.apiURI}/bio/${address}`);
+                    const result = await fetch(`${Config.apiURI}/all/${address}`);
                     const str = await result.text();
-                    this.bio = str === "" ? { links: [] } : JSON.parse(str);
+                    const data = str === "" ? { bio: { links: [] }, nfts: [] } : JSON.parse(str);
+                    this.bio = data.bio;
+                    this.nfts = data.nfts;
                     this.prevBio = JSON.parse(JSON.stringify(this.bio));
                     this.address = address;
                     await proc();

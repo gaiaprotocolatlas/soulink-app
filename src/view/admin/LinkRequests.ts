@@ -18,7 +18,7 @@ export default class LinkRequests extends View {
     }
 
     private async load() {
-        if (await AdminLayout.current.ready() === true) {
+        await AdminLayout.current.ready(async () => {
             if (this.closed !== true) {
                 AdminLayout.current.content.append(this.container = el(".container",
                     this.requestToContainer = el(".request-to-container"),
@@ -27,7 +27,7 @@ export default class LinkRequests extends View {
                 this.loadRequestTo();
                 this.loadRequestFrom();
             }
-        }
+        });
     }
 
     private async loadRequestTo() {

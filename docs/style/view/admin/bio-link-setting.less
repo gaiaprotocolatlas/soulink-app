@@ -1,0 +1,65 @@
+.bio-link-setting-view {
+    width : 330px;
+    margin: auto;
+
+    >.link-container {
+        >.link {
+            position     : relative;
+            border       : 1px solid #fff;
+            width        : 330px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+
+            >:nth-child(1) {
+                display         : block;
+                width           : 100%;
+                height          : 36px;
+                background-color: rgba(255, 255, 255, 0.6);
+                text-align      : center;
+                font-family     : ProximaNovaCond-Light;
+                border-radius   : 16px 16px 0 0;
+            }
+
+            >:nth-child(2) {
+                display         : block;
+                width           : 100%;
+                background-color: transparent;
+                height          : 36px;
+                color           : #fff;
+                font-family     : OCRAStd;
+                font-size       : 12px;
+                text-align      : center;
+                border-radius   : 0 0 16px 16px;
+            }
+
+            >a.handle {
+                position: absolute;
+                left    : 10px;
+                top     : 10px;
+                color   : #fff;
+                cursor  : move;
+            }
+
+            >a.delete {
+                position: absolute;
+                right   : 10px;
+                top     : 10px;
+                color   : #fff;
+            }
+        }
+    }
+
+    >a.add {
+        color           : #ff0f34;
+        background-color: #fff;
+        border-radius   : 8px;
+        width           : 16px;
+        height          : 16px;
+        display         : flex;
+        justify-content : center;
+        align-items     : center;
+        margin          : auto;
+        margin-top      : 20px;
+        font-size       : 14px;
+    }
+}

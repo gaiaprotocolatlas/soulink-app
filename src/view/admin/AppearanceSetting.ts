@@ -15,13 +15,13 @@ export default class AppearanceSetting extends View {
     }
 
     private async load() {
-        if (await AdminLayout.current.ready() === true) {
+        await AdminLayout.current.ready(async () => {
             if (this.closed !== true) {
                 AdminLayout.current.content.append(this.container = el(".container",
                     this.pfpContainer = el(".pfp-container"),
                     el("a", "Change PFP", {
                         click: () => new SelectNFTPopup(() => {
-                            
+
                         }),
                     }),
                     this.backgroundContainer = el(".background-container"),
@@ -29,7 +29,7 @@ export default class AppearanceSetting extends View {
                 this.showPFP();
                 this.showBackground();
             }
-        }
+        });
     }
 
     private showPFP() {

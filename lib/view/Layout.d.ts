@@ -8,7 +8,7 @@ export default class Layout extends View {
     private container;
     bio: Bio;
     constructor();
-    ready(addressOrEns: string): Promise<boolean>;
+    ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
     private showLinkButton;
     close(): void;
 }

@@ -15,7 +15,7 @@ export default class BioLinks extends View {
     }
 
     private async load(addressOrEns: string) {
-        if (await Layout.current.ready(addressOrEns) === true) {
+        await Layout.current.ready(addressOrEns, async () => {
             if (this.closed !== true) {
 
                 Layout.current.content.append(this.container = el(".bio-links-view",
@@ -23,13 +23,13 @@ export default class BioLinks extends View {
                 ));
 
                 for (const link of Layout.current.bio.links) {
-                    this.linkContainer.append(el("a",
+                    this.linkContainer.append(el("a.link",
                         el(".title", link.title),
-                        { href: link.url },
+                        { href: link.url, target: "_blank" },
                     ));
                 }
             }
-        }
+        });
     }
 
     public changeParams(params: ViewParams, uri: string): void {

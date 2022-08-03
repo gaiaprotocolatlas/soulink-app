@@ -1,4 +1,4 @@
-const DEV_MODE = true;
+const DEV_MODE = false;
 
 export default DEV_MODE ? {
     apiURI: "https://localhost:1110",
@@ -16,8 +16,8 @@ export default DEV_MODE ? {
     rpc: "https://cloudflare-eth.com",
     chainId: 1,
     contracts: {
-        Soulink: "",
-        SoulinkMinter: "",
-        DiscountDB: "",
+        Soulink: "0x9f69C2a06c97fCAAc1E586b30Ea681c43975F052",
+        SoulinkMinter: "0xECFFc91149b8B702dEa6905Ae304A9D36527060F",
+        DiscountDB: "0x1640C880E14F8913bA71644F6812eE58EAeF412F",
     },
 };

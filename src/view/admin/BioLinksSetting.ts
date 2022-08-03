@@ -1,6 +1,5 @@
-import { DomNode, el, SkyRouter } from "skydapp-browser";
+import { DomNode, el } from "skydapp-browser";
 import { SkyUtil, View } from "skydapp-common";
-import SoulinkContract from "../../contracts/SoulinkContract";
 import AdminLayout from "./AdminLayout";
 
 export default class BioLinksSetting extends View {
@@ -14,23 +13,24 @@ export default class BioLinksSetting extends View {
     }
 
     private async load() {
-        if (await AdminLayout.current.ready() === true) {
+        await AdminLayout.current.ready(async () => {
             if (this.closed !== true) {
-                AdminLayout.current.content.append(this.container = el(".container",
-                    el("a", "Add New Link", {
+                AdminLayout.current.content.append(this.container = el(".bio-link-setting-view",
+                    this.linkContainer = el(".link-container"),
+                    el("a.add", el("i.fa-solid.fa-plus"), {
                         click: () => {
                             AdminLayout.current.bio.links.push({
                                 title: "",
                                 url: "",
                             });
+                            AdminLayout.current.checkChanges();
                             this.showLinks();
                         },
                     }),
-                    this.linkContainer = el(".link-container"),
                 ));
                 this.showLinks();
             }
-        }
+        });
     }
 
     private showLinks() {
@@ -38,11 +38,15 @@ export default class BioLinksSetting extends View {
             this.linkContainer.empty();
             for (const link of AdminLayout.current.bio.links) {
                 const linkDisplay = el(".link",
-                    el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => link.title = event.target.value }),
-                    el("input", { value: link.url, placeholder: "Url" }, { keyup: (event) => link.url = event.target.value }),
-                    el("a", "Delete", {
+                    el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => { link.title = event.target.value; AdminLayout.current.checkChanges(); } }),
+                    el("input", { value: link.url, placeholder: "URL" }, { keyup: (event) => { link.url = event.target.value; AdminLayout.current.checkChanges(); } }),
+                    el("a.handle", el("i.fa-solid.fa-grip-vertical"), {
+                        //TODO:
+                    }),
+                    el("a.delete", el("i.fa-regular.fa-trash-can"), {
                         click: () => {
                             SkyUtil.pull(AdminLayout.current.bio.links, link);
+                            AdminLayout.current.checkChanges();
                             linkDisplay.delete();
                         },
                     }),

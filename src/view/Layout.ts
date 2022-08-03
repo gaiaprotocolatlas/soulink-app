@@ -1,5 +1,6 @@
-import { BodyNode, DomNode, el } from "skydapp-browser";
+import { BodyNode, DomNode, el, ResponsiveImage } from "skydapp-browser";
 import { SkyUtil, View } from "skydapp-common";
+import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
@@ -22,12 +23,23 @@ export default class Layout extends View {
         Layout.current = this;
 
         BodyNode.append(this.container = el(".layout",
-            this.profile = el(".profile"),
-            this.content = el(".content"),
+            el("header"),
+            el("main",
+                this.profile = el(".profile"),
+                this.content = el(".content"),
+            ),
+            el("footer",
+                new ResponsiveImage("img", "/images/bottom-logo.png"),
+                el(".sns",
+                    el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
+                    el("a", "Discord", { href: "https://discord.gg/u9hzMr848H", target: "_blank" }),
+                ),
+            ),
         ));
     }
 
-    public async ready(addressOrEns: string) {
+    public async ready(addressOrEns: string, proc: () => Promise<void>) {
+        const loading = new Loading("Loading...").appendTo(BodyNode);
         const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
         const str = await result.text();
 
@@ -37,13 +49,13 @@ export default class Layout extends View {
         if (str === "") {
             document.title = "Soulink | Page Not Found";
             this.content.append(new NotExistsDisplay());
-            return false;
         } else {
             document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
             this.bio = JSON.parse(str);
             this.showLinkButton(addressOrEns);
-            return true;
+            await proc();
         }
+        loading.delete();
     }
 
     private async showLinkButton(addressOrEns: string) {

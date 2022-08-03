@@ -1,0 +1,61 @@
+@-webkit-keyframes LoadingBarAnimation {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+@-moz-keyframes LoadingBarAnimation {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+@keyframes LoadingBarAnimation {
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+.loading {
+    position       : fixed;
+    left           : 0;
+    top            : 0;
+    z-index        : 99999;
+    width          : 100%;
+    height         : 100%;
+    background     : rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(2px);
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : center;
+
+    >.bar {
+        width            : 70%;
+        height           : 20px;
+        background       : linear-gradient(270deg, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
+        background-size  : 200% 200%;
+        -webkit-animation: LoadingBarAnimation 2s linear infinite;
+        -moz-animation   : LoadingBarAnimation 2s linear infinite;
+        animation        : LoadingBarAnimation 2s linear infinite;
+    }
+
+    >p {
+        margin-top : 24px;
+        font-family: OCRAStd;
+        font-size  : 20px;
+        color      : #fff;
+    }
+}

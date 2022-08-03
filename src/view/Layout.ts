@@ -42,7 +42,7 @@ export default class Layout extends View {
 
     public async ready(addressOrEns: string, proc: () => Promise<void>) {
         const loading = new Loading("Loading...").appendTo(BodyNode);
-        const result = await fetch(`${Config.apiURI}/bio/${addressOrEns}`);
+        const result = await fetch(`${Config.apiURI}/bio-cached/${addressOrEns}`);
         const str = await result.text();
 
         this.content.empty();

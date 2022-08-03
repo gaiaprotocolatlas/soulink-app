@@ -557,6 +557,38 @@ body {
   text-align: center;
   padding: 15px 0;
 }
+@keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes LoadingBarAnimation {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
 @-webkit-keyframes LoadingBarAnimation {
   0% {
     background-position: 0%;
@@ -566,14 +598,6 @@ body {
   }
 }
 @-moz-keyframes LoadingBarAnimation {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 200%;
-  }
-}
-@keyframes LoadingBarAnimation {
   0% {
     background-position: 0%;
   }
@@ -594,6 +618,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
 }
 .loading > .bar {
   width: 70%;

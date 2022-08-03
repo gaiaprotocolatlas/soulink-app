@@ -7,6 +7,7 @@ export default class Layout extends View {
     content: DomNode;
     private profile;
     private container;
+    private editButton;
     private addressOrEns;
     bio: Bio;
     nfts: NFTInfo[];

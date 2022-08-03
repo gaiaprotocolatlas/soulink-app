@@ -349,33 +349,69 @@ body {
 .layout > header {
   height: 100px;
   display: flex;
+  position: relative;
+}
+.layout > header > .edit {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: #fff;
+  display: none;
+}
+.layout > header > .edit.show {
+  display: block;
+}
+.layout > header > .card {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #fff;
+}
+.layout > header > .menu {
+  flex-grow: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 20px;
 }
 @media only screen and (max-width: 859px) {
-  .layout > header {
+  .layout > header > .menu {
     gap: 10px;
   }
 }
-.layout > header > a {
+.layout > header > .menu > a {
   color: #fff;
   padding: 6px 20px;
   border-radius: 16px;
 }
 @media only screen and (max-width: 859px) {
-  .layout > header > a {
+  .layout > header > .menu > a {
     padding: 6px 14px;
   }
 }
-.layout > header > a:hover {
+.layout > header > .menu > a:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
-.layout > header > a.on {
+.layout > header > .menu > a.on {
   outline: 1px solid #fff;
 }
 .layout > main {
   flex-grow: 1;
+}
+.layout > main > .profile {
+  width: 180px;
+  margin: auto;
+}
+.layout > main > .profile > .request-soulink-button {
+  display: block;
+  border-radius: 18px;
+  border: solid 2px #55ffb6;
+  line-height: 36px;
+  text-align: center;
+  color: #55ffb6;
+}
+.layout > main > .content {
+  margin-top: 20px;
 }
 .layout > footer {
   height: 200px;
@@ -437,6 +473,14 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.business-card-view {
+  width: 280px;
+  margin: auto;
+}
+.business-card-view img.qr {
+  display: block;
+  margin: auto;
 }
 .admin-layout {
   min-height: 100%;

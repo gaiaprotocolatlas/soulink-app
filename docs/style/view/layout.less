@@ -5,37 +5,80 @@
     flex-direction: column;
 
     >header {
-        height         : 100px;
-        display        : flex;
-        justify-content: center;
-        align-items    : center;
-        gap            : 20px;
+        height  : 100px;
+        display : flex;
+        position: relative;
 
-        @media @phone {
-            gap: 10px;
+        >.edit {
+            position: absolute;
+            left    : 20px;
+            top     : 20px;
+            color   : #fff;
+            display : none;
+
+            &.show {
+                display: block;
+            }
         }
 
-        >a {
-            color        : #fff;
-            padding      : 6px 20px;
-            border-radius: 16px;
+        >.card {
+            position: absolute;
+            right   : 20px;
+            top     : 20px;
+            color   : #fff;
+        }
+
+        >.menu {
+            flex-grow      : 1;
+            display        : flex;
+            justify-content: center;
+            align-items    : center;
+            gap            : 20px;
 
             @media @phone {
-                padding: 6px 14px;
+                gap: 10px;
             }
 
-            &:hover {
-                background-color: rgba(255, 255, 255, 0.2);
-            }
+            >a {
+                color        : #fff;
+                padding      : 6px 20px;
+                border-radius: 16px;
 
-            &.on {
-                outline: 1px solid #fff;
+                @media @phone {
+                    padding: 6px 14px;
+                }
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                &.on {
+                    outline: 1px solid #fff;
+                }
             }
         }
     }
 
     >main {
         flex-grow: 1;
+
+        >.profile {
+            width : 180px;
+            margin: auto;
+
+            >.request-soulink-button {
+                display      : block;
+                border-radius: 18px;
+                border       : solid 2px #55ffb6;
+                line-height  : 36px;
+                text-align   : center;
+                color        : #55ffb6;
+            }
+        }
+
+        >.content {
+            margin-top: 20px;
+        }
     }
 
     >footer {

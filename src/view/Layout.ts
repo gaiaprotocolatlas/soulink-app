@@ -8,6 +8,7 @@ import Bio from "../datamodel/Bio";
 import NFTInfo from "../datamodel/NFTInfo";
 import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
+import Alert from "../popup/Alert";
 
 export default class Layout extends View {
 
@@ -16,6 +17,7 @@ export default class Layout extends View {
 
     private profile: DomNode;
     private container: DomNode;
+    private editButton: DomNode;
 
     private addressOrEns: string = "";
     public bio: Bio = { links: [] };
@@ -30,8 +32,14 @@ export default class Layout extends View {
 
         BodyNode.append(this.container = el(".layout",
             el("header",
-                this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
-                this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
+                this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
+                    click: () => SkyRouter.go("/admin", undefined, true),
+                }),
+                el(".menu",
+                    this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
+                    this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
+                ),
+                el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => { SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) } }),
             ),
             el("main",
                 this.profile = el(".profile"),
@@ -39,7 +47,7 @@ export default class Layout extends View {
             ),
             el("footer",
                 el("a", new ResponsiveImage("img", "/images/bottom-logo.png"), {
-                    click: () => SkyRouter.go("/"),
+                    click: () => SkyRouter.go("/", undefined, true),
                 }),
                 el(".sns",
                     el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
@@ -78,7 +86,7 @@ export default class Layout extends View {
         if (walletAddress !== undefined) {
             const address = await NetworkProvider.resolveName(addressOrEns);
             if (address !== walletAddress) {
-                this.profile.append(el("a", "Request Soulink", {
+                this.profile.append(el("a.request-soulink-button", "Request Soulink", {
                     click: async () => {
                         const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                         const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
@@ -97,8 +105,12 @@ export default class Layout extends View {
                                 deadline,
                             }),
                         });
+                        new Alert("Soulink requested.");
                     },
                 }));
+                this.editButton.deleteClass("show");
+            } else {
+                this.editButton.addClass("show");
             }
         }
     }
@@ -120,5 +132,6 @@ export default class Layout extends View {
 
     public close(): void {
         this.container.delete();
+        super.close();
     }
 }

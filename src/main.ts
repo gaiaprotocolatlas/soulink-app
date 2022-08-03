@@ -6,13 +6,13 @@ import BioLinksSetting from "./view/admin/BioLinksSetting";
 import LinkRequests from "./view/admin/LinkRequests";
 import BioLinks from "./view/BioLinks";
 import BusinessCard from "./view/BusinessCard";
-import Galaxy from "./view/Galaxy";
 import Intro from "./view/Intro";
 import Layout from "./view/Layout";
 import Mint from "./view/Mint";
 import NFTs from "./view/NFTs";
 import DiscountSetting from "./view/owner/DiscountSetting";
 import OwnerLayout from "./view/owner/OwnerLayout";
+import Soulmates from "./view/Soulmates";
 
 (async () => {
     if (sessionStorage.__spa_path) {
@@ -27,13 +27,13 @@ import OwnerLayout from "./view/owner/OwnerLayout";
     SkyRouter.route([
         "{addressOrEns}", "{addressOrEns}/links",
         "{addressOrEns}/nfts",
-        "{addressOrEns}/galaxy",
+        "{addressOrEns}/soulmates",
         "{addressOrEns}/card",
     ], Layout, ["mint", "admin", "admin/links", "owner"]);
 
     SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["mint", "admin", "admin/links", "owner"]);
     SkyRouter.route("{addressOrEns}/nfts", NFTs);
-    SkyRouter.route("{addressOrEns}/galaxy", Galaxy);
+    SkyRouter.route("{addressOrEns}/soulmates", Soulmates);
     SkyRouter.route("{addressOrEns}/card", BusinessCard);
 
     // admin

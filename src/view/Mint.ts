@@ -16,14 +16,6 @@ export default class Mint extends View {
                     await SoulinkMinterContract.mint(false, "0x");
                 },
             }),
-            el("a", "Burn", {
-                click: async () => {
-                    const address = await Wallet.loadAddress();
-                    if (address !== undefined) {
-                        await SoulinkContract.burn(await SoulinkContract.getTokenId(address));
-                    }
-                },
-            }),
         ));
 
         // when mint

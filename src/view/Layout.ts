@@ -38,6 +38,7 @@ export default class Layout extends View {
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
                     this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
+                    this.links["soulmates"] = el("a", "Soulmates", { click: () => { SkyRouter.go(`/${this.addressOrEns}/soulmates`, undefined, true) } }),
                 ),
                 el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => { SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) } }),
             ),
@@ -60,22 +61,26 @@ export default class Layout extends View {
 
     public async ready(addressOrEns: string, proc: () => Promise<void>) {
         const loading = new Loading("Loading...").appendTo(BodyNode);
-        const result = await fetch(`${Config.apiURI}/cached/${addressOrEns}`);
-        const str = await result.text();
+        if (this.addressOrEns !== addressOrEns) {
+            const result = await fetch(`${Config.apiURI}/cached/${addressOrEns}`);
+            const str = await result.text();
 
-        this.content.empty();
-        this.profile.empty();
+            this.content.empty();
+            this.profile.empty();
 
-        if (str === "") {
-            document.title = "Soulink | Page Not Found";
-            this.content.append(new NotExistsDisplay());
-        } else {
-            document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
-            const data = JSON.parse(str);
-            this.addressOrEns = addressOrEns;
-            this.bio = data.bio;
-            this.nfts = data.nfts;
-            this.showLinkButton(addressOrEns);
+            if (str === "") {
+                document.title = "Soulink | Page Not Found";
+                this.content.append(new NotExistsDisplay());
+            } else {
+                document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
+                const data = JSON.parse(str);
+                this.addressOrEns = addressOrEns;
+                this.bio = data.bio;
+                this.nfts = data.nfts;
+                this.showLinkButton(addressOrEns);
+            }
+        }
+        if (this.addressOrEns !== "") {
             await proc();
         }
         loading.delete();

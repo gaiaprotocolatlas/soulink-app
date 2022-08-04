@@ -15,8 +15,8 @@ export default class Layout extends View {
     public static current: Layout;
     public content: DomNode;
 
-    private profile: DomNode;
     private container: DomNode;
+    private profile: DomNode;
     private editButton: DomNode;
 
     private addressOrEns: string = "";
@@ -65,18 +65,27 @@ export default class Layout extends View {
             const result = await fetch(`${Config.apiURI}/cached/${addressOrEns}`);
             const str = await result.text();
 
-            this.content.empty();
             this.profile.empty();
+            this.content.empty();
 
             if (str === "") {
                 document.title = "Soulink | Page Not Found";
                 this.content.append(new NotExistsDisplay());
             } else {
+
                 document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
+
                 const data = JSON.parse(str);
                 this.addressOrEns = addressOrEns;
                 this.bio = data.bio;
                 this.nfts = data.nfts;
+
+                this.profile.append(
+                    new ResponsiveImage("img", "/images/default-profile.png"),
+                    el(".name", this.bio.name),
+                    el(".introduce", this.bio.introduce),
+                );
+
                 this.showLinkButton(addressOrEns);
             }
         }

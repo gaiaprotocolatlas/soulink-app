@@ -5,8 +5,8 @@ import NFTInfo from "../datamodel/NFTInfo";
 export default class Layout extends View {
     static current: Layout;
     content: DomNode;
-    private profile;
     private container;
+    private profile;
     private editButton;
     private addressOrEns;
     bio: Bio;

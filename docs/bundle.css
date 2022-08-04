@@ -399,10 +399,35 @@ body {
   flex-grow: 1;
 }
 .layout > main > .profile {
-  width: 180px;
+  width: 320px;
   margin: auto;
 }
+.layout > main > .profile > img {
+  display: block;
+  margin: auto;
+}
+.layout > main > .profile > .name {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: OCRAStd;
+  font-size: 16px;
+  text-align: center;
+}
+.layout > main > .profile > .introduce {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: ProximaNovaCond-Light;
+  font-size: 16px;
+  text-align: center;
+  line-height: 20px;
+}
 .layout > main > .profile > .request-soulink-button {
+  width: 180px;
+  margin: auto;
   display: block;
   border-radius: 18px;
   border: solid 2px #55ffb6;
@@ -543,6 +568,54 @@ body {
 }
 .admin-layout > main {
   flex-grow: 1;
+}
+.admin-layout > main > .profile {
+  position: relative;
+  width: 320px;
+  margin: auto;
+}
+.admin-layout > main > .profile > img {
+  display: block;
+  margin: auto;
+  cursor: pointer;
+}
+.admin-layout > main > .profile > .add {
+  position: absolute;
+  top: 0;
+  right: 130px;
+  color: #ff0f34;
+  background-color: #fff;
+  border-radius: 8px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+.admin-layout > main > .profile > input {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: OCRAStd;
+  font-size: 16px;
+  text-align: center;
+}
+.admin-layout > main > .profile > textarea {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: ProximaNovaCond-Light;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+  height: 20px;
+}
+.admin-layout > main > .content {
+  margin-top: 20px;
 }
 .admin-layout > footer {
   height: 200px;

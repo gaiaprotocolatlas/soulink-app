@@ -15,6 +15,7 @@ export default class AdminLayout extends View {
     public content: DomNode;
 
     private container: DomNode;
+    private profile: DomNode;
 
     public address = constants.AddressZero;
 
@@ -39,7 +40,10 @@ export default class AdminLayout extends View {
                 ),
                 this.saveButton = el("a.save", "Save", { click: () => this.save() }),
             ),
-            this.content = el("main"),
+            el("main",
+                this.profile = el(".profile"),
+                this.content = el(".content"),
+            ),
             el("footer",
                 new ResponsiveImage("img", "/images/bottom-logo.png"),
                 el(".sns",
@@ -65,20 +69,49 @@ export default class AdminLayout extends View {
                 address = await Wallet.loadAddress();
             }
 
+            this.profile.empty();
+            this.content.empty();
+
             if (address === undefined) {
-                this.content.empty().append(el("p", "Not connected to wallet."));
+                this.content.append(el("p", "Not connected to wallet."));
             } else {
                 const balance = await SoulinkContract.balanceOf(address);
                 if (balance.eq(0)) {
                     SkyRouter.go("/mint", undefined, true);
                 } else {
+
                     const result = await fetch(`${Config.apiURI}/all/${address}`);
                     const str = await result.text();
                     const data = str === "" ? { bio: { links: [] }, nfts: [] } : JSON.parse(str);
+
                     this.bio = data.bio;
                     this.nfts = data.nfts;
                     this.prevBio = JSON.parse(JSON.stringify(this.bio));
                     this.address = address;
+
+                    this.profile.append(
+                        new ResponsiveImage("img", "/images/default-profile.png"),
+                        el(".add", el("i.fa-solid.fa-plus")),
+                        el("input.name", {
+                            placeholder: "NAME",
+                            value: this.bio.name,
+                            keyup: (event) => { this.bio.name = event.target.value; this.checkChanges(); },
+                        }),
+                    );
+
+                    const textarea = el("textarea.introduce", this.bio.introduce, {
+                        placeholder: "About Me.",
+                        keyup: (event) => {
+                            this.bio.introduce = event.target.value;
+                            this.checkChanges();
+                            event.target.style.height = "1px";
+                            event.target.style.height = `${event.target.scrollHeight}px`;
+                        },
+                    }).appendTo(this.profile);
+
+                    textarea.domElement.style.height = "1px";
+                    textarea.domElement.style.height = `${textarea.domElement.scrollHeight}px`;
+
                     await proc();
                 }
             }

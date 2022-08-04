@@ -6,6 +6,7 @@ export default class AdminLayout extends View {
     static current: AdminLayout;
     content: DomNode;
     private container;
+    private profile;
     address: string;
     private prevBio;
     bio: Bio;

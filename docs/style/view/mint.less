@@ -1,0 +1,185 @@
+.mint-view {
+    min-height         : 100%;
+    background         : linear-gradient(#5AADFB, #EA8889);
+    display            : flex;
+    flex-direction     : column;
+    background-position: center center;
+    background-size    : cover;
+
+    >header {
+        height: 100px;
+    }
+
+    >main {
+        width    : 100%;
+        max-width: 1088px;
+        margin   : auto;
+
+        >header {
+            padding           : 0 9%;
+            text-align        : justify;
+            font-family       : OCRAStd;
+            font-size         : 30px;
+            color             : #fff;
+            border-bottom     : 6px solid transparent;
+            border-image      : linear-gradient(to left, #238afb, #f45131, #238afb);
+            border-image-slice: 1;
+            height            : 50px;
+            overflow          : hidden;
+            margin-bottom     : 66px;
+
+            &:after {
+                content: "";
+                display: inline-block;
+                width  : 100%;
+            }
+        }
+
+        >section {
+            display        : flex;
+            justify-content: center;
+            gap            : 105px;
+
+            @media @tablet {
+                gap: 50px;
+            }
+
+            @media @phone {
+                >img {
+                    display: none;
+                }
+            }
+
+            >section {
+                width          : 448px;
+                display        : flex;
+                flex-direction : column;
+                justify-content: center;
+
+                @media @phone {
+                    width: 341px;
+                }
+
+                >h1 {
+                    font-family: OCRAStd;
+                    font-size  : 56px;
+                    color      : #fff;
+
+                    >b {
+                        color: #55ffb6;
+                    }
+
+                    @media @phone {
+                        font-size: 43px;
+                    }
+                }
+
+                >.stepper {
+                    margin-top     : 20px;
+                    display        : flex;
+                    justify-content: space-between;
+                    border-top     : 2px solid #fff;
+
+                    >.step {
+                        position   : relative;
+                        padding-top: 12px;
+
+                        &:before {
+                            content         : "";
+                            position        : absolute;
+                            top             : -7.5px;
+                            width           : 13px;
+                            height          : 13px;
+                            border-radius   : 6.5px;
+                            background-color: #fff;
+                        }
+
+                        &.on {
+                            &:before {
+                                background-color: #55ffb6;
+                            }
+                        }
+                    }
+                }
+
+                >.info {
+                    margin-top     : 40px;
+                    margin-bottom  : 34px;
+                    display        : flex;
+                    justify-content: space-between;
+
+                    @media @phone {
+                        flex-direction: column;
+                        align-items   : center;
+                        gap           : 16px;
+                        margin-bottom : 85px;
+                    }
+
+                    >p {
+                        padding-left: 22px;
+                        position    : relative;
+
+                        >span {
+                            font-family: OCRAStd;
+                            font-size  : 10px;
+                            color      : #fff;
+
+                            >b {
+                                font-size: 20px;
+                            }
+                        }
+
+                        &:before {
+                            content         : "";
+                            position        : absolute;
+                            top             : 0;
+                            left            : 0;
+                            width           : 13px;
+                            height          : 13px;
+                            border-radius   : 6.5px;
+                            background-color: #55ffb6;
+                        }
+                    }
+                }
+
+                >a.mint {
+                    display      : block;
+                    width        : 211px;
+                    height       : 48px;
+                    font-family  : OCRAStd;
+                    font-size    : 14px;
+                    border-radius: 22px;
+                    border       : solid 2px #55ffb6;
+                    color        : #55ffb6;
+                    text-align   : center;
+                    line-height  : 48px;
+
+                    @media @phone {
+                        margin: auto;
+                    }
+                }
+
+                >p {
+                    margin-top : 24px;
+                    font-family: ProximaNovaCond-Regular;
+                    color      : #fff;
+
+                    @media @phone {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+
+        padding-bottom    : 66px;
+        border-bottom     : 6px solid transparent;
+        border-image      : linear-gradient(to left, #238afb, #f45131, #238afb);
+        border-image-slice: 1;
+    }
+
+    >footer {
+        height     : 150px;
+        padding-top: 50px;
+        text-align : center;
+    }
+}

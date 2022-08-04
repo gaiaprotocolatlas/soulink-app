@@ -340,6 +340,189 @@ body {
   color: #000;
   text-decoration: none;
 }
+.mint-view {
+  min-height: 100%;
+  background: linear-gradient(#5AADFB, #EA8889);
+  display: flex;
+  flex-direction: column;
+  background-position: center center;
+  background-size: cover;
+}
+.mint-view > header {
+  height: 100px;
+}
+.mint-view > main {
+  width: 100%;
+  max-width: 1088px;
+  margin: auto;
+  padding-bottom: 66px;
+  border-bottom: 6px solid transparent;
+  border-image: linear-gradient(to left, #238afb, #f45131, #238afb);
+  border-image-slice: 1;
+}
+.mint-view > main > header {
+  padding: 0 9%;
+  text-align: justify;
+  font-family: OCRAStd;
+  font-size: 30px;
+  color: #fff;
+  border-bottom: 6px solid transparent;
+  border-image: linear-gradient(to left, #238afb, #f45131, #238afb);
+  border-image-slice: 1;
+  height: 50px;
+  overflow: hidden;
+  margin-bottom: 66px;
+}
+.mint-view > main > header:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+.mint-view > main > section {
+  display: flex;
+  justify-content: center;
+  gap: 105px;
+}
+@media only screen and (min-width: 860px) and (max-width: 959px) {
+  .mint-view > main > section {
+    gap: 50px;
+  }
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > img {
+    display: none;
+  }
+}
+.mint-view > main > section > section {
+  width: 448px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > section {
+    width: 341px;
+  }
+}
+.mint-view > main > section > section > h1 {
+  font-family: OCRAStd;
+  font-size: 56px;
+  color: #fff;
+}
+.mint-view > main > section > section > h1 > b {
+  color: #55ffb6;
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > section > h1 {
+    font-size: 43px;
+  }
+}
+.mint-view > main > section > section > .stepper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid #fff;
+}
+.mint-view > main > section > section > .stepper > .step {
+  position: relative;
+  padding-top: 12px;
+}
+.mint-view > main > section > section > .stepper > .step:before {
+  content: "";
+  position: absolute;
+  top: -7.5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 6.5px;
+  background-color: #fff;
+}
+.mint-view > main > section > section > .stepper > .step.on:before {
+  background-color: #55ffb6;
+}
+.mint-view > main > section > section > .info {
+  margin-top: 40px;
+  margin-bottom: 34px;
+  display: flex;
+  justify-content: space-between;
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > section > .info {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 85px;
+  }
+}
+.mint-view > main > section > section > .info > p {
+  padding-left: 22px;
+  position: relative;
+}
+.mint-view > main > section > section > .info > p > span {
+  font-family: OCRAStd;
+  font-size: 10px;
+  color: #fff;
+}
+.mint-view > main > section > section > .info > p > span > b {
+  font-size: 20px;
+}
+.mint-view > main > section > section > .info > p:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 6.5px;
+  background-color: #55ffb6;
+}
+.mint-view > main > section > section > a.mint {
+  display: block;
+  width: 211px;
+  height: 48px;
+  font-family: OCRAStd;
+  font-size: 14px;
+  border-radius: 22px;
+  border: solid 2px #55ffb6;
+  color: #55ffb6;
+  text-align: center;
+  line-height: 48px;
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > section > a.mint {
+    margin: auto;
+  }
+}
+.mint-view > main > section > section > p {
+  margin-top: 24px;
+  font-family: ProximaNovaCond-Regular;
+  color: #fff;
+}
+@media only screen and (max-width: 859px) {
+  .mint-view > main > section > section > p {
+    text-align: center;
+  }
+}
+.mint-view > footer {
+  height: 150px;
+  padding-top: 50px;
+  text-align: center;
+}
+.mint-success-view {
+  min-height: 100%;
+  background: radial-gradient(circle at center, #EA8889, #5AADFB);
+  display: flex;
+  flex-direction: column;
+  background-position: center center;
+  background-size: cover;
+}
+.mint-failed-view {
+  min-height: 100%;
+  background: radial-gradient(circle at center, #EA8889, #5AADFB);
+  display: flex;
+  flex-direction: column;
+  background-position: center center;
+  background-size: cover;
+}
 @keyframes LoadingImageAnimation {
   0% {
     background-position: 0% 200%;

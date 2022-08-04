@@ -9,6 +9,8 @@ import BusinessCard from "./view/BusinessCard";
 import Intro from "./view/Intro";
 import Layout from "./view/Layout";
 import Mint from "./view/Mint";
+import MintFailed from "./view/MintFailed";
+import MintSuccess from "./view/MintSuccess";
 import NFTs from "./view/NFTs";
 import DiscountSetting from "./view/owner/DiscountSetting";
 import OwnerLayout from "./view/owner/OwnerLayout";
@@ -23,6 +25,8 @@ import Souls from "./view/Souls";
 
     SkyRouter.route("", Intro);
     SkyRouter.route("mint", Mint);
+    SkyRouter.route("mint/success", MintSuccess);
+    SkyRouter.route("mint/failed", MintFailed);
 
     SkyRouter.route([
         "{addressOrEns}", "{addressOrEns}/links",

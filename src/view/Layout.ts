@@ -58,7 +58,7 @@ export default class Layout extends View {
     }
 
     public async ready(addressOrEns: string, proc: () => Promise<void>) {
-        const loading = new Loading("Loading...").appendTo(BodyNode);
+        const loading = new Loading("Loading...").appendTo(this.container);
         if (this.addressOrEns !== addressOrEns) {
             const result = await fetch(`${Config.apiURI}/cached/${addressOrEns}`);
             const str = await result.text();

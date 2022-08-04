@@ -115,7 +115,7 @@ export default class SoulsSetting extends View {
                     el("a", el("i.fa-solid.fa-xmark"), {
                         click: async () => {
                             const signedMessage = await Wallet.signMessage("Cancel the link request.");
-                            const loading = new Loading("Canceling...").appendTo(BodyNode);
+                            const loading = new Loading("Canceling...").appendTo(this.container!);
                             await fetch(`${Config.apiURI}/cancel`, {
                                 method: "POST",
                                 body: JSON.stringify({

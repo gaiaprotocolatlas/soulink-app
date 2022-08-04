@@ -71,7 +71,7 @@ export default class AdminLayout extends View {
     }
 
     public async ready(proc: () => Promise<void>) {
-        const loading = new Loading("Loading...").appendTo(BodyNode);
+        const loading = new Loading("Loading...").appendTo(this.container);
         if (this.address !== constants.AddressZero) {
             await proc();
         } else {
@@ -175,7 +175,7 @@ export default class AdminLayout extends View {
 
     private async save() {
         const signedMessage = await Wallet.signMessage("Save your changes.");
-        const loading = new Loading("Saving...").appendTo(BodyNode);
+        const loading = new Loading("Saving...").appendTo(this.container);
         await fetch(`${Config.apiURI}/bio`, {
             method: "POST",
             body: JSON.stringify({ signedMessage, bio: this.bio }),

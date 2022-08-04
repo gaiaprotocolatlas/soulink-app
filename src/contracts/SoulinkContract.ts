@@ -22,6 +22,11 @@ class SoulinkContract extends SBTContract<Soulink> {
         const contract = await this.connectAndGetWalletContract();
         await contract?.setLink(targetId, sigs, deadlines);
     }
+
+    public async breakLink(targetId: BigNumber) {
+        const contract = await this.connectAndGetWalletContract();
+        await contract?.breakLink(targetId);
+    }
 }
 
 export default new SoulinkContract();

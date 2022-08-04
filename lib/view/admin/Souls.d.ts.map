@@ -1,0 +1,1 @@
+{"version":3,"file":"Souls.d.ts","sourceRoot":"","sources":["../../../src/view/admin/Souls.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,IAAI,EAAE,MAAM,gBAAgB,CAAC;AAOtC,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,IAAI;IAE1C,OAAO,CAAC,SAAS,CAAsB;IACvC,OAAO,CAAC,kBAAkB,CAAsB;IAChD,OAAO,CAAC,oBAAoB,CAAsB;;YAOpC,IAAI;YAaJ,aAAa;YAiCb,eAAe;IAwCtB,KAAK,IAAI,IAAI;CAGvB"}

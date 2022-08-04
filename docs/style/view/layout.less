@@ -1,3 +1,33 @@
+@keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@-webkit-keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@-moz-keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
 .layout {
     min-height         : 100%;
     background         : linear-gradient(#5AADFB, #EA8889);
@@ -80,7 +110,6 @@
                 mask-repeat        : no-repeat;
                 mask-size          : cover;
 
-
                 >img {
                     display      : block;
                     margin       : auto;
@@ -113,7 +142,7 @@
                 display         : block;
                 width           : 100%;
                 background-color: transparent;
-                font-family     : ProximaNovaCond-Light;
+                font-family     : ProximaNovaCond-Regular;
                 font-size       : 16px;
                 text-align      : center;
                 line-height     : 20px;

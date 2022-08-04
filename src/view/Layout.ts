@@ -127,28 +127,38 @@ export default class Layout extends View {
         if (walletAddress !== undefined) {
             const address = await NetworkProvider.resolveName(addressOrEns);
             if (address !== walletAddress) {
-                this.profile.append(el("a.request-soulink-button", "Request Soulink", {
-                    click: async () => {
-                        const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
-                        const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                            { name: "to", type: "address" },
-                            { name: "deadline", type: "uint256" },
-                        ], {
-                            to: address,
-                            deadline,
-                        });
-                        await fetch(`${Config.apiURI}/request`, {
-                            method: "POST",
-                            body: JSON.stringify({
-                                requester: walletAddress,
-                                target: address,
-                                signature,
+
+                const isLiked = await SoulinkContract.isLinked(
+                    await SoulinkContract.getTokenId(address),
+                    await SoulinkContract.getTokenId(walletAddress),
+                );
+
+                if (isLiked !== true) {
+
+                    this.profile.append(el("a.request-soulink-button", "Request Soulink", {
+                        click: async () => {
+                            const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
+                            const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
+                                { name: "to", type: "address" },
+                                { name: "deadline", type: "uint256" },
+                            ], {
+                                to: address,
                                 deadline,
-                            }),
-                        });
-                        new Alert("Soulink requested.");
-                    },
-                }));
+                            });
+                            await fetch(`${Config.apiURI}/request`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    requester: walletAddress,
+                                    target: address,
+                                    signature,
+                                    deadline,
+                                }),
+                            });
+                            new Alert("Soulink requested.");
+                        },
+                    }));
+                }
+
                 this.editButton.deleteClass("show");
             } else {
                 this.editButton.addClass("show");

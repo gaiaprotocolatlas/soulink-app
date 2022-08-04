@@ -166,8 +166,8 @@ input {
   visibility: hidden;
 }
 @font-face {
-  font-family: ProximaNovaCond-Light;
-  src: url("/fonts/ProximaNovaCond-Light.woff2") format("woff2");
+  font-family: ProximaNovaCond-Regular;
+  src: url("/fonts/ProximaNovaCond-Regular.woff2") format("woff2");
 }
 @font-face {
   font-family: OCRAStd;
@@ -176,7 +176,7 @@ input {
 html,
 body {
   height: 100%;
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
 }
 .intro-view {
   min-height: 100%;
@@ -340,6 +340,30 @@ body {
   color: #000;
   text-decoration: none;
 }
+@keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-webkit-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-moz-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
 .layout {
   min-height: 100%;
   background: linear-gradient(#5AADFB, #EA8889);
@@ -444,7 +468,7 @@ body {
   display: block;
   width: 100%;
   background-color: transparent;
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 16px;
   text-align: center;
   line-height: 20px;
@@ -480,7 +504,7 @@ body {
   border-radius: 18px;
   margin-bottom: 6px;
   background-color: rgba(255, 255, 255, 0.6);
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 14px;
   text-decoration: none;
   color: #000;
@@ -493,7 +517,7 @@ body {
   gap: 12px 8px;
 }
 .nfts-view > .nft-container > .nft {
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 14px;
   text-decoration: none;
   color: #000;
@@ -513,6 +537,70 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+@keyframes LoadingSoulsAnimation1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes LoadingSoulsAnimation2 {
+  0% {
+    transform: scale(0.2);
+    left: 0%;
+  }
+  50% {
+    transform: scale(1);
+    left: 50%;
+  }
+  100% {
+    transform: scale(0.2);
+    left: 100%;
+  }
+}
+.souls-view {
+  width: 330px;
+  margin: auto;
+}
+.souls-view > .soul-list {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.souls-view > .soul-list > .soul {
+  flex-grow: 1;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.souls-view > .loading {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 20px;
+  position: relative;
+  vertical-align: middle;
+  animation: LoadingSoulsAnimation1 1.5s infinite linear;
+}
+.souls-view > .loading:before,
+.souls-view > .loading:after {
+  content: '';
+  margin: -25px 0 0 -25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: LoadingSoulsAnimation2 1s infinite ease-in-out;
+}
+.souls-view > .loading:after {
+  animation-direction: reverse;
 }
 .business-card-view {
   width: 280px;
@@ -686,7 +774,7 @@ body {
   display: block;
   width: 100%;
   background-color: transparent;
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 16px;
   text-align: center;
   border: none;
@@ -696,22 +784,9 @@ body {
   margin-top: 20px;
 }
 .admin-layout > footer {
-  height: 200px;
+  height: 150px;
   padding-top: 50px;
-}
-.admin-layout > footer > img {
-  display: block;
-  margin: auto;
-}
-.admin-layout > footer > .sns {
-  margin-top: 35px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.admin-layout > footer > .sns > a {
-  color: #000;
-  text-decoration: none;
+  text-align: center;
 }
 .bio-link-setting-view {
   width: 330px;
@@ -730,7 +805,7 @@ body {
   height: 36px;
   background-color: rgba(255, 255, 255, 0.6);
   text-align: center;
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   border-radius: 16px 16px 0 0;
 }
 .bio-link-setting-view > .link-container > .link > :nth-child(2) {
@@ -769,6 +844,84 @@ body {
   margin: auto;
   margin-top: 20px;
   font-size: 14px;
+}
+@keyframes LoadingSoulsAnimation1 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes LoadingSoulsAnimation2 {
+  0% {
+    transform: scale(0.2);
+    left: 0%;
+  }
+  50% {
+    transform: scale(1);
+    left: 50%;
+  }
+  100% {
+    transform: scale(0.2);
+    left: 100%;
+  }
+}
+.souls-setting-view > .soul-list {
+  width: 330px;
+  margin: auto;
+}
+.souls-setting-view > .soul-list > .soul {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.souls-setting-view > .soul-list > .soul > .pfp {
+  flex-grow: 1;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.souls-setting-view > .soul-list > .soul > a {
+  border: 1px solid #fff;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.souls-setting-view > .soul-list > .soul > a:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.souls-setting-view > .loading {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 20px;
+  position: relative;
+  vertical-align: middle;
+  animation: LoadingSoulsAnimation1 1.5s infinite linear;
+}
+.souls-setting-view > .loading:before,
+.souls-setting-view > .loading:after {
+  content: '';
+  margin: -25px 0 0 -25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: LoadingSoulsAnimation2 1s infinite ease-in-out;
+}
+.souls-setting-view > .loading:after {
+  animation-direction: reverse;
 }
 .popup-background {
   position: fixed;
@@ -833,7 +986,7 @@ body {
   padding: 10px 0;
 }
 .select-nft-popup > .nft-container > .nft {
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 14px;
   text-decoration: none;
   color: #000;
@@ -868,7 +1021,7 @@ body {
   height: 30px;
   padding: 0 10px;
   background-color: transparent;
-  font-family: ProximaNovaCond-Light;
+  font-family: ProximaNovaCond-Regular;
   font-size: 14px;
 }
 .select-nft-popup > .button-container {
@@ -973,5 +1126,54 @@ body {
 }
 .not-exists {
   text-align: center;
+}
+@keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-webkit-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-moz-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+.pfp-display {
+  width: 78px;
+  height: 78px;
+  border-radius: 39px;
+  -webkit-mask-image: url(/images/profile-image-mask.png);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-image: url(/images/profile-image-mask.png);
+  mask-repeat: no-repeat;
+  mask-size: cover;
+}
+.pfp-display > img {
+  display: block;
+  margin: auto;
+  width: 78px;
+  height: 78px;
+  border-radius: 39px;
+}
+.pfp-display.loading {
+  background: linear-gradient(0, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
+  background-size: 200% 200%;
+  -webkit-animation: LoadingImageAnimation 2s linear infinite;
+  -moz-animation: LoadingImageAnimation 2s linear infinite;
+  animation: LoadingImageAnimation 2s linear infinite;
 }
 

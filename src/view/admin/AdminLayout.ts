@@ -50,7 +50,7 @@ export default class AdminLayout extends View {
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/admin", undefined, true) } }),
                     //this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
-                    //this.links["requests"] = el("a", "Requests", { click: () => { SkyRouter.go("/admin/requests", undefined, true) } }),
+                    this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/admin/souls", undefined, true) } }),
                 ),
                 this.saveButton = el("a.save", "Save", { click: () => this.save() }),
             ),
@@ -59,11 +59,9 @@ export default class AdminLayout extends View {
                 this.content = el(".content"),
             ),
             el("footer",
-                new ResponsiveImage("img", "/images/bottom-logo.png"),
-                el(".sns",
-                    el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
-                    el("a", "Discord", { href: "https://discord.gg/u9hzMr848H", target: "_blank" }),
-                ),
+                el("a", new ResponsiveImage("img", "/images/logo.png"), {
+                    click: () => SkyRouter.go("/", undefined, true),
+                }),
             ),
         ));
 

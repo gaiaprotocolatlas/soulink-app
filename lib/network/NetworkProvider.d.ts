@@ -6,8 +6,8 @@ declare class NetworkProvider extends EventContainer {
     constructor();
     getBlockNumber(): Promise<number>;
     getBalance(address: string): Promise<ethers.BigNumber>;
-    resolveName(name: string): Promise<string | null>;
-    lookupAddress(name: string): Promise<string | null>;
+    resolveName(name: string): Promise<string>;
+    lookupAddress(name: string): Promise<string>;
 }
 declare const _default: NetworkProvider;
 export default _default;

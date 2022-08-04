@@ -8,6 +8,7 @@ import Bio from "../../datamodel/Bio";
 import NFTInfo from "../../datamodel/NFTInfo";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
+import SelectNFTPopup from "../../popup/SelectNFTPopup";
 
 export default class AdminLayout extends View {
 
@@ -90,8 +91,15 @@ export default class AdminLayout extends View {
                     this.address = address;
 
                     this.profile.append(
-                        new ResponsiveImage("img", "/images/default-profile.png"),
-                        el(".add", el("i.fa-solid.fa-plus")),
+                        el(".pfp",
+                            new ResponsiveImage("img", "/images/default-profile.png"),
+                            el(".add", el("i.fa-solid.fa-plus")),
+                            {
+                                click: () => new SelectNFTPopup((contract: string, tokenId: string) => {
+                                    console.log(contract, tokenId);
+                                }),
+                            },
+                        ),
                         el("input.name", {
                             placeholder: "NAME",
                             value: this.bio.name,

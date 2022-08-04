@@ -1,22 +1,73 @@
 import { DomNode, el, Popup } from "skydapp-browser";
-import MetadataLoader from "../MetadataLoader";
+import AdminLayout from "../view/admin/AdminLayout";
 
 export default class SelectNFTPopup extends Popup {
 
     public content: DomNode;
 
-    constructor(select: () => void) {
+    private nftContainer: DomNode;
+    private contractAddressInput: DomNode<HTMLInputElement>;
+    private tokenIdInput: DomNode<HTMLInputElement>;
+    private nftDisplays: { [key: string]: DomNode } = {};
+    private currentNFTDisplay: DomNode | undefined;
+
+    private currentContract: string | undefined;
+    private currentTokenId: string | undefined;
+
+    constructor(select: (contract: string, tokenId: string) => void) {
         super(".popup-background");
+
         this.append(
             this.content = el(".select-nft-popup",
-                "TEST!",
+                el("h1", "Select NFT"),
+                this.nftContainer = el(".nft-container"),
+                el(".info-form",
+                    this.contractAddressInput = el("input", {
+                        placeholder: "Contract Address",
+                        keyup: (event) => { if (this.currentTokenId !== undefined) { this.onNFT(event.target.value, this.currentTokenId) } },
+                    }),
+                    this.tokenIdInput = el("input", {
+                        placeholder: "Token Id",
+                        keyup: (event) => { if (this.currentContract !== undefined) { this.onNFT(this.currentContract, event.target.value) } },
+                    }),
+                ),
+                el(".button-container",
+                    el("a.select", "Close", {
+                        click: () => this.delete(),
+                    }),
+                    el("a.select", "Select", {
+                        click: () => {
+                            if (this.currentContract !== undefined && this.currentTokenId !== undefined) {
+                                select(this.currentContract, this.currentTokenId);
+                                this.delete();
+                            }
+                        },
+                    }),
+                ),
             ),
         );
-        this.loadNFTs();
+
+        for (const nft of AdminLayout.current.nfts) {
+            if (nft.cached_file_url !== null) {
+                this.nftDisplays[`${nft.contract_address}-${nft.token_id}`] = el("a.nft",
+                    nft.cached_file_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.cached_file_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.cached_file_url }),
+                    el(".name", nft.name === null ? "" : nft.name),
+                    { click: () => this.onNFT(nft.contract_address, nft.token_id) },
+                ).appendTo(this.nftContainer);
+            }
+        }
     }
 
-    private async loadNFTs() {
-        //TODO: 노드 운용해야함
-        console.log(await MetadataLoader.loadMetadata("0xe719516e979d64c641bd92b58591421f8b47d9e8", "0"));
+    private onNFT(contract: string, tokenId: string) {
+
+        this.currentContract = contract;
+        this.currentTokenId = tokenId;
+
+        this.contractAddressInput.domElement.value = contract;
+        this.tokenIdInput.domElement.value = tokenId;
+
+        this.currentNFTDisplay?.deleteClass("selected");
+        this.currentNFTDisplay = this.nftDisplays[`${contract}-${tokenId}`];
+        this.currentNFTDisplay?.addClass("selected");
     }
 }

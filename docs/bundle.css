@@ -763,7 +763,7 @@ body {
   align-items: center;
   font-size: 14px;
 }
-.admin-layout > main > .profile > input {
+.admin-layout > main > .profile > .name {
   margin-top: 10px;
   display: block;
   width: 100%;

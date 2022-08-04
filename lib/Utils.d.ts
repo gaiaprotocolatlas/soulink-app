@@ -1,5 +1,6 @@
 import PFPDisplay from "./components/PFPDisplay";
 declare class Utils {
+    loadShortenName(address: string): Promise<string>;
     loadUser(address: string): Promise<{
         pfpDisplay: PFPDisplay;
         name: string;

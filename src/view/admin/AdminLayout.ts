@@ -10,6 +10,7 @@ import MetadataLoader from "../../MetadataLoader";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
 import SelectNFTPopup from "../../popup/SelectNFTPopup";
+import Utils from "../../Utils";
 
 export default class AdminLayout extends View {
 
@@ -119,11 +120,7 @@ export default class AdminLayout extends View {
                                 }),
                             },
                         ),
-                        el("input.name", {
-                            placeholder: "NAME",
-                            value: this.bio.name,
-                            keyup: (event) => { this.bio.name = event.target.value; this.checkChanges(); },
-                        }),
+                        el(".name", await Utils.loadShortenName(address)),
                     );
 
                     const textarea = el("textarea.introduce", this.bio.introduce, {

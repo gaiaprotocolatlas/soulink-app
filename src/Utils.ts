@@ -5,6 +5,11 @@ import NetworkProvider from "./network/NetworkProvider";
 
 class Utils {
 
+    public async loadShortenName(address: string): Promise<string> {
+        const name = await NetworkProvider.lookupAddress(address);
+        return name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(name) : name;
+    }
+
     public async loadUser(address: string): Promise<{ pfpDisplay: PFPDisplay, name: string, shortenName: string }> {
 
         const result = await fetch(`${Config.apiURI}/pfp/${address}`);

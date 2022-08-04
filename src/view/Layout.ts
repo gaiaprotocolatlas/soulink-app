@@ -82,7 +82,7 @@ export default class Layout extends View {
                     this.imageContainer = el(".image-container",
                         new ResponsiveImage("img", "/images/default-profile.png"),
                     ),
-                    el(".name", this.bio.name),
+                    el(".name", addressOrEns),
                     el(".introduce", this.bio.introduce),
                 );
 

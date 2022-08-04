@@ -468,7 +468,7 @@ body {
 .mint-view > main > section > section > .info > p:before {
   content: "";
   position: absolute;
-  top: 0;
+  top: 3px;
   left: 0;
   width: 13px;
   height: 13px;

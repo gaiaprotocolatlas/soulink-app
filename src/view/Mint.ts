@@ -1,6 +1,7 @@
 import { utils } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
+import Loading from "../components/Loading";
 import SoulinkContract from "../contracts/SoulinkContract";
 import SoulinkMinterContract from "../contracts/SoulinkMinterContract";
 import Wallet from "../network/Wallet";
@@ -32,6 +33,7 @@ export default class Mint extends View {
                         el("a.mint", "Mint", {
                             click: async () => {
                                 try {
+                                    new Loading("Minting...").appendTo(this.container);
                                     await SoulinkMinterContract.mint(false, "0x");
                                 } catch (error) {
                                     console.error(error);

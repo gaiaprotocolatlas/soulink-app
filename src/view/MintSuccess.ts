@@ -1,4 +1,4 @@
-import { BodyNode, DomNode, el } from "skydapp-browser";
+import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 
 export default class MintSuccess extends View {
@@ -8,6 +8,9 @@ export default class MintSuccess extends View {
     constructor(params: ViewParams) {
         super();
         BodyNode.append(this.container = el(".mint-success-view",
+            new ResponsiveImage("img", "/images/mint-image.png"),
+            el("p", "Yay! Now ", el("b", "Soulink"), " is forever yours !"),
+            { click: () => SkyRouter.go("/admin", undefined, true) },
         ));
     }
 

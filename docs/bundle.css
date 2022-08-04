@@ -514,6 +514,17 @@ body {
   flex-direction: column;
   background-position: center center;
   background-size: cover;
+  justify-content: center;
+  align-items: center;
+}
+.mint-success-view > p {
+  margin-top: 50px;
+  font-family: OCRAStd;
+  font-size: 16px;
+  color: #fff;
+}
+.mint-success-view > p > b {
+  color: #55ffb6;
 }
 .mint-failed-view {
   min-height: 100%;
@@ -522,6 +533,14 @@ body {
   flex-direction: column;
   background-position: center center;
   background-size: cover;
+  justify-content: center;
+  align-items: center;
+}
+.mint-failed-view > p {
+  margin-top: 50px;
+  font-family: OCRAStd;
+  font-size: 16px;
+  color: #fff;
 }
 @keyframes LoadingImageAnimation {
   0% {

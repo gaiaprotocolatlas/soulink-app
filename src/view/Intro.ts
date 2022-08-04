@@ -1,5 +1,6 @@
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View } from "skydapp-common";
+import Alert from "../popup/Alert";
 
 export default class Intro extends View {
 
@@ -29,10 +30,12 @@ export default class Intro extends View {
                     el("h6.mobile", el("b", "Let’s"), " Link!"),
                     el(".button-container",
                         el("a", el("b", "Mint"), " Soulink", {
-                            click: () => SkyRouter.go("/mint", undefined, true),
+                            click: () => new Alert("Soulink will be released soon."),
+                            //click: () => SkyRouter.go("/mint", undefined, true),
                         }),
                         el("a", "Admin", {
-                            click: () => SkyRouter.go("/admin", undefined, true),
+                            click: () => new Alert("Soulink will be released soon."),
+                            //click: () => SkyRouter.go("/admin", undefined, true),
                         }),
                     ),
                     el("h6.no-mobile", el("b", "Let’s"), " Link!"),

@@ -576,6 +576,9 @@ body {
   align-items: center;
   cursor: pointer;
 }
+.souls-view > .soul-list > .soul > .name {
+  font-family: OCRAStd;
+}
 .souls-view > .loading {
   width: 50px;
   height: 50px;
@@ -882,6 +885,9 @@ body {
   gap: 20px;
   align-items: center;
   cursor: pointer;
+}
+.souls-setting-view > .soul-list > .soul > .pfp > .name {
+  font-family: OCRAStd;
 }
 .souls-setting-view > .soul-list > .soul > a {
   border: 1px solid #fff;

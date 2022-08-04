@@ -147,7 +147,7 @@ export default class SoulsSetting extends View {
 
             if (isLiked === true) {
 
-                fetch(`${Config.apiURI}/removelinked`, {
+                fetch(`${Config.apiURI}/linked`, {
                     method: "POST",
                     body: JSON.stringify({
                         requester: request.requester,

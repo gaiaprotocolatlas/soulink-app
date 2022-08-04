@@ -1,3 +1,33 @@
+@keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@-webkit-keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@-moz-keyframes LoadingImageAnimation {
+    0% {
+        background-position: 0% 200%;
+    }
+
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
 .admin-layout {
     min-height    : 100%;
     background    : linear-gradient(#5AADFB, #EA8889);
@@ -73,11 +103,26 @@
                 width   : 78px;
                 margin  : auto;
 
-                >img {
-                    display: block;
-                    margin : auto;
-                    width  : 78px;
-                    height : 78px;
+                >.image-container {
+                    width        : 78px;
+                    height       : 78px;
+                    border-radius: 39px;
+
+                    >img {
+                        display      : block;
+                        margin       : auto;
+                        width        : 78px;
+                        height       : 78px;
+                        border-radius: 39px;
+                    }
+
+                    &.loading {
+                        background       : linear-gradient(0, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
+                        background-size  : 200% 200%;
+                        -webkit-animation: LoadingImageAnimation 2s linear infinite;
+                        -moz-animation   : LoadingImageAnimation 2s linear infinite;
+                        animation        : LoadingImageAnimation 2s linear infinite;
+                    }
                 }
 
                 >.add {

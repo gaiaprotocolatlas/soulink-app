@@ -7,6 +7,7 @@ export default class Layout extends View {
     content: DomNode;
     private container;
     private profile;
+    private imageContainer;
     private editButton;
     private addressOrEns;
     bio: Bio;
@@ -15,6 +16,7 @@ export default class Layout extends View {
     private links;
     constructor(params: ViewParams, uri: string);
     ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
+    private loadPFP;
     private showLinkButton;
     private highlight;
     changeParams(params: ViewParams, uri: string): void;

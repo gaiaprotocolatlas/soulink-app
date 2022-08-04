@@ -6,6 +6,7 @@ export default class AdminLayout extends View {
     static current: AdminLayout;
     content: DomNode;
     private container;
+    private imageContainer;
     private profile;
     address: string;
     private prevBio;
@@ -16,6 +17,7 @@ export default class AdminLayout extends View {
     private saveButton;
     constructor(params: ViewParams, uri: string);
     ready(proc: () => Promise<void>): Promise<void>;
+    private loadPFP;
     private save;
     checkChanges(): void;
     private highlight;

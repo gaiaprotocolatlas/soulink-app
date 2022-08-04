@@ -6,6 +6,7 @@ import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
 import NFTInfo from "../../datamodel/NFTInfo";
+import MetadataLoader from "../../MetadataLoader";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
 import SelectNFTPopup from "../../popup/SelectNFTPopup";
@@ -16,6 +17,7 @@ export default class AdminLayout extends View {
     public content: DomNode;
 
     private container: DomNode;
+    private imageContainer: DomNode | undefined;
     private profile: DomNode;
 
     public address = constants.AddressZero;
@@ -92,11 +94,15 @@ export default class AdminLayout extends View {
 
                     this.profile.append(
                         el(".pfp",
-                            new ResponsiveImage("img", "/images/default-profile.png"),
+                            this.imageContainer = el(".image-container",
+                                new ResponsiveImage("img", "/images/default-profile.png"),
+                            ),
                             el(".add", el("i.fa-solid.fa-plus")),
                             {
-                                click: () => new SelectNFTPopup((contract: string, tokenId: string) => {
-                                    console.log(contract, tokenId);
+                                click: () => new SelectNFTPopup(async (address: string, tokenId: string) => {
+                                    this.bio.pfp = { address, tokenId };
+                                    this.checkChanges();
+                                    this.loadPFP();
                                 }),
                             },
                         ),
@@ -120,11 +126,23 @@ export default class AdminLayout extends View {
                     textarea.domElement.style.height = "1px";
                     textarea.domElement.style.height = `${textarea.domElement.scrollHeight}px`;
 
+                    this.loadPFP();
+
                     await proc();
                 }
             }
         }
         loading.delete();
+    }
+
+    private async loadPFP() {
+        if (this.bio.pfp !== undefined && this.imageContainer !== undefined) {
+            this.imageContainer.empty();
+            this.imageContainer.addClass("loading");
+            const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
+            this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
+            this.imageContainer.deleteClass("loading");
+        }
     }
 
     private async save() {

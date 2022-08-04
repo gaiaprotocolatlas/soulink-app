@@ -402,9 +402,25 @@ body {
   width: 320px;
   margin: auto;
 }
-.layout > main > .profile > img {
+.layout > main > .profile > .image-container {
+  width: 78px;
+  height: 78px;
+  border-radius: 39px;
+  margin: auto;
+}
+.layout > main > .profile > .image-container > img {
   display: block;
   margin: auto;
+  width: 78px;
+  height: 78px;
+  border-radius: 39px;
+}
+.layout > main > .profile > .image-container.loading {
+  background: linear-gradient(0, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
+  background-size: 200% 200%;
+  -webkit-animation: LoadingImageAnimation 2s linear infinite;
+  -moz-animation: LoadingImageAnimation 2s linear infinite;
+  animation: LoadingImageAnimation 2s linear infinite;
 }
 .layout > main > .profile > .name {
   margin-top: 10px;
@@ -507,6 +523,30 @@ body {
   display: block;
   margin: auto;
 }
+@keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-webkit-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+@-moz-keyframes LoadingImageAnimation {
+  0% {
+    background-position: 0% 200%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
 .admin-layout {
   min-height: 100%;
   background: linear-gradient(#5AADFB, #EA8889);
@@ -579,11 +619,24 @@ body {
   width: 78px;
   margin: auto;
 }
-.admin-layout > main > .profile > .pfp > img {
+.admin-layout > main > .profile > .pfp > .image-container {
+  width: 78px;
+  height: 78px;
+  border-radius: 39px;
+}
+.admin-layout > main > .profile > .pfp > .image-container > img {
   display: block;
   margin: auto;
   width: 78px;
   height: 78px;
+  border-radius: 39px;
+}
+.admin-layout > main > .profile > .pfp > .image-container.loading {
+  background: linear-gradient(0, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
+  background-size: 200% 200%;
+  -webkit-animation: LoadingImageAnimation 2s linear infinite;
+  -moz-animation: LoadingImageAnimation 2s linear infinite;
+  animation: LoadingImageAnimation 2s linear infinite;
 }
 .admin-layout > main > .profile > .pfp > .add {
   position: absolute;
@@ -753,7 +806,7 @@ body {
 .select-nft-popup > .nft-container {
   overflow-y: scroll;
   margin: auto;
-  width: 336px;
+  width: 344px;
   display: grid;
   grid-template-columns: 86px 86px 86px 86px;
   gap: 4px 0;
@@ -866,7 +919,7 @@ body {
     background-position: 200%;
   }
 }
-.loading {
+.loading-display {
   position: fixed;
   left: 0;
   top: 0;
@@ -883,7 +936,7 @@ body {
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
 }
-.loading > .bar {
+.loading-display > .bar {
   width: 70%;
   height: 20px;
   background: linear-gradient(270deg, #5aadfb, #ff0f34, #5aadfb, #ff0f34, #5aadfb);
@@ -892,7 +945,7 @@ body {
   -moz-animation: LoadingBarAnimation 2s linear infinite;
   animation: LoadingBarAnimation 2s linear infinite;
 }
-.loading > p {
+.loading-display > p {
   margin-top: 24px;
   font-family: OCRAStd;
   font-size: 20px;

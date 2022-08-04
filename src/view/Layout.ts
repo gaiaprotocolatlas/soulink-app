@@ -6,6 +6,7 @@ import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
 import NFTInfo from "../datamodel/NFTInfo";
+import MetadataLoader from "../MetadataLoader";
 import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
 import Alert from "../popup/Alert";
@@ -17,6 +18,7 @@ export default class Layout extends View {
 
     private container: DomNode;
     private profile: DomNode;
+    private imageContainer: DomNode | undefined;
     private editButton: DomNode;
 
     private addressOrEns: string = "";
@@ -81,7 +83,9 @@ export default class Layout extends View {
                 this.nfts = data.nfts;
 
                 this.profile.append(
-                    new ResponsiveImage("img", "/images/default-profile.png"),
+                    this.imageContainer = el(".image-container",
+                        new ResponsiveImage("img", "/images/default-profile.png"),
+                    ),
                     el(".name", this.bio.name),
                     el(".introduce", this.bio.introduce),
                 );
@@ -90,9 +94,20 @@ export default class Layout extends View {
             }
         }
         if (this.addressOrEns !== "") {
+            this.loadPFP();
             await proc();
         }
         loading.delete();
+    }
+
+    private async loadPFP() {
+        if (this.bio.pfp !== undefined && this.imageContainer !== undefined) {
+            this.imageContainer.empty();
+            this.imageContainer.addClass("loading");
+            const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
+            this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
+            this.imageContainer.deleteClass("loading");
+        }
     }
 
     private async showLinkButton(addressOrEns: string) {

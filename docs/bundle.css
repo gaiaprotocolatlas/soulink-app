@@ -507,6 +507,30 @@ body {
   padding-top: 50px;
   text-align: center;
 }
+@keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .mint-success-view {
   min-height: 100%;
   background: radial-gradient(circle at center, #EA8889, #5AADFB);
@@ -517,14 +541,46 @@ body {
   justify-content: center;
   align-items: center;
 }
+.mint-success-view > img {
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
+}
 .mint-success-view > p {
   margin-top: 50px;
   font-family: OCRAStd;
   font-size: 16px;
   color: #fff;
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
 }
 .mint-success-view > p > b {
   color: #55ffb6;
+}
+@keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes FadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .mint-failed-view {
   min-height: 100%;
@@ -536,11 +592,19 @@ body {
   justify-content: center;
   align-items: center;
 }
+.mint-failed-view > img {
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
+}
 .mint-failed-view > p {
   margin-top: 50px;
   font-family: OCRAStd;
   font-size: 16px;
   color: #fff;
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
 }
 @keyframes LoadingImageAnimation {
   0% {

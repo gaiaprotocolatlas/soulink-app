@@ -1,3 +1,33 @@
+@keyframes FadeInAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes FadeInAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@-moz-keyframes FadeInAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .mint-success-view {
     min-height         : 100%;
     background         : radial-gradient(circle at center, #EA8889, #5AADFB);
@@ -8,6 +38,12 @@
     justify-content    : center;
     align-items        : center;
 
+    >img {
+        -webkit-animation: FadeInAnimation 1s;
+        -moz-animation   : FadeInAnimation 1s;
+        animation        : FadeInAnimation 1s;
+    }
+
     >p {
         margin-top : 50px;
         font-family: OCRAStd;
@@ -17,5 +53,9 @@
         >b {
             color: #55ffb6;
         }
+
+        -webkit-animation: FadeInAnimation 1s;
+        -moz-animation   : FadeInAnimation 1s;
+        animation        : FadeInAnimation 1s;
     }
 }

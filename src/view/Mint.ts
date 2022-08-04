@@ -32,6 +32,9 @@ export default class Mint extends View {
                         ),
                         el("a.mint", "Mint", {
                             click: async () => {
+                                if (await Wallet.connected() !== true) {
+                                    await Wallet.connect();
+                                }
                                 try {
                                     new Loading("Minting...").appendTo(this.container);
                                     await SoulinkMinterContract.mint(false, "0x");

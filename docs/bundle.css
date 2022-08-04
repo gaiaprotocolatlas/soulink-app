@@ -345,6 +345,8 @@ body {
   background: linear-gradient(#5AADFB, #EA8889);
   display: flex;
   flex-direction: column;
+  background-position: center center;
+  background-size: cover;
 }
 .layout > header {
   height: 100px;
@@ -407,6 +409,12 @@ body {
   height: 78px;
   border-radius: 39px;
   margin: auto;
+  -webkit-mask-image: url(/images/profile-image-mask.png);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-image: url(/images/profile-image-mask.png);
+  mask-repeat: no-repeat;
+  mask-size: cover;
 }
 .layout > main > .profile > .image-container > img {
   display: block;
@@ -444,6 +452,7 @@ body {
 .layout > main > .profile > .request-soulink-button {
   width: 180px;
   margin: auto;
+  margin-top: 20px;
   display: block;
   border-radius: 18px;
   border: solid 2px #55ffb6;
@@ -455,19 +464,9 @@ body {
   margin-top: 20px;
 }
 .layout > footer {
-  height: 200px;
+  height: 150px;
   padding-top: 50px;
   text-align: center;
-}
-.layout > footer > .sns {
-  margin-top: 35px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.layout > footer > .sns > a {
-  color: #000;
-  text-decoration: none;
 }
 .bio-links-view > .link-container {
   margin: auto;
@@ -552,6 +551,15 @@ body {
   background: linear-gradient(#5AADFB, #EA8889);
   display: flex;
   flex-direction: column;
+  background-position: center center;
+  background-size: cover;
+}
+.admin-layout.loading {
+  background: linear-gradient(0, #5AADFB, #EA8889, #5AADFB, #EA8889, #5AADFB);
+  background-size: 200% 200%;
+  -webkit-animation: LoadingImageAnimation 10s linear infinite;
+  -moz-animation: LoadingImageAnimation 10s linear infinite;
+  animation: LoadingImageAnimation 10s linear infinite;
 }
 .admin-layout > header {
   height: 100px;
@@ -564,6 +572,12 @@ body {
   .admin-layout > header {
     gap: 20px;
   }
+}
+.admin-layout > header > .background {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: #fff;
 }
 .admin-layout > header > .menu {
   display: flex;
@@ -623,6 +637,12 @@ body {
   width: 78px;
   height: 78px;
   border-radius: 39px;
+  -webkit-mask-image: url(/images/profile-image-mask.png);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-image: url(/images/profile-image-mask.png);
+  mask-repeat: no-repeat;
+  mask-size: cover;
 }
 .admin-layout > main > .profile > .pfp > .image-container > img {
   display: block;

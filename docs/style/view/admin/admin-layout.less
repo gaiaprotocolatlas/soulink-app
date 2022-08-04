@@ -29,10 +29,20 @@
 }
 
 .admin-layout {
-    min-height    : 100%;
-    background    : linear-gradient(#5AADFB, #EA8889);
-    display       : flex;
-    flex-direction: column;
+    min-height         : 100%;
+    background         : linear-gradient(#5AADFB, #EA8889);
+    display            : flex;
+    flex-direction     : column;
+    background-position: center center;
+    background-size    : cover;
+
+    &.loading {
+        background       : linear-gradient(0, #5AADFB, #EA8889, #5AADFB, #EA8889, #5AADFB);
+        background-size  : 200% 200%;
+        -webkit-animation: LoadingImageAnimation 10s linear infinite;
+        -moz-animation   : LoadingImageAnimation 10s linear infinite;
+        animation        : LoadingImageAnimation 10s linear infinite;
+    }
 
     >header {
         height         : 100px;
@@ -43,6 +53,13 @@
 
         @media @phone {
             gap: 20px;
+        }
+
+        >.background {
+            position: absolute;
+            left    : 20px;
+            top     : 20px;
+            color   : #fff;
         }
 
         >.menu {
@@ -104,9 +121,15 @@
                 margin  : auto;
 
                 >.image-container {
-                    width        : 78px;
-                    height       : 78px;
-                    border-radius: 39px;
+                    width              : 78px;
+                    height             : 78px;
+                    border-radius      : 39px;
+                    -webkit-mask-image : url(/images/profile-image-mask.png);
+                    -webkit-mask-repeat: no-repeat;
+                    -webkit-mask-size  : cover;
+                    mask-image         : url(/images/profile-image-mask.png);
+                    mask-repeat        : no-repeat;
+                    mask-size          : cover;
 
                     >img {
                         display      : block;

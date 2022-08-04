@@ -17,6 +17,7 @@ export default class AdminLayout extends View {
     private saveButton;
     constructor(params: ViewParams, uri: string);
     ready(proc: () => Promise<void>): Promise<void>;
+    private loadBackground;
     private loadPFP;
     private save;
     checkChanges(): void;

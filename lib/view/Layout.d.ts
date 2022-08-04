@@ -16,6 +16,7 @@ export default class Layout extends View {
     private links;
     constructor(params: ViewParams, uri: string);
     ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
+    private loadBackground;
     private loadPFP;
     private showLinkButton;
     private highlight;

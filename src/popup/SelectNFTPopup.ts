@@ -14,7 +14,7 @@ export default class SelectNFTPopup extends Popup {
     private currentContract: string | undefined;
     private currentTokenId: string | undefined;
 
-    constructor(select: (contract: string, tokenId: string) => void) {
+    constructor(select: (contract: string | undefined, tokenId: string | undefined) => void) {
         super(".popup-background");
 
         this.append(
@@ -37,10 +37,8 @@ export default class SelectNFTPopup extends Popup {
                     }),
                     el("a.select", "Select", {
                         click: () => {
-                            if (this.currentContract !== undefined && this.currentTokenId !== undefined) {
-                                select(this.currentContract, this.currentTokenId);
-                                this.delete();
-                            }
+                            select(this.currentContract, this.currentTokenId);
+                            this.delete();
                         },
                     }),
                 ),

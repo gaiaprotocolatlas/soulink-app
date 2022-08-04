@@ -36,6 +36,17 @@ export default class AdminLayout extends View {
 
         BodyNode.append(this.container = el(".admin-layout",
             el("header",
+                el("a.background", el("i.fa-solid.fa-panorama"), {
+                    click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
+                        if (address === undefined || tokenId === undefined) {
+                            delete this.bio.background;
+                        } else {
+                            this.bio.background = { address, tokenId };
+                        }
+                        this.checkChanges();
+                        this.loadBackground();
+                    }),
+                }),
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/admin", undefined, true) } }),
                     //this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
@@ -99,8 +110,12 @@ export default class AdminLayout extends View {
                             ),
                             el(".add", el("i.fa-solid.fa-plus")),
                             {
-                                click: () => new SelectNFTPopup(async (address: string, tokenId: string) => {
-                                    this.bio.pfp = { address, tokenId };
+                                click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
+                                    if (address === undefined || tokenId === undefined) {
+                                        delete this.bio.pfp;
+                                    } else {
+                                        this.bio.pfp = { address, tokenId };
+                                    }
                                     this.checkChanges();
                                     this.loadPFP();
                                 }),
@@ -126,6 +141,7 @@ export default class AdminLayout extends View {
                     textarea.domElement.style.height = "1px";
                     textarea.domElement.style.height = `${textarea.domElement.scrollHeight}px`;
 
+                    this.loadBackground();
                     this.loadPFP();
 
                     await proc();
@@ -135,24 +151,43 @@ export default class AdminLayout extends View {
         loading.delete();
     }
 
+    private async loadBackground() {
+        this.container.style({ backgroundImage: undefined });
+        if (this.bio.background !== undefined) {
+            this.container.addClass("loading");
+            const metadata: any = await MetadataLoader.loadMetadata(this.bio.background.address, this.bio.background.tokenId);
+            const url = metadata?.imageInfo?.cachedURL;
+            if (url !== undefined) {
+                this.container.style({ backgroundImage: `url(${url})` });
+            }
+            this.container.deleteClass("loading");
+        }
+    }
+
     private async loadPFP() {
-        if (this.bio.pfp !== undefined && this.imageContainer !== undefined) {
-            this.imageContainer.empty();
-            this.imageContainer.addClass("loading");
-            const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
-            this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
-            this.imageContainer.deleteClass("loading");
+        if (this.imageContainer !== undefined) {
+            if (this.bio.pfp !== undefined) {
+                this.imageContainer.empty();
+                this.imageContainer.addClass("loading");
+                const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
+                this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
+                this.imageContainer.deleteClass("loading");
+            } else {
+                this.imageContainer.empty().append(new ResponsiveImage("img", "/images/default-profile.png"));
+            }
         }
     }
 
     private async save() {
         const signedMessage = await Wallet.signMessage("Save your changes.");
+        const loading = new Loading("Saving...").appendTo(BodyNode);
         await fetch(`${Config.apiURI}/bio`, {
             method: "POST",
             body: JSON.stringify({ signedMessage, bio: this.bio }),
         });
         this.prevBio = JSON.parse(JSON.stringify(this.bio));
         this.checkChanges();
+        loading.delete();
         new Alert("Changes Saved!");
     }
 

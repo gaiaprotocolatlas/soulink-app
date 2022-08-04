@@ -40,7 +40,7 @@ export default class Layout extends View {
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
                     this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
-                    this.links["soulmates"] = el("a", "Soulmates", { click: () => { SkyRouter.go(`/${this.addressOrEns}/soulmates`, undefined, true) } }),
+                    this.links["souls"] = el("a", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
                 ),
                 el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => { SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) } }),
             ),
@@ -49,13 +49,9 @@ export default class Layout extends View {
                 this.content = el(".content"),
             ),
             el("footer",
-                el("a", new ResponsiveImage("img", "/images/bottom-logo.png"), {
+                el("a", new ResponsiveImage("img", "/images/logo.png"), {
                     click: () => SkyRouter.go("/", undefined, true),
                 }),
-                el(".sns",
-                    el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
-                    el("a", "Discord", { href: "https://discord.gg/u9hzMr848H", target: "_blank" }),
-                ),
             ),
         ));
         this.highlight(uri);
@@ -90,14 +86,30 @@ export default class Layout extends View {
                     el(".introduce", this.bio.introduce),
                 );
 
+                this.loadBackground();
+                this.loadPFP();
                 this.showLinkButton(addressOrEns);
             }
         }
+
         if (this.addressOrEns !== "") {
-            this.loadPFP();
             await proc();
         }
+
         loading.delete();
+    }
+
+    private async loadBackground() {
+        this.container.style({ backgroundImage: undefined });
+        if (this.bio.background !== undefined) {
+            this.container.addClass("loading");
+            const metadata: any = await MetadataLoader.loadMetadata(this.bio.background.address, this.bio.background.tokenId);
+            const url = metadata?.imageInfo?.cachedURL;
+            if (url !== undefined) {
+                this.container.style({ backgroundImage: `url(${url})` });
+            }
+            this.container.deleteClass("loading");
+        }
     }
 
     private async loadPFP() {

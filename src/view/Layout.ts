@@ -71,7 +71,8 @@ export default class Layout extends View {
                 this.content.append(new NotExistsDisplay());
             } else {
 
-                document.title = `${addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns} | Soulink`;
+                const name = addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns;
+                document.title = `${name} | Soulink`;
 
                 const data = JSON.parse(str);
                 this.addressOrEns = addressOrEns;
@@ -82,7 +83,7 @@ export default class Layout extends View {
                     this.imageContainer = el(".image-container",
                         new ResponsiveImage("img", "/images/default-profile.png"),
                     ),
-                    el(".name", addressOrEns),
+                    el(".name", name),
                     el(".introduce", this.bio.introduce),
                 );
 

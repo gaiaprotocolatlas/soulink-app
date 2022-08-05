@@ -44,7 +44,7 @@ export default class Mint extends View {
                                 }
                             },
                         }),
-                        el("p", "It is designed with an SBT token, so once you buy it, you cannot sell is back. It is attached to your crypto wallet."),
+                        el("p", "Soulink is a soulbound token; this means that once you purchase it, you cannot transfer or sell it to another wallet address."),
                     ),
                 ),
             ),

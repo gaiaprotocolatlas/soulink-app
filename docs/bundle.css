@@ -660,6 +660,11 @@ body {
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
 }
+@media only screen and (max-width: 859px) {
+  .mint-success-view > img {
+    width: 320px;
+  }
+}
 .mint-success-view > p {
   margin-top: 50px;
   font-family: OCRAStd;
@@ -671,6 +676,11 @@ body {
 }
 .mint-success-view > p > b {
   color: #55ffb6;
+}
+@media only screen and (max-width: 859px) {
+  .mint-success-view > p {
+    font-size: 12px;
+  }
 }
 .mint-failed-view {
   min-height: 100%;
@@ -687,6 +697,11 @@ body {
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
 }
+@media only screen and (max-width: 859px) {
+  .mint-failed-view > img {
+    width: 320px;
+  }
+}
 .mint-failed-view > p {
   margin-top: 50px;
   font-family: OCRAStd;
@@ -695,6 +710,11 @@ body {
   -webkit-animation: FadeInAnimation 1s;
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
+}
+@media only screen and (max-width: 859px) {
+  .mint-failed-view > p {
+    font-size: 12px;
+  }
 }
 .layout {
   min-height: 100%;
@@ -988,6 +1008,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 40px;
+  padding-bottom: 20px;
 }
 @media only screen and (max-width: 859px) {
   .admin-layout > header {
@@ -999,6 +1020,11 @@ body {
   left: 20px;
   top: 20px;
   color: #fff;
+}
+@media only screen and (max-width: 859px) {
+  .admin-layout > header > .background {
+    top: 30px;
+  }
 }
 .admin-layout > header > .menu {
   display: flex;

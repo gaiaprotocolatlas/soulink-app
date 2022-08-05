@@ -1,33 +1,3 @@
-@keyframes LoadingImageAnimation {
-    0% {
-        background-position: 0% 200%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-@-webkit-keyframes LoadingImageAnimation {
-    0% {
-        background-position: 0% 200%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
-@-moz-keyframes LoadingImageAnimation {
-    0% {
-        background-position: 0% 200%;
-    }
-
-    100% {
-        background-position: 0% 0%;
-    }
-}
-
 .layout {
     min-height         : 100%;
     background         : linear-gradient(#5AADFB, #EA8889);
@@ -49,7 +19,29 @@
             display : none;
 
             &.show {
-                display: block;
+                display          : block;
+                -webkit-animation: FadeInAnimation 1s;
+                -moz-animation   : FadeInAnimation 1s;
+                animation        : FadeInAnimation 1s;
+            }
+        }
+
+        >.bookmark {
+            position: absolute;
+            left    : 20px;
+            top     : 20px;
+            color   : #fff;
+            display : none;
+
+            &.show {
+                display          : block;
+                -webkit-animation: FadeInAnimation 1s;
+                -moz-animation   : FadeInAnimation 1s;
+                animation        : FadeInAnimation 1s;
+            }
+
+            &.bookmarked {
+                color: #55ffb6;
             }
         }
 

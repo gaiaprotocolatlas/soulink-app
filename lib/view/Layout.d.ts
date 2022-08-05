@@ -9,7 +9,9 @@ export default class Layout extends View {
     private profile;
     private imageContainer;
     private editButton;
+    private bookmarkButton;
     private addressOrEns;
+    private currentAddress;
     bio: Bio;
     nfts: NFTInfo[];
     private currentLink;
@@ -18,9 +20,11 @@ export default class Layout extends View {
     ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
     private loadBackground;
     private loadPFP;
-    private showLinkButton;
+    private showButtons;
     private highlight;
     changeParams(params: ViewParams, uri: string): void;
+    private bookmarkHandler;
+    private unbookmarkHandler;
     close(): void;
 }
 //# sourceMappingURL=Layout.d.ts.map

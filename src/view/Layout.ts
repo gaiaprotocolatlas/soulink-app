@@ -1,5 +1,6 @@
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
+import BookmarkManager from "../BookmarkManager";
 import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
 import Config from "../Config";
@@ -20,8 +21,10 @@ export default class Layout extends View {
     private profile: DomNode;
     private imageContainer: DomNode | undefined;
     private editButton: DomNode;
+    private bookmarkButton: DomNode;
 
     private addressOrEns: string = "";
+    private currentAddress: string | undefined;
     public bio: Bio = { links: [] };
     public nfts: NFTInfo[] = [];
 
@@ -37,6 +40,7 @@ export default class Layout extends View {
                 this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
                     click: () => SkyRouter.go("/admin", undefined, true),
                 }),
+                this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-star")),
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
                     this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
@@ -54,7 +58,10 @@ export default class Layout extends View {
                 }),
             ),
         ));
+
         this.highlight(uri);
+        BookmarkManager.on("bookmark", this.bookmarkHandler);
+        BookmarkManager.on("unbookmark", this.unbookmarkHandler);
     }
 
     public async ready(addressOrEns: string, proc: () => Promise<void>) {
@@ -89,7 +96,7 @@ export default class Layout extends View {
 
                 this.loadBackground();
                 this.loadPFP();
-                this.showLinkButton(addressOrEns);
+                this.showButtons(addressOrEns);
             }
         }
 
@@ -123,14 +130,15 @@ export default class Layout extends View {
         }
     }
 
-    private async showLinkButton(addressOrEns: string) {
+    private async showButtons(addressOrEns: string) {
+
         const walletAddress = await Wallet.loadAddress();
         if (walletAddress !== undefined) {
-            const address = await NetworkProvider.resolveName(addressOrEns);
-            if (address !== walletAddress) {
+            this.currentAddress = await NetworkProvider.resolveName(addressOrEns);
+            if (this.currentAddress !== walletAddress) {
 
                 const isLiked = await SoulinkContract.isLinked(
-                    await SoulinkContract.getTokenId(address),
+                    await SoulinkContract.getTokenId(this.currentAddress),
                     await SoulinkContract.getTokenId(walletAddress),
                 );
 
@@ -143,14 +151,14 @@ export default class Layout extends View {
                                 { name: "to", type: "address" },
                                 { name: "deadline", type: "uint256" },
                             ], {
-                                to: address,
+                                to: this.currentAddress,
                                 deadline,
                             });
                             await fetch(`${Config.apiURI}/request`, {
                                 method: "POST",
                                 body: JSON.stringify({
                                     requester: walletAddress,
-                                    target: address,
+                                    target: this.currentAddress,
                                     signature,
                                     deadline,
                                 }),
@@ -161,8 +169,21 @@ export default class Layout extends View {
                 }
 
                 this.editButton.deleteClass("show");
+                this.bookmarkButton.addClass("show");
+
+                if (BookmarkManager.check(this.currentAddress) === true) {
+                    this.bookmarkHandler(this.currentAddress);
+                }
+    
+                this.bookmarkButton.onDom("click", () => {
+                    if (this.currentAddress !== undefined) {
+                        BookmarkManager.toggle(this.currentAddress);
+                    }
+                });
+
             } else {
                 this.editButton.addClass("show");
+                this.bookmarkButton.deleteClass("show");
             }
         }
     }
@@ -182,7 +203,23 @@ export default class Layout extends View {
         this.highlight(uri);
     }
 
+    private bookmarkHandler = (address: string) => {
+        if (address === this.currentAddress) {
+            this.bookmarkButton.empty().append(el("i.fa-solid.fa-star"));
+            this.bookmarkButton.addClass("bookmarked");
+        }
+    };
+
+    private unbookmarkHandler = (address: string) => {
+        if (address === this.currentAddress) {
+            this.bookmarkButton.empty().append(el("i.fa-regular.fa-star"));
+            this.bookmarkButton.deleteClass("bookmarked");
+        }
+    };
+
     public close(): void {
+        BookmarkManager.off("bookmark", this.bookmarkHandler);
+        BookmarkManager.off("unbookmark", this.unbookmarkHandler);
         this.container.delete();
         super.close();
     }

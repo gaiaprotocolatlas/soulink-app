@@ -2,8 +2,24 @@
     width : 280px;
     margin: auto;
 
-    img.qr {
+    >img.qr {
         display: block;
         margin : auto;
+    }
+
+    >.bookmark {
+        display      : block;
+        margin-top   : 35px;
+        border-radius: 28px;
+        font-family  : OCRAStd;
+        border       : 1px solid #55ffb6;
+        color        : #55ffb6;
+        text-align   : center;
+        line-height  : 56px;
+
+        &.bookmarked {
+            border: 1px solid #ccc;
+            color : #ccc;
+        }
     }
 }

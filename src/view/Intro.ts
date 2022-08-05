@@ -59,7 +59,7 @@ export default class Intro extends View {
         if (BookmarkManager.all.length > 0) {
             this.bookmarkList.append(el("h1", el("i.fa-solid.fa-star")));
             for (const address of BookmarkManager.all) {
-                const bookmark = new SoulDisplay(address, el("a", el("i.fa-solid.fa-xmark"), {
+                const bookmark = new SoulDisplay(address, undefined, el("a", el("i.fa-solid.fa-xmark"), {
                     click: async () => {
                         BookmarkManager.unbookmark(address);
                         bookmark.delete();

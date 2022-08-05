@@ -3,7 +3,7 @@ export default class SoulDisplay extends DomNode {
     private address;
     private pfp;
     private name;
-    constructor(address: string, ...children: DomNode[]);
+    constructor(address: string, color: string | undefined, ...children: DomNode[]);
     private loadPFP;
     private loadName;
 }

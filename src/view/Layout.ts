@@ -73,7 +73,10 @@ export default class Layout extends View {
             if (addressOrEns.indexOf("0x") === 0) {
                 this.currentAddress = addressOrEns;
             } else {
-                this.currentAddress = await NetworkProvider.resolveName(addressOrEns);
+                const address = await NetworkProvider.resolveName(addressOrEns);
+                if (address !== null) {
+                    this.currentAddress = address;
+                }
             }
 
             const result = await fetch(`${Config.apiURI}/bio/${this.currentAddress}`);
@@ -100,7 +103,6 @@ export default class Layout extends View {
                     el(".name", name),
                     el(".introduce", this.bio.introduce),
                 );
-
 
                 this.profile.style({ color: this.bio.color });
 
@@ -139,73 +141,76 @@ export default class Layout extends View {
 
     private async showButtons(addressOrEns: string) {
 
-        this.currentAddress = await NetworkProvider.resolveName(addressOrEns);
+        const address = await NetworkProvider.resolveName(addressOrEns);
+        if (address !== null) {
+            this.currentAddress = address;
 
-        const walletAddress = await Wallet.loadAddress();
-        if (walletAddress === undefined) {
-            this.bookmarkButton.addClass("show");
+            const walletAddress = await Wallet.loadAddress();
+            if (walletAddress === undefined) {
+                this.bookmarkButton.addClass("show");
 
-            if (BookmarkManager.check(this.currentAddress) === true) {
-                this.bookmarkHandler(this.currentAddress);
+                if (BookmarkManager.check(this.currentAddress) === true) {
+                    this.bookmarkHandler(this.currentAddress);
+                }
+
+                this.bookmarkButton.onDom("click", () => {
+                    if (this.currentAddress !== undefined) {
+                        BookmarkManager.toggle(this.currentAddress);
+                    }
+                });
             }
 
-            this.bookmarkButton.onDom("click", () => {
-                if (this.currentAddress !== undefined) {
-                    BookmarkManager.toggle(this.currentAddress);
-                }
-            });
-        }
+            else if (this.currentAddress !== walletAddress) {
 
-        else if (this.currentAddress !== walletAddress) {
+                const isLiked = await SoulinkContract.isLinked(
+                    await SoulinkContract.getTokenId(this.currentAddress),
+                    await SoulinkContract.getTokenId(walletAddress),
+                );
 
-            const isLiked = await SoulinkContract.isLinked(
-                await SoulinkContract.getTokenId(this.currentAddress),
-                await SoulinkContract.getTokenId(walletAddress),
-            );
+                if (isLiked !== true) {
 
-            if (isLiked !== true) {
-
-                this.profile.append(el("a.request-soulink-button", "Request Soulink", {
-                    click: async () => {
-                        const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
-                        const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                            { name: "to", type: "address" },
-                            { name: "deadline", type: "uint256" },
-                        ], {
-                            to: this.currentAddress,
-                            deadline,
-                        });
-                        await fetch(`${Config.apiURI}/request`, {
-                            method: "POST",
-                            body: JSON.stringify({
-                                requester: walletAddress,
-                                target: this.currentAddress,
-                                signature,
+                    this.profile.append(el("a.request-soulink-button", "Request Soulink", {
+                        click: async () => {
+                            const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
+                            const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
+                                { name: "to", type: "address" },
+                                { name: "deadline", type: "uint256" },
+                            ], {
+                                to: this.currentAddress,
                                 deadline,
-                            }),
-                        });
-                        new Alert("Soulink requested.");
-                    },
-                }));
-            }
-
-            this.editButton.deleteClass("show");
-            this.bookmarkButton.addClass("show");
-
-            if (BookmarkManager.check(this.currentAddress) === true) {
-                this.bookmarkHandler(this.currentAddress);
-            }
-
-            this.bookmarkButton.onDom("click", () => {
-                if (this.currentAddress !== undefined) {
-                    BookmarkManager.toggle(this.currentAddress);
+                            });
+                            await fetch(`${Config.apiURI}/request`, {
+                                method: "POST",
+                                body: JSON.stringify({
+                                    requester: walletAddress,
+                                    target: this.currentAddress,
+                                    signature,
+                                    deadline,
+                                }),
+                            });
+                            new Alert("Soulink requested.");
+                        },
+                    }));
                 }
-            });
-        }
 
-        else {
-            this.editButton.addClass("show");
-            this.bookmarkButton.deleteClass("show");
+                this.editButton.deleteClass("show");
+                this.bookmarkButton.addClass("show");
+
+                if (BookmarkManager.check(this.currentAddress) === true) {
+                    this.bookmarkHandler(this.currentAddress);
+                }
+
+                this.bookmarkButton.onDom("click", () => {
+                    if (this.currentAddress !== undefined) {
+                        BookmarkManager.toggle(this.currentAddress);
+                    }
+                });
+            }
+
+            else {
+                this.editButton.addClass("show");
+                this.bookmarkButton.deleteClass("show");
+            }
         }
     }
 

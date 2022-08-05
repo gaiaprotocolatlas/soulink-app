@@ -34,7 +34,7 @@ export default class Souls extends View {
                     const linkedAddresses: string[] = await result.json();
 
                     for (const address of linkedAddresses) {
-                        new SoulDisplay(address).appendTo(this.soulList!);
+                        new SoulDisplay(address, Layout.current.bio.color).appendTo(this.soulList!);
                     }
 
                     if (this.closed !== true) {

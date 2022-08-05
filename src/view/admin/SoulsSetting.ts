@@ -38,7 +38,7 @@ export default class SoulsSetting extends View {
                     const linkedAddresses: string[] = await result.json();
 
                     for (const address of linkedAddresses) {
-                        new SoulDisplay(address, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
+                        new SoulDisplay(address, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
                             click: async () => {
                                 await SoulinkContract.breakLink(await SoulinkContract.getTokenId(address));
                                 new Alert("The transaction has been registered. Please wait until it is finished.");
@@ -63,7 +63,7 @@ export default class SoulsSetting extends View {
 
         for (const request of requests) {
             if (linkedAddresses.includes(request.requester) !== true && request.accept === undefined) {
-                const requestDisplay = new SoulDisplay(request.requester,
+                const requestDisplay = new SoulDisplay(request.requester, AdminLayout.current.bio.color,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
                             const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
@@ -114,7 +114,7 @@ export default class SoulsSetting extends View {
 
         for (const request of requests) {
             if (linkedAddresses.includes(request.target) !== true && request.accept !== undefined) {
-                new SoulDisplay(request.target, el("a.link", el("i.fa-solid.fa-link"), {
+                new SoulDisplay(request.target, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,

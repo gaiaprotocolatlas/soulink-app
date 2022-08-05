@@ -43,10 +43,12 @@ export default class BusinessCard extends View {
     private async loadBookmarked(addressOrEns: string) {
         if (this.bookmarkButton !== undefined) {
 
-            this.currentAddress = await NetworkProvider.resolveName(addressOrEns);
-
-            if (BookmarkManager.check(this.currentAddress) === true) {
-                this.bookmarkHandler(this.currentAddress);
+            const address = await NetworkProvider.resolveName(addressOrEns);
+            if (address !== null) {
+                this.currentAddress = address;
+                if (BookmarkManager.check(this.currentAddress) === true) {
+                    this.bookmarkHandler(this.currentAddress);
+                }
             }
 
             this.bookmarkButton.onDom("click", () => {

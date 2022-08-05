@@ -4,7 +4,9 @@ import { View, ViewParams } from "skydapp-common";
 import Loading from "../components/Loading";
 import SoulinkContract from "../contracts/SoulinkContract";
 import SoulinkMinterContract from "../contracts/SoulinkMinterContract";
+import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
+import Alert from "../popup/Alert";
 
 export default class Mint extends View {
 
@@ -32,15 +34,26 @@ export default class Mint extends View {
                         ),
                         el("a.mint", "Mint", {
                             click: async () => {
+                                const loading = new Loading("Minting...").appendTo(this.container);
                                 if (await Wallet.connected() !== true) {
                                     await Wallet.connect();
                                 }
-                                try {
-                                    new Loading("Minting...").appendTo(this.container);
-                                    await SoulinkMinterContract.mint(false, "0x");
-                                } catch (error) {
-                                    console.error(error);
-                                    SkyRouter.go("/mint/failed", undefined, true);
+                                const address = await Wallet.loadAddress();
+                                if (address !== undefined) {
+                                    if ((await NetworkProvider.getBalance(address)).lt(await SoulinkMinterContract.mintPrice())) {
+                                        new Alert("Not enough ETH to mint");
+                                        loading.delete();
+                                    } else {
+                                        try {
+                                            await SoulinkMinterContract.mint(false, "0x");
+                                            loading.delete();
+                                        } catch (error) {
+                                            console.error(error);
+                                            SkyRouter.go("/mint/failed", undefined, true);
+                                        }
+                                    }
+                                } else {
+                                    loading.delete();
                                 }
                             },
                         }),

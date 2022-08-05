@@ -7,8 +7,6 @@ export default class BioLinksSetting extends View {
     private container: DomNode | undefined;
     private linkContainer: DomNode | undefined;
     private bar: DomNode | undefined;
-
-    private draggingLink: {} | undefined;
     private toIndex = 0;
 
     constructor() {
@@ -47,9 +45,10 @@ export default class BioLinksSetting extends View {
                     el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => { link.title = event.target.value; AdminLayout.current.checkChanges(); } }),
                     el("input", { value: link.url, placeholder: "URL" }, { keyup: (event) => { link.url = event.target.value; AdminLayout.current.checkChanges(); } }),
                     el("a.handle", el("i.fa-solid.fa-grip-vertical"), {
-                        mousedown: () => {
-                            linkDisplay.domElement.draggable = true;
-                        },
+                        mousedown: () => { linkDisplay.domElement.draggable = true },
+                        mouseup: () => { linkDisplay.domElement.draggable = false },
+                        touchstart: () => { linkDisplay.domElement.draggable = true },
+                        touchend: () => { linkDisplay.domElement.draggable = false },
                     }),
                     el("a.delete", el("i.fa-regular.fa-trash-can"), {
                         click: () => {
@@ -61,7 +60,6 @@ export default class BioLinksSetting extends View {
                 ).appendTo(this.linkContainer);
 
                 linkDisplay.onDom("drag", (event: DragEvent) => {
-                    this.draggingLink = link;
                     const y = event.clientY;
                     if (y > 0) {
                         const result = this.findLinkByY(y);
@@ -77,7 +75,6 @@ export default class BioLinksSetting extends View {
                 });
 
                 linkDisplay.onDom("dragend", () => {
-                    this.draggingLink = undefined;
                     if (AdminLayout.current.bio.links.indexOf(link) < this.toIndex) {
                         this.toIndex -= 1;
                     }

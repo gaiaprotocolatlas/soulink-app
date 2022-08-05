@@ -4,7 +4,6 @@ export default class BioLinksSetting extends View {
     private container;
     private linkContainer;
     private bar;
-    private draggingLink;
     private toIndex;
     constructor();
     private load;

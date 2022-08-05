@@ -16,44 +16,60 @@
         border-bottom: 1px solid #fff;
     }
 
-    >.nft-container {
-        overflow-y           : scroll;
-        margin               : auto;
-        width                : 344px;
-        display              : grid;
-        grid-template-columns: 86px 86px 86px 86px;
-        gap                  : 4px 0;
-        padding              : 10px 0;
+    >main {
+        overflow-y: scroll;
 
-        >.nft {
-            font-family    : ProximaNovaCond-Regular;
-            font-size      : 14px;
-            text-decoration: none;
-            color          : #000;
-            text-align     : center;
-            padding        : 4px;
+        >.nft-container {
+            margin               : auto;
+            width                : 344px;
+            display              : grid;
+            grid-template-columns: 86px 86px 86px 86px;
+            gap                  : 4px 0;
+            padding              : 10px 0;
 
-            >img,
-            >video {
-                display         : block;
-                width           : 78px;
-                height          : 78px;
-                object-fit      : cover;
-                background-color: #fff;
-                border-radius   : 8px;
+            >.nft {
+                font-family    : ProximaNovaCond-Regular;
+                font-size      : 14px;
+                text-decoration: none;
+                color          : #000;
+                text-align     : center;
+                padding        : 4px;
+
+                >img,
+                >video {
+                    display         : block;
+                    width           : 78px;
+                    height          : 78px;
+                    object-fit      : cover;
+                    background-color: #fff;
+                    border-radius   : 8px;
+                }
+
+                >.name {
+                    margin-top   : 4px;
+                    white-space  : nowrap;
+                    overflow     : hidden;
+                    text-overflow: ellipsis;
+                }
+
+                &.selected {
+                    background-color: #55ffb6;
+                    border-radius   : 6px;
+                }
             }
+        }
 
-            >.name {
-                margin-top   : 4px;
-                white-space  : nowrap;
-                overflow     : hidden;
-                text-overflow: ellipsis;
-            }
-
-            &.selected {
-                background-color: #55ffb6;
-                border-radius   : 6px;
-            }
+        >.load-more {
+            width        : 180px;
+            margin       : auto;
+            margin-top   : 10px;
+            margin-bottom: 10px;
+            display      : block;
+            border-radius: 18px;
+            border       : solid 1px #fff;
+            line-height  : 36px;
+            text-align   : center;
+            color        : #fff;
         }
     }
 

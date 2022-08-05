@@ -6,6 +6,7 @@ export default class SelectNFTPopup extends Popup {
     private tokenIdInput;
     private nftDisplays;
     private currentNFTDisplay;
+    private loadMoreButton;
     private currentContract;
     private currentTokenId;
     constructor(select: (contract: string | undefined, tokenId: string | undefined) => void);

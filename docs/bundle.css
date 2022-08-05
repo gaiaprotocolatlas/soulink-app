@@ -1255,8 +1255,10 @@ body {
   padding: 15px 0;
   border-bottom: 1px solid #fff;
 }
-.select-nft-popup > .nft-container {
+.select-nft-popup > main {
   overflow-y: scroll;
+}
+.select-nft-popup > main > .nft-container {
   margin: auto;
   width: 344px;
   display: grid;
@@ -1264,7 +1266,7 @@ body {
   gap: 4px 0;
   padding: 10px 0;
 }
-.select-nft-popup > .nft-container > .nft {
+.select-nft-popup > main > .nft-container > .nft {
   font-family: ProximaNovaCond-Regular;
   font-size: 14px;
   text-decoration: none;
@@ -1272,8 +1274,8 @@ body {
   text-align: center;
   padding: 4px;
 }
-.select-nft-popup > .nft-container > .nft > img,
-.select-nft-popup > .nft-container > .nft > video {
+.select-nft-popup > main > .nft-container > .nft > img,
+.select-nft-popup > main > .nft-container > .nft > video {
   display: block;
   width: 78px;
   height: 78px;
@@ -1281,15 +1283,27 @@ body {
   background-color: #fff;
   border-radius: 8px;
 }
-.select-nft-popup > .nft-container > .nft > .name {
+.select-nft-popup > main > .nft-container > .nft > .name {
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.select-nft-popup > .nft-container > .nft.selected {
+.select-nft-popup > main > .nft-container > .nft.selected {
   background-color: #55ffb6;
   border-radius: 6px;
+}
+.select-nft-popup > main > .load-more {
+  width: 180px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+  border-radius: 18px;
+  border: solid 1px #fff;
+  line-height: 36px;
+  text-align: center;
+  color: #fff;
 }
 .select-nft-popup > .info-form {
   border-top: 1px solid #fff;

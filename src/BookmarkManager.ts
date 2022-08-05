@@ -18,7 +18,7 @@ class BookmarkManager extends EventContainer {
     }
 
     private save() {
-        this.bookmarkStore.set("bookmarks", this.all);
+        this.bookmarkStore.set("bookmarks", this.all, true);
     }
 
     public bookmark(address: string) {

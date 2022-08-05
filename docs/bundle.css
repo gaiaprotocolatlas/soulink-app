@@ -1101,6 +1101,13 @@ body {
   top: 10px;
   color: #fff;
 }
+.bio-link-setting-view > .bar {
+  position: fixed;
+  z-index: 999;
+  background-color: #4589FF;
+  left: -999999px;
+  top: -999999px;
+}
 .bio-link-setting-view > a.add {
   color: #ff0f34;
   background-color: #fff;

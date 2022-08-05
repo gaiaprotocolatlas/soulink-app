@@ -6,6 +6,10 @@ export default class BioLinksSetting extends View {
 
     private container: DomNode | undefined;
     private linkContainer: DomNode | undefined;
+    private bar: DomNode | undefined;
+
+    private draggingLink: {} | undefined;
+    private toIndex = 0;
 
     constructor() {
         super();
@@ -17,6 +21,7 @@ export default class BioLinksSetting extends View {
             if (this.closed !== true) {
                 AdminLayout.current.content.append(this.container = el(".bio-link-setting-view",
                     this.linkContainer = el(".link-container"),
+                    this.bar = el(".bar"),
                     el("a.add", el("i.fa-solid.fa-plus"), {
                         click: () => {
                             AdminLayout.current.bio.links.push({
@@ -37,11 +42,14 @@ export default class BioLinksSetting extends View {
         if (this.linkContainer !== undefined) {
             this.linkContainer.empty();
             for (const link of AdminLayout.current.bio.links) {
+
                 const linkDisplay = el(".link",
                     el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => { link.title = event.target.value; AdminLayout.current.checkChanges(); } }),
                     el("input", { value: link.url, placeholder: "URL" }, { keyup: (event) => { link.url = event.target.value; AdminLayout.current.checkChanges(); } }),
                     el("a.handle", el("i.fa-solid.fa-grip-vertical"), {
-                        //TODO:
+                        mousedown: () => {
+                            linkDisplay.domElement.draggable = true;
+                        },
                     }),
                     el("a.delete", el("i.fa-regular.fa-trash-can"), {
                         click: () => {
@@ -51,11 +59,70 @@ export default class BioLinksSetting extends View {
                         },
                     }),
                 ).appendTo(this.linkContainer);
+
+                linkDisplay.onDom("drag", (event: DragEvent) => {
+                    this.draggingLink = link;
+                    const y = event.clientY;
+                    if (y > 0) {
+                        const result = this.findLinkByY(y);
+                        if (result !== undefined) {
+                            const nodeY = result.top + result.height / 2;
+                            const index = result.link.parent?.children.indexOf(result.link);
+                            if (index !== undefined) {
+                                this.toIndex = y < nodeY ? index : index + 1;
+                                this.showBar(y < nodeY ? result.top : result.top + result.height);
+                            }
+                        }
+                    }
+                });
+
+                linkDisplay.onDom("dragend", () => {
+                    this.draggingLink = undefined;
+                    if (AdminLayout.current.bio.links.indexOf(link) < this.toIndex) {
+                        this.toIndex -= 1;
+                    }
+                    SkyUtil.pull(AdminLayout.current.bio.links, link);
+                    AdminLayout.current.bio.links.splice(this.toIndex, 0, link);
+                    AdminLayout.current.checkChanges();
+                    this.showLinks();
+                    this.hideBar();
+                });
             }
         }
     }
 
+    public findLinkByY(y: number): { link: DomNode, top: number, height: number } | undefined {
+        if (this.linkContainer !== undefined) {
+            for (const link of this.linkContainer.children) {
+                const rect = link.rect;
+                if (rect.top <= y && y <= rect.top + rect.height) {
+                    return { link, top: rect.top, height: rect.height };
+                }
+            }
+        }
+    }
+
+    public showBar(top: number) {
+        if (this.linkContainer !== undefined) {
+            const rect = this.linkContainer.rect;
+            this.bar?.style({
+                width: rect.width,
+                height: 4,
+                top,
+                left: rect.left,
+            });
+        }
+    }
+
+    private hideBar() {
+        this.bar?.style({
+            left: -999999,
+            top: -999999,
+        });
+    }
+
     public close(): void {
         this.container?.delete();
+        super.close();
     }
 }

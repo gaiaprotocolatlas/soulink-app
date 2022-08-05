@@ -6,7 +6,6 @@ import NotExistsDisplay from "../components/NotExistsDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
-import NFTInfo from "../datamodel/NFTInfo";
 import MetadataLoader from "../MetadataLoader";
 import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
@@ -25,8 +24,8 @@ export default class Layout extends View {
 
     private addressOrEns: string = "";
     private currentAddress: string | undefined;
+
     public bio: Bio = { links: [] };
-    public nfts: NFTInfo[] = [];
 
     private currentLink: DomNode | undefined;
     private links: { [name: string]: DomNode } = {};
@@ -66,8 +65,17 @@ export default class Layout extends View {
 
     public async ready(addressOrEns: string, proc: () => Promise<void>) {
         const loading = new Loading("Loading...").appendTo(this.container);
+
         if (this.addressOrEns !== addressOrEns) {
-            const result = await fetch(`${Config.apiURI}/cached/${addressOrEns}`);
+
+            this.addressOrEns = addressOrEns;
+            if (addressOrEns.indexOf("0x") === 0) {
+                this.currentAddress = addressOrEns;
+            } else {
+                this.currentAddress = await NetworkProvider.resolveName(addressOrEns);
+            }
+
+            const result = await fetch(`${Config.apiURI}/bio/${this.currentAddress}`);
             const str = await result.text();
 
             this.profile.empty();
@@ -76,15 +84,13 @@ export default class Layout extends View {
             if (str === "") {
                 document.title = "Soulink | Page Not Found";
                 this.content.append(new NotExistsDisplay());
-            } else {
+            }
+
+            else {
+                this.bio = JSON.parse(str);
 
                 const name = addressOrEns.indexOf("0x") === 0 ? SkyUtil.shortenAddress(addressOrEns) : addressOrEns;
                 document.title = `${name} | Soulink`;
-
-                const data = JSON.parse(str);
-                this.addressOrEns = addressOrEns;
-                this.bio = data.bio;
-                this.nfts = data.nfts;
 
                 this.profile.append(
                     this.imageContainer = el(".image-container",
@@ -174,7 +180,7 @@ export default class Layout extends View {
                 if (BookmarkManager.check(this.currentAddress) === true) {
                     this.bookmarkHandler(this.currentAddress);
                 }
-    
+
                 this.bookmarkButton.onDom("click", () => {
                     if (this.currentAddress !== undefined) {
                         BookmarkManager.toggle(this.currentAddress);

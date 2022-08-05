@@ -57,15 +57,6 @@ export default class SoulsSetting extends View {
             );
 
             if (isLiked === true) {
-
-                fetch(`${Config.apiURI}/removelinked`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        requester: request.requester,
-                        target: request.target,
-                    }),
-                });
-
                 const user = await Utils.loadUser(request.requester);
                 el(".soul",
                     el(".pfp",
@@ -146,15 +137,6 @@ export default class SoulsSetting extends View {
             );
 
             if (isLiked === true) {
-
-                /*fetch(`${Config.apiURI}/linked`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        requester: request.requester,
-                        target: request.target,
-                    }),
-                });*/
-
                 const user = await Utils.loadUser(request.target);
                 el(".soul",
                     el(".pfp",

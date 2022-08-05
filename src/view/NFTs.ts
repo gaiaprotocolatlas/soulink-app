@@ -22,7 +22,7 @@ export default class NFTs extends View {
                     this.nftContainer = el(".nft-container"),
                 ));
 
-                for (const nft of Layout.current.nfts) {
+                /*for (const nft of Layout.current.nfts) {
                     if (nft.cached_file_url !== null) {
                         this.nftContainer.append(el("a.nft",
                             nft.cached_file_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.cached_file_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.cached_file_url }),
@@ -30,7 +30,7 @@ export default class NFTs extends View {
                             { href: `https://opensea.io/assets/${nft.contract_address}/${nft.token_id}`, target: "_blank" },
                         ));
                     }
-                }
+                }*/
             }
         });
     }

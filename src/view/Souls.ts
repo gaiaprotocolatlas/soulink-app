@@ -54,6 +54,7 @@ export default class Souls extends View {
                 await SoulinkContract.getTokenId(request.requester),
                 await SoulinkContract.getTokenId(request.target),
             );
+            console.log("TEST!");
 
             if (isLiked === true) {
                 const user = await Utils.loadUser(request.requester);
@@ -79,6 +80,7 @@ export default class Souls extends View {
                 await SoulinkContract.getTokenId(request.requester),
                 await SoulinkContract.getTokenId(request.target),
             );
+            console.log("TEST!");
 
             if (isLiked === true) {
                 const user = await Utils.loadUser(request.target);

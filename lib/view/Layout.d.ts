@@ -1,7 +1,6 @@
 import { DomNode } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 import Bio from "../datamodel/Bio";
-import NFTInfo from "../datamodel/NFTInfo";
 export default class Layout extends View {
     static current: Layout;
     content: DomNode;
@@ -13,7 +12,6 @@ export default class Layout extends View {
     private addressOrEns;
     private currentAddress;
     bio: Bio;
-    nfts: NFTInfo[];
     private currentLink;
     private links;
     constructor(params: ViewParams, uri: string);

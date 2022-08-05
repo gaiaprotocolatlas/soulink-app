@@ -1,0 +1,1 @@
+{"version":3,"file":"SoulDisplay.d.ts","sourceRoot":"","sources":["../../src/components/SoulDisplay.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAiB,MAAM,iBAAiB,CAAC;AAMzD,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,OAAO;IAKhC,OAAO,CAAC,OAAO;IAH3B,OAAO,CAAC,GAAG,CAAU;IACrB,OAAO,CAAC,IAAI,CAAU;gBAEF,OAAO,EAAE,MAAM,EAAE,GAAG,QAAQ,EAAE,OAAO,EAAE;YAa7C,OAAO;YAOP,QAAQ;CAOzB"}

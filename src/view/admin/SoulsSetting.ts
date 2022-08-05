@@ -1,12 +1,12 @@
-import { BodyNode, DomNode, el, SkyRouter } from "skydapp-browser";
+import { DomNode, el } from "skydapp-browser";
 import { View } from "skydapp-common";
 import Loading from "../../components/Loading";
+import SoulDisplay from "../../components/SoulDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import LinkRequest from "../../datamodel/LinkRequest";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
-import Utils from "../../Utils";
 import AdminLayout from "./AdminLayout";
 
 export default class SoulsSetting extends View {
@@ -34,9 +34,11 @@ export default class SoulsSetting extends View {
                 ));
 
                 (async () => {
+                    const result = await fetch(`${Config.apiURI}/linked/${AdminLayout.current.address}`);
+                    const linkedAddresses: string[] = await result.json();
                     const promises: Promise<void>[] = [];
-                    promises.push(this.loadRequestTo());
-                    promises.push(this.loadRequestFrom());
+                    promises.push(this.loadRequestTo(linkedAddresses));
+                    promises.push(this.loadRequestFrom(linkedAddresses));
                     await Promise.all(promises);
                     loading.delete();
                 })();
@@ -44,43 +46,25 @@ export default class SoulsSetting extends View {
         });
     }
 
-    private async loadRequestTo() {
+    private async loadRequestTo(linkedAddresses: string[]) {
 
         const result = await fetch(`${Config.apiURI}/requestto/${AdminLayout.current.address}`);
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
 
-            const isLiked = await SoulinkContract.isLinked(
-                await SoulinkContract.getTokenId(request.requester),
-                await SoulinkContract.getTokenId(request.target),
-            );
-
+            const isLiked = linkedAddresses.includes(request.requester);
             if (isLiked === true) {
-                const user = await Utils.loadUser(request.requester);
-                el(".soul",
-                    el(".pfp",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ),
-                    el("a", el("i.fa-solid.fa-link-slash"), {
-                        click: async () => {
-                            await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
-                            new Alert("The transaction has been registered. Please wait until it is finished.");
-                        },
-                    }),
-                ).appendTo(this.linkedContainer!);
+                new SoulDisplay(request.requester, el("a", el("i.fa-solid.fa-link-slash"), {
+                    click: async () => {
+                        await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
+                        new Alert("The transaction has been registered. Please wait until it is finished.");
+                    },
+                })).appendTo(this.linkedContainer!);
             }
 
             else if (request.accept === undefined) {
-                const user = await Utils.loadUser(request.requester);
-                const requestDisplay = el(".soul",
-                    el(".pfp",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ),
+                const requestDisplay = new SoulDisplay(request.requester,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
                             const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
@@ -124,57 +108,36 @@ export default class SoulsSetting extends View {
         }
     }
 
-    private async loadRequestFrom() {
+    private async loadRequestFrom(linkedAddresses: string[]) {
 
         const result = await fetch(`${Config.apiURI}/requestfrom/${AdminLayout.current.address}`);
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
 
-            const isLiked = await SoulinkContract.isLinked(
-                await SoulinkContract.getTokenId(request.requester),
-                await SoulinkContract.getTokenId(request.target),
-            );
-
+            const isLiked = linkedAddresses.includes(request.target);
             if (isLiked === true) {
-                const user = await Utils.loadUser(request.target);
-                el(".soul",
-                    el(".pfp",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ),
-                    el("a", el("i.fa-solid.fa-link-slash"), {
-                        click: async () => {
-                            await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
-                            new Alert("The transaction has been registered. Please wait until it is finished.");
-                        },
-                    }),
-                ).appendTo(this.linkedContainer!);
+                new SoulDisplay(request.target, el("a", el("i.fa-solid.fa-link-slash"), {
+                    click: async () => {
+                        await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
+                        new Alert("The transaction has been registered. Please wait until it is finished.");
+                    },
+                })).appendTo(this.linkedContainer!);
             }
-            
-            else if (request.accept !== undefined) {
 
-                const user = await Utils.loadUser(request.target);
-                el(".soul",
-                    el(".pfp",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ),
-                    el("a", el("i.fa-solid.fa-link"), {
-                        click: async () => {
-                            await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
-                                request.signature,
-                                request.accept!.signature,
-                            ], [
-                                request.deadline,
-                                request.accept!.deadline,
-                            ]);
-                            new Alert("The transaction has been registered. Please wait until it is finished.");
-                        },
-                    }),
-                ).appendTo(this.toLinkContainer!);
+            else if (request.accept !== undefined) {
+                new SoulDisplay(request.target, el("a", el("i.fa-solid.fa-link"), {
+                    click: async () => {
+                        await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
+                            request.signature,
+                            request.accept!.signature,
+                        ], [
+                            request.deadline,
+                            request.accept!.deadline,
+                        ]);
+                        new Alert("The transaction has been registered. Please wait until it is finished.");
+                    },
+                })).appendTo(this.toLinkContainer!);
             }
         }
     }

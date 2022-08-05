@@ -1,15 +1,16 @@
 import { constants } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
-import { View, ViewParams } from "skydapp-common";
+import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Loading from "../../components/Loading";
+import PFPDisplay from "../../components/PFPDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
 import MetadataLoader from "../../MetadataLoader";
+import NetworkProvider from "../../network/NetworkProvider";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
 import SelectNFTPopup from "../../popup/SelectNFTPopup";
-import Utils from "../../Utils";
 
 export default class AdminLayout extends View {
 
@@ -116,8 +117,13 @@ export default class AdminLayout extends View {
                                 }),
                             },
                         ),
-                        el(".name", await Utils.loadShortenName(address)),
                     );
+
+                    (async () => {
+                        const name = await NetworkProvider.lookupAddress(address);
+                        name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(name) : name;
+                        el(".name", name).appendTo(this.profile);
+                    })();
 
                     const textarea = el("textarea.introduce", this.bio.introduce, {
                         placeholder: "About Me.",
@@ -159,10 +165,7 @@ export default class AdminLayout extends View {
         if (this.imageContainer !== undefined) {
             if (this.bio.pfp !== undefined) {
                 this.imageContainer.empty();
-                this.imageContainer.addClass("loading");
-                const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
-                this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
-                this.imageContainer.deleteClass("loading");
+                this.imageContainer.append(new PFPDisplay(this.bio.pfp.address, this.bio.pfp.tokenId));
             } else {
                 this.imageContainer.empty().append(new ResponsiveImage("img", "/images/default-profile.png"));
             }

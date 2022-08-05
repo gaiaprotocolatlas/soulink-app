@@ -1,8 +1,7 @@
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
-import Alert from "../popup/Alert";
-import Utils from "../Utils";
+import SoulDisplay from "../components/SoulDisplay";
 
 export default class Intro extends View {
 
@@ -35,12 +34,10 @@ export default class Intro extends View {
                         el("h6.mobile", el("b", "Let’s"), " Link!"),
                         el(".button-container",
                             el("a", el("b", "Mint"), " Soulink", {
-                                click: () => new Alert("Soulink will be released soon."),
-                                //click: () => SkyRouter.go("/mint", undefined, true),
+                                click: () => SkyRouter.go("/mint", undefined, true),
                             }),
                             el("a", "Admin", {
-                                click: () => new Alert("Soulink will be released soon."),
-                                //click: () => SkyRouter.go("/admin", undefined, true),
+                                click: () => SkyRouter.go("/admin", undefined, true),
                             }),
                         ),
                         el("h6.no-mobile", el("b", "Let’s"), " Link!"),
@@ -62,22 +59,12 @@ export default class Intro extends View {
         if (BookmarkManager.all.length > 0) {
             this.bookmarkList.append(el("h1", el("i.fa-solid.fa-star")));
             for (const address of BookmarkManager.all) {
-                const user = await Utils.loadUser(address);
-                if (this.closed !== true) {
-                    const bookmark = el(".bookmark",
-                        el(".pfp",
-                            user.pfpDisplay,
-                            el(".name", user.shortenName),
-                            { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                        ),
-                        el("a", el("i.fa-solid.fa-xmark"), {
-                            click: async () => {
-                                BookmarkManager.unbookmark(address);
-                                bookmark.delete();
-                            },
-                        }),
-                    ).appendTo(this.bookmarkList);
-                }
+                const bookmark = new SoulDisplay(address, el("a", el("i.fa-solid.fa-xmark"), {
+                    click: async () => {
+                        BookmarkManager.unbookmark(address);
+                        bookmark.delete();
+                    },
+                })).appendTo(this.bookmarkList);
             }
         }
     }

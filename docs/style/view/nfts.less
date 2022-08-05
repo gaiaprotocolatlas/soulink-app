@@ -13,14 +13,17 @@
             color          : #000;
             text-align     : center;
 
-            >img,
-            >video {
-                display         : block;
-                width           : 78px;
-                height          : 78px;
-                object-fit      : cover;
-                background-color: #fff;
-                border-radius   : 8px;
+            >.nft-display {
+
+                >img,
+                >video {
+                    display         : block;
+                    width           : 78px;
+                    height          : 78px;
+                    object-fit      : cover;
+                    background-color: #fff;
+                    border-radius   : 8px;
+                }
             }
 
             >.name {
@@ -30,5 +33,17 @@
                 text-overflow: ellipsis;
             }
         }
+    }
+
+    >.load-more {
+        width        : 180px;
+        margin       : auto;
+        margin-top   : 20px;
+        display      : block;
+        border-radius: 18px;
+        border       : solid 1px #fff;
+        line-height  : 36px;
+        text-align   : center;
+        color        : #fff;
     }
 }

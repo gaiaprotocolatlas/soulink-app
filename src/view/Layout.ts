@@ -3,6 +3,7 @@ import { SkyUtil, View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
+import PFPDisplay from "../components/PFPDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
@@ -23,7 +24,7 @@ export default class Layout extends View {
     private bookmarkButton: DomNode;
 
     private addressOrEns: string = "";
-    private currentAddress: string | undefined;
+    public currentAddress: string | undefined;
 
     public bio: Bio = { links: [] };
 
@@ -129,10 +130,7 @@ export default class Layout extends View {
     private async loadPFP() {
         if (this.bio.pfp !== undefined && this.imageContainer !== undefined) {
             this.imageContainer.empty();
-            this.imageContainer.addClass("loading");
-            const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
-            this.imageContainer.append(el("img", { src: metadata?.imageInfo?.cachedURL }));
-            this.imageContainer.deleteClass("loading");
+            this.imageContainer.append(new PFPDisplay(this.bio.pfp.address, this.bio.pfp.tokenId));
         }
     }
 

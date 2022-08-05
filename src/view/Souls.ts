@@ -1,10 +1,8 @@
-import { DomNode, el, SkyRouter } from "skydapp-browser";
+import { DomNode, el } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
+import SoulDisplay from "../components/SoulDisplay";
 import Config from "../Config";
-import SoulinkContract from "../contracts/SoulinkContract";
-import LinkRequest from "../datamodel/LinkRequest";
 import NetworkProvider from "../network/NetworkProvider";
-import Utils from "../Utils";
 import Layout from "./Layout";
 
 export default class Souls extends View {
@@ -31,68 +29,20 @@ export default class Souls extends View {
 
                 (async () => {
                     const address = await NetworkProvider.resolveName(addressOrEns);
-                    const promises: Promise<void>[] = [];
-                    promises.push(this.loadRequestTo(address));
-                    promises.push(this.loadRequestFrom(address));
-                    await Promise.all(promises);
+
+                    const result = await fetch(`${Config.apiURI}/linked/${address}`);
+                    const linkedAddresses: string[] = await result.json();
+
+                    for (const address of linkedAddresses) {
+                        new SoulDisplay(address).appendTo(this.soulList!);
+                    }
+
                     if (this.closed !== true) {
                         loading.delete();
                     }
                 })();
             }
         });
-    }
-
-    private async loadRequestTo(address: string) {
-
-        const result = await fetch(`${Config.apiURI}/requestto/${address}`);
-        const requests: LinkRequest[] = await result.json();
-
-        for (const request of requests) {
-
-            const isLiked = await SoulinkContract.isLinked(
-                await SoulinkContract.getTokenId(request.requester),
-                await SoulinkContract.getTokenId(request.target),
-            );
-            console.log("TEST!");
-
-            if (isLiked === true) {
-                const user = await Utils.loadUser(request.requester);
-                if (this.closed !== true) {
-                    el(".soul",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ).appendTo(this.soulList!);
-                }
-            }
-        }
-    }
-
-    private async loadRequestFrom(address: string) {
-
-        const result = await fetch(`${Config.apiURI}/requestfrom/${address}`);
-        const requests: LinkRequest[] = await result.json();
-
-        for (const request of requests) {
-
-            const isLiked = await SoulinkContract.isLinked(
-                await SoulinkContract.getTokenId(request.requester),
-                await SoulinkContract.getTokenId(request.target),
-            );
-            console.log("TEST!");
-
-            if (isLiked === true) {
-                const user = await Utils.loadUser(request.target);
-                if (this.closed !== true) {
-                    el(".soul",
-                        user.pfpDisplay,
-                        el(".name", user.shortenName),
-                        { click: () => SkyRouter.go(`/${user.name}`, undefined, true) },
-                    ).appendTo(this.soulList!);
-                }
-            }
-        }
     }
 
     public changeParams(params: ViewParams, uri: string): void {

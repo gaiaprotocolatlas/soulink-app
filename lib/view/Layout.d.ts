@@ -10,7 +10,7 @@ export default class Layout extends View {
     private editButton;
     private bookmarkButton;
     private addressOrEns;
-    private currentAddress;
+    currentAddress: string | undefined;
     bio: Bio;
     private currentLink;
     private links;

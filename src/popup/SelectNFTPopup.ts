@@ -1,4 +1,6 @@
 import { DomNode, el, Popup } from "skydapp-browser";
+import NFTLoader from "../NFTLoader";
+import AdminLayout from "../view/admin/AdminLayout";
 
 export default class SelectNFTPopup extends Popup {
 
@@ -44,7 +46,12 @@ export default class SelectNFTPopup extends Popup {
             ),
         );
 
-        /*for (const nft of AdminLayout.current.nfts) {
+        this.loadNFTs();
+    }
+
+    private async loadNFTs() {
+        const nfts = await NFTLoader.load(AdminLayout.current.address);
+        for (const nft of nfts) {
             if (nft.cached_file_url !== null) {
                 this.nftDisplays[`${nft.contract_address}-${nft.token_id}`] = el("a.nft",
                     nft.cached_file_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.cached_file_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.cached_file_url }),
@@ -52,7 +59,7 @@ export default class SelectNFTPopup extends Popup {
                     { click: () => this.onNFT(nft.contract_address, nft.token_id) },
                 ).appendTo(this.nftContainer);
             }
-        }*/
+        }
     }
 
     private onNFT(contract: string, tokenId: string) {

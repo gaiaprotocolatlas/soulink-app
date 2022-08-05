@@ -36,6 +36,16 @@ export default class SoulsSetting extends View {
                 (async () => {
                     const result = await fetch(`${Config.apiURI}/linked/${AdminLayout.current.address}`);
                     const linkedAddresses: string[] = await result.json();
+
+                    for (const address of linkedAddresses) {
+                        new SoulDisplay(address, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
+                            click: async () => {
+                                await SoulinkContract.breakLink(await SoulinkContract.getTokenId(address));
+                                new Alert("The transaction has been registered. Please wait until it is finished.");
+                            },
+                        })).appendTo(this.linkedContainer!);
+                    }
+
                     const promises: Promise<void>[] = [];
                     promises.push(this.loadRequestTo(linkedAddresses));
                     promises.push(this.loadRequestFrom(linkedAddresses));
@@ -52,18 +62,7 @@ export default class SoulsSetting extends View {
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
-
-            const isLiked = linkedAddresses.includes(request.requester);
-            if (isLiked === true) {
-                new SoulDisplay(request.requester, el("a", el("i.fa-solid.fa-link-slash"), {
-                    click: async () => {
-                        await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
-                        new Alert("The transaction has been registered. Please wait until it is finished.");
-                    },
-                })).appendTo(this.linkedContainer!);
-            }
-
-            else if (request.accept === undefined) {
+            if (linkedAddresses.includes(request.requester) !== true && request.accept === undefined) {
                 const requestDisplay = new SoulDisplay(request.requester,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
@@ -114,19 +113,8 @@ export default class SoulsSetting extends View {
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
-
-            const isLiked = linkedAddresses.includes(request.target);
-            if (isLiked === true) {
-                new SoulDisplay(request.target, el("a", el("i.fa-solid.fa-link-slash"), {
-                    click: async () => {
-                        await SoulinkContract.breakLink(await SoulinkContract.getTokenId(request.target));
-                        new Alert("The transaction has been registered. Please wait until it is finished.");
-                    },
-                })).appendTo(this.linkedContainer!);
-            }
-
-            else if (request.accept !== undefined) {
-                new SoulDisplay(request.target, el("a", el("i.fa-solid.fa-link"), {
+            if (linkedAddresses.includes(request.target) !== true && request.accept !== undefined) {
+                new SoulDisplay(request.target, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,

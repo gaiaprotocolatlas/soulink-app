@@ -722,6 +722,11 @@ body {
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
 }
+@media only screen and (max-width: 859px) {
+  .layout > header > .edit {
+    top: 30px;
+  }
+}
 .layout > header > .bookmark {
   position: absolute;
   left: 20px;
@@ -738,11 +743,21 @@ body {
 .layout > header > .bookmark.bookmarked {
   color: #55ffb6;
 }
+@media only screen and (max-width: 859px) {
+  .layout > header > .bookmark {
+    top: 30px;
+  }
+}
 .layout > header > .card {
   position: absolute;
   right: 20px;
   top: 20px;
   color: #fff;
+}
+@media only screen and (max-width: 859px) {
+  .layout > header > .card {
+    top: 30px;
+  }
 }
 .layout > header > .menu {
   flex-grow: 1;
@@ -750,6 +765,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding-bottom: 20px;
 }
 @media only screen and (max-width: 859px) {
   .layout > header > .menu {

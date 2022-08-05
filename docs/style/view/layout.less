@@ -24,6 +24,10 @@
                 -moz-animation   : FadeInAnimation 1s;
                 animation        : FadeInAnimation 1s;
             }
+
+            @media @phone {
+                top: 30px;
+            }
         }
 
         >.bookmark {
@@ -43,6 +47,10 @@
             &.bookmarked {
                 color: #55ffb6;
             }
+
+            @media @phone {
+                top: 30px;
+            }
         }
 
         >.card {
@@ -50,6 +58,10 @@
             right   : 20px;
             top     : 20px;
             color   : #fff;
+
+            @media @phone {
+                top: 30px;
+            }
         }
 
         >.menu {
@@ -58,6 +70,7 @@
             justify-content: center;
             align-items    : center;
             gap            : 20px;
+            padding-bottom : 20px;
 
             @media @phone {
                 gap: 10px;

@@ -756,13 +756,18 @@ body {
 }
 .layout > header > .menu > a {
   color: #fff;
-  padding: 6px 20px;
+  padding: 6px 0;
+  width: 100px;
   border-radius: 16px;
+  text-align: center;
 }
 @media only screen and (max-width: 859px) {
   .layout > header > .menu > a {
-    padding: 6px 14px;
+    width: 60px;
   }
+}
+.layout > header > .menu > a.long {
+  width: 100px;
 }
 .layout > header > .menu > a:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -834,7 +839,7 @@ body {
   color: #55ffb6;
 }
 .layout > main > .content {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .layout > footer {
   height: 150px;
@@ -843,18 +848,18 @@ body {
 }
 .bio-links-view > .link-container {
   margin: auto;
-  width: 180px;
+  width: 220px;
 }
 .bio-links-view > .link-container > .link {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 36px;
-  border-radius: 18px;
-  margin-bottom: 6px;
+  height: 40px;
+  border-radius: 20px;
+  margin-bottom: 15px;
   background-color: rgba(255, 255, 255, 0.6);
   font-family: ProximaNovaCond-Regular;
-  font-size: 14px;
+  font-size: 16px;
   text-decoration: none;
   color: #000;
 }
@@ -1017,8 +1022,6 @@ body {
   border-radius: 16px;
   background-color: #ccc;
   color: #000;
-  font-family: OCRAStd;
-  font-size: 14px;
 }
 @media only screen and (max-width: 859px) {
   .admin-layout > header > a.save {

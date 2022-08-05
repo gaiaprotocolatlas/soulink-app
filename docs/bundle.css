@@ -1244,6 +1244,15 @@ body {
 .souls-setting-view > .loading:after {
   animation-direction: reverse;
 }
+.appearance-setting-view > .color {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: OCRAStd;
+  font-size: 16px;
+  text-align: center;
+}
 .popup-background {
   position: fixed;
   left: 0;

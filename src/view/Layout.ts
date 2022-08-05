@@ -101,6 +101,9 @@ export default class Layout extends View {
                     el(".introduce", this.bio.introduce),
                 );
 
+
+                this.profile.style({ color: this.bio.color });
+
                 this.loadBackground();
                 this.loadPFP();
                 this.showButtons(addressOrEns);

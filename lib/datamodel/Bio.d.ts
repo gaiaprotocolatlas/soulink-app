@@ -1,5 +1,6 @@
 export default interface Bio {
     introduce?: string;
+    color?: string;
     pfp?: {
         address: string;
         tokenId: string;

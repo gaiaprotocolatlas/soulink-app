@@ -7,6 +7,8 @@ export default class AdminLayout extends View {
     private container;
     private imageContainer;
     private profile;
+    private nameDisplay;
+    private introduceTextarea;
     address: string;
     private prevBio;
     bio: Bio;

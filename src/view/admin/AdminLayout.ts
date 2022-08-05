@@ -20,6 +20,8 @@ export default class AdminLayout extends View {
     private container: DomNode;
     private imageContainer: DomNode | undefined;
     private profile: DomNode;
+    private nameDisplay: DomNode | undefined;
+    private introduceTextarea: DomNode | undefined;
 
     public address = constants.AddressZero;
 
@@ -49,8 +51,8 @@ export default class AdminLayout extends View {
                 }),
                 el(".menu",
                     this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/admin", undefined, true) } }),
-                    //this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
                     this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/admin/souls", undefined, true) } }),
+                    this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/admin/appearance", undefined, true) } }),
                 ),
                 this.saveButton = el("a.save", "Save", { click: () => this.save() }),
             ),
@@ -119,13 +121,15 @@ export default class AdminLayout extends View {
                         ),
                     );
 
+                    this.nameDisplay = el(".name").appendTo(this.profile);
                     (async () => {
                         const name = await NetworkProvider.lookupAddress(address);
                         name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(name) : name;
-                        el(".name", name).appendTo(this.profile);
+                        this.nameDisplay?.appendText(name);
+                        this.nameDisplay?.style({ color: AdminLayout.current.bio.color });
                     })();
 
-                    const textarea = el("textarea.introduce", this.bio.introduce, {
+                    this.introduceTextarea = el("textarea.introduce", this.bio.introduce, {
                         placeholder: "About Me.",
                         keyup: (event) => {
                             this.bio.introduce = event.target.value;
@@ -135,8 +139,9 @@ export default class AdminLayout extends View {
                         },
                     }).appendTo(this.profile);
 
-                    textarea.domElement.style.height = "1px";
-                    textarea.domElement.style.height = `${textarea.domElement.scrollHeight}px`;
+                    this.introduceTextarea.style({ color: AdminLayout.current.bio.color });
+                    this.introduceTextarea.domElement.style.height = "1px";
+                    this.introduceTextarea.domElement.style.height = `${this.introduceTextarea.domElement.scrollHeight}px`;
 
                     this.loadBackground();
                     this.loadPFP();
@@ -188,6 +193,8 @@ export default class AdminLayout extends View {
     public checkChanges() {
         if (JSON.stringify(this.prevBio) !== JSON.stringify(this.bio)) {
             this.saveButton.addClass("on");
+            this.nameDisplay?.style({ color: AdminLayout.current.bio.color });
+            this.introduceTextarea?.style({ color: AdminLayout.current.bio.color });
         } else {
             this.saveButton.deleteClass("on");
         }

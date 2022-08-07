@@ -68,7 +68,7 @@ export default class SoulsSetting extends View {
         for (const request of requests) {
 
             if (request.requester !== AdminLayout.current.address) {
-                const requestDisplay = new SoulDisplay(request.bio!, AdminLayout.current.bio.color,
+                const requestDisplay = new SoulDisplay(request.bio ?? { id: request.requester, links: [] }, AdminLayout.current.bio.color,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
                             const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
@@ -111,7 +111,7 @@ export default class SoulsSetting extends View {
             }
 
             else if (request.accept !== undefined) {
-                new SoulDisplay(request.bio!, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
+                new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,

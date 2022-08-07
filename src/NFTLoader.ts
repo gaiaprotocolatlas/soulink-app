@@ -8,7 +8,7 @@ class NFTLoader {
 
     public async load(address: string): Promise<NFTInfo[]> {
         if (this.nfts[address] === undefined) {
-            const result = await fetch(`${Config.apiURI}/opensea/nfts/${address}`);
+            const result = await fetch(`${Config.apiURI}/nfts/${address}`);
             const data = await result.json();
             for (const asset of data.assets) {
                 if (asset.name === null) {
@@ -34,7 +34,7 @@ class NFTLoader {
 
     public async loadMore(address: string): Promise<NFTInfo[]> {
         if (this.cursors[address] !== undefined) {
-            const result = await fetch(`${Config.apiURI}/opensea/nfts/${address}?cursor=${this.cursors[address]}`);
+            const result = await fetch(`${Config.apiURI}/nfts/${address}?cursor=${this.cursors[address]}`);
             const data = await result.json();
             for (const asset of data.assets) {
                 if (asset.name === null) {

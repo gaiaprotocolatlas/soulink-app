@@ -67,7 +67,7 @@ export default class SoulsSetting extends View {
 
         for (const request of requests) {
 
-            if (request.requester !== AdminLayout.current.address) {
+            if (request.accept === undefined && request.requester !== AdminLayout.current.address) {
                 const requestDisplay = new SoulDisplay(request.bio ?? { id: request.requester, links: [] }, AdminLayout.current.bio.color,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
@@ -110,7 +110,7 @@ export default class SoulsSetting extends View {
                 ).appendTo(this.toAcceptContainer!);
             }
 
-            else if (request.accept !== undefined) {
+            else if (request.accept !== undefined && request.requester === AdminLayout.current.address) {
                 new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [

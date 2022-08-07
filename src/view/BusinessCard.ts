@@ -20,7 +20,7 @@ export default class BusinessCard extends View {
         await Layout.current.ready(addressOrEns, async () => {
             if (this.closed !== true) {
 
-                const qrcodeSrc = await qrcode.toDataURL(`https://soul.ink/${addressOrEns}/card`, {
+                const qrcodeSrc = await qrcode.toDataURL(`https://soul.ink/${addressOrEns}`, {
                     margin: 1,
                     scale: 9,
                 });

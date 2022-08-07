@@ -1,10 +1,7 @@
 import { DomNode } from "skydapp-browser";
+import Bio from "../datamodel/Bio";
 export default class SoulDisplay extends DomNode {
-    private address;
-    private pfp;
     private name;
-    constructor(address: string, color: string | undefined, ...children: DomNode[]);
-    private loadPFP;
-    private loadName;
+    constructor(bio: Bio, color: string | undefined, ...children: DomNode[]);
 }
 //# sourceMappingURL=SoulDisplay.d.ts.map

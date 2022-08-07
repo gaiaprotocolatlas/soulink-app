@@ -3,7 +3,6 @@ import { SkyUtil, View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
-import PFPDisplay from "../components/PFPDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
@@ -19,7 +18,7 @@ export default class Layout extends View {
 
     private container: DomNode;
     private profile: DomNode;
-    private imageContainer: DomNode | undefined;
+    private pfpContainer: DomNode | undefined;
     private editButton: DomNode;
     private bookmarkButton: DomNode;
 
@@ -73,9 +72,16 @@ export default class Layout extends View {
             if (addressOrEns.indexOf("0x") === 0) {
                 this.currentAddress = addressOrEns;
             } else {
-                const address = await NetworkProvider.resolveName(addressOrEns);
-                if (address !== null) {
-                    this.currentAddress = address;
+
+                const result = await fetch(`${Config.apiURI}/cached-address/${addressOrEns}`);
+                const cachedAddress = await result.text();
+                if (cachedAddress !== "") {
+                    this.currentAddress = cachedAddress;
+                } else {
+                    const address = await NetworkProvider.resolveName(addressOrEns);
+                    if (address !== null) {
+                        this.currentAddress = address;
+                    }
                 }
             }
 
@@ -97,9 +103,7 @@ export default class Layout extends View {
                 document.title = `${name} | Soulink`;
 
                 this.profile.append(
-                    this.imageContainer = el(".image-container",
-                        new ResponsiveImage("img", "/images/default-profile.png"),
-                    ),
+                    this.pfpContainer = el(".pfp-container"),
                     el(".name", name),
                     el(".introduce", this.bio.introduce),
                 );
@@ -135,10 +139,7 @@ export default class Layout extends View {
     }
 
     private async loadPFP() {
-        if (this.bio.pfp !== undefined && this.imageContainer !== undefined) {
-            this.imageContainer.empty();
-            this.imageContainer.append(new PFPDisplay(this.bio.pfp.address, this.bio.pfp.tokenId));
-        }
+        this.pfpContainer?.empty().append(el("img.pfp-display", { src: this.bio.cachedPFP ?? "/images/default-profile.png" }));
     }
 
     private async showButtons() {

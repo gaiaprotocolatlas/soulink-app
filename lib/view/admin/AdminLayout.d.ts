@@ -5,7 +5,7 @@ export default class AdminLayout extends View {
     static current: AdminLayout;
     content: DomNode;
     private container;
-    private imageContainer;
+    private pfpContainer;
     private profile;
     private nameDisplay;
     private introduceTextarea;

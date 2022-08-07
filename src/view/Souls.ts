@@ -33,7 +33,7 @@ export default class Souls extends View {
                     const linked: Bio[] = await result.json();
 
                     for (const bio of linked) {
-                        new SoulDisplay(bio.id!, Layout.current.bio.color).appendTo(this.soulList!);
+                        new SoulDisplay(bio, Layout.current.bio.color).appendTo(this.soulList!);
                     }
 
                     if (this.closed !== true) {

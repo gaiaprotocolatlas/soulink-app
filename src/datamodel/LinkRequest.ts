@@ -1,3 +1,5 @@
+import Bio from "./Bio";
+
 export default interface LinkRequest {
     requester: string,
     target: string,
@@ -7,4 +9,5 @@ export default interface LinkRequest {
         signature: string,
         deadline: number,
     },
+    bio?: Bio,
 }

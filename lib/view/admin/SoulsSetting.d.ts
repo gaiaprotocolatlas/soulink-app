@@ -6,8 +6,8 @@ export default class SoulsSetting extends View {
     private linkedContainer;
     constructor();
     private load;
-    private loadRequestTo;
-    private loadRequestFrom;
+    private loadLinked;
+    private loadRequest;
     close(): void;
 }
 //# sourceMappingURL=SoulsSetting.d.ts.map

@@ -2,6 +2,8 @@ import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-brows
 import { View } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import SoulDisplay from "../components/SoulDisplay";
+import Config from "../Config";
+import Bio from "../datamodel/Bio";
 
 export default class Intro extends View {
 
@@ -58,10 +60,14 @@ export default class Intro extends View {
     private async loadBookmarks() {
         if (BookmarkManager.all.length > 0) {
             this.bookmarkList.append(el("h1", el("i.fa-solid.fa-star")));
-            for (const address of BookmarkManager.all) {
-                const bookmark = new SoulDisplay(address, undefined, el("a", el("i.fa-solid.fa-xmark"), {
+
+            const result = await fetch(`${Config.apiURI}/bios?addresses=${JSON.stringify(BookmarkManager.all)}`);
+            const bios: Bio[] = await result.json();
+
+            for (const bio of bios) {
+                const bookmark = new SoulDisplay(bio, undefined, el("a", el("i.fa-solid.fa-xmark"), {
                     click: async () => {
-                        BookmarkManager.unbookmark(address);
+                        BookmarkManager.unbookmark(bio.id!);
                         bookmark.delete();
                     },
                 })).appendTo(this.bookmarkList);

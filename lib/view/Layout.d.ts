@@ -6,7 +6,7 @@ export default class Layout extends View {
     content: DomNode;
     private container;
     private profile;
-    private imageContainer;
+    private pfpContainer;
     private editButton;
     private bookmarkButton;
     private addressOrEns;

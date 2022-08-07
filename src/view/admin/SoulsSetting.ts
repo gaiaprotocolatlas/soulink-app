@@ -35,24 +35,9 @@ export default class SoulsSetting extends View {
                 ));
 
                 (async () => {
-                    const result = await fetch(`${Config.apiURI}/linked/${AdminLayout.current.address}`);
-                    const linked: Bio[] = await result.json();
-                    const linkedAddresses: string[] = [];
-
-                    for (const bio of linked) {
-                        const address = bio.id!;
-                        new SoulDisplay(address, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
-                            click: async () => {
-                                await SoulinkContract.breakLink(await SoulinkContract.getTokenId(address));
-                                new Alert("The transaction has been registered. Please wait until it is finished.");
-                            },
-                        })).appendTo(this.linkedContainer!);
-                        linkedAddresses.push(address);
-                    }
-
                     const promises: Promise<void>[] = [];
-                    promises.push(this.loadRequestTo(linkedAddresses));
-                    promises.push(this.loadRequestFrom(linkedAddresses));
+                    promises.push(this.loadRequest());
+                    promises.push(this.loadLinked());
                     await Promise.all(promises);
                     loading.delete();
                 })();
@@ -60,14 +45,30 @@ export default class SoulsSetting extends View {
         });
     }
 
-    private async loadRequestTo(linkedAddresses: string[]) {
+    private async loadLinked() {
 
-        const result = await fetch(`${Config.apiURI}/requestto/${AdminLayout.current.address}`);
+        const result = await fetch(`${Config.apiURI}/linked/${AdminLayout.current.address}`);
+        const bios: Bio[] = await result.json();
+
+        for (const bio of bios) {
+            new SoulDisplay(bio, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
+                click: async () => {
+                    await SoulinkContract.breakLink(await SoulinkContract.getTokenId(bio.id!));
+                    new Alert("The transaction has been registered. Please wait until it is finished.");
+                },
+            })).appendTo(this.linkedContainer!);
+        }
+    }
+
+    private async loadRequest() {
+
+        const result = await fetch(`${Config.apiURI}/request/${AdminLayout.current.address}`);
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
-            if (linkedAddresses.includes(request.requester) !== true && request.accept === undefined) {
-                const requestDisplay = new SoulDisplay(request.requester, AdminLayout.current.bio.color,
+
+            if (request.requester !== AdminLayout.current.address) {
+                const requestDisplay = new SoulDisplay(request.bio!, AdminLayout.current.bio.color,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
                             const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
@@ -108,17 +109,9 @@ export default class SoulsSetting extends View {
                     }),
                 ).appendTo(this.toAcceptContainer!);
             }
-        }
-    }
 
-    private async loadRequestFrom(linkedAddresses: string[]) {
-
-        const result = await fetch(`${Config.apiURI}/requestfrom/${AdminLayout.current.address}`);
-        const requests: LinkRequest[] = await result.json();
-
-        for (const request of requests) {
-            if (linkedAddresses.includes(request.target) !== true && request.accept !== undefined) {
-                new SoulDisplay(request.target, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
+            else {
+                new SoulDisplay(request.bio!, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,

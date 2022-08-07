@@ -2,7 +2,6 @@ import { constants } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Loading from "../../components/Loading";
-import PFPDisplay from "../../components/PFPDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
@@ -18,7 +17,7 @@ export default class AdminLayout extends View {
     public content: DomNode;
 
     private container: DomNode;
-    private imageContainer: DomNode | undefined;
+    private pfpContainer: DomNode | undefined;
     private profile: DomNode;
     private nameDisplay: DomNode | undefined;
     private introduceTextarea: DomNode | undefined;
@@ -103,9 +102,7 @@ export default class AdminLayout extends View {
 
                     this.profile.append(
                         el(".pfp",
-                            this.imageContainer = el(".image-container",
-                                new ResponsiveImage("img", "/images/default-profile.png"),
-                            ),
+                            this.pfpContainer = el(".pfp-container"),
                             el(".add", el("i.fa-solid.fa-plus")),
                             {
                                 click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
@@ -169,13 +166,16 @@ export default class AdminLayout extends View {
     }
 
     private async loadPFP() {
-        if (this.imageContainer !== undefined) {
-            if (this.bio.pfp !== undefined) {
-                this.imageContainer.empty();
-                this.imageContainer.append(new PFPDisplay(this.bio.pfp.address, this.bio.pfp.tokenId));
+        if (this.pfpContainer !== undefined) {
+            this.pfpContainer.empty();
+            this.pfpContainer.addClass("loading");
+            if (this.bio?.pfp === undefined) {
+                this.pfpContainer.append(new ResponsiveImage("img", "/images/default-profile.png"));
             } else {
-                this.imageContainer.empty().append(new ResponsiveImage("img", "/images/default-profile.png"));
+                const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
+                this.pfpContainer.append(el("img.pfp-display", { src: metadata?.imageInfo?.cachedURL }));
             }
+            this.pfpContainer.deleteClass("loading");
         }
     }
 

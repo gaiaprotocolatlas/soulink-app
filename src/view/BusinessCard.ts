@@ -2,15 +2,12 @@ import qrcode from "qrcode";
 import { DomNode, el } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
-import NetworkProvider from "../network/NetworkProvider";
 import Layout from "./Layout";
 
 export default class BusinessCard extends View {
 
     private container: DomNode | undefined;
     private bookmarkButton: DomNode | undefined;
-
-    private currentAddress: string | undefined;
 
     constructor(params: ViewParams) {
         super();
@@ -33,27 +30,23 @@ export default class BusinessCard extends View {
                     this.bookmarkButton = el("a.bookmark", "Favorite"),
                 ));
 
-                this.loadBookmarked(addressOrEns);
+                this.loadBookmarked();
                 BookmarkManager.on("bookmark", this.bookmarkHandler);
                 BookmarkManager.on("unbookmark", this.unbookmarkHandler);
             }
         });
     }
 
-    private async loadBookmarked(addressOrEns: string) {
+    private async loadBookmarked() {
         if (this.bookmarkButton !== undefined) {
 
-            const address = await NetworkProvider.resolveName(addressOrEns);
-            if (address !== null) {
-                this.currentAddress = address;
-                if (BookmarkManager.check(this.currentAddress) === true) {
-                    this.bookmarkHandler(this.currentAddress);
-                }
+            if (Layout.current.currentAddress !== undefined && BookmarkManager.check(Layout.current.currentAddress) === true) {
+                this.bookmarkHandler(Layout.current.currentAddress);
             }
 
             this.bookmarkButton.onDom("click", () => {
-                if (this.currentAddress !== undefined) {
-                    BookmarkManager.toggle(this.currentAddress);
+                if (Layout.current.currentAddress !== undefined) {
+                    BookmarkManager.toggle(Layout.current.currentAddress);
                 }
             });
         }
@@ -66,14 +59,14 @@ export default class BusinessCard extends View {
     }
 
     private bookmarkHandler = (address: string) => {
-        if (address === this.currentAddress) {
+        if (address === Layout.current.currentAddress) {
             this.bookmarkButton?.empty().appendText("Unfavorite");
             this.bookmarkButton?.addClass("bookmarked");
         }
     };
 
     private unbookmarkHandler = (address: string) => {
-        if (address === this.currentAddress) {
+        if (address === Layout.current.currentAddress) {
             this.bookmarkButton?.empty().appendText("Favorite");
             this.bookmarkButton?.deleteClass("bookmarked");
         }

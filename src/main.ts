@@ -6,6 +6,7 @@ import BioLinksSetting from "./view/admin/BioLinksSetting";
 import SoulsSetting from "./view/admin/SoulsSetting";
 import BioLinks from "./view/BioLinks";
 import BusinessCard from "./view/BusinessCard";
+import Galaxy from "./view/Galaxy";
 import Intro from "./view/Intro";
 import Layout from "./view/Layout";
 import Mint from "./view/Mint";
@@ -27,15 +28,16 @@ import Souls from "./view/Souls";
     SkyRouter.route("mint", Mint);
     SkyRouter.route("mint/success", MintSuccess);
     SkyRouter.route("mint/failed", MintFailed);
+    SkyRouter.route("galaxy", Galaxy);
 
     SkyRouter.route([
         "{addressOrEns}", "{addressOrEns}/links",
         "{addressOrEns}/nfts",
         "{addressOrEns}/souls",
         "{addressOrEns}/card",
-    ], Layout, ["mint", "admin", "admin/links", "admin/souls", "owner"]);
+    ], Layout, ["mint", "admin", "admin/links", "admin/souls", "owner", "galaxy"]);
 
-    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["mint", "admin", "admin/links", "owner"]);
+    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["mint", "admin", "admin/links", "owner", "galaxy"]);
     SkyRouter.route("{addressOrEns}/nfts", NFTs);
     SkyRouter.route("{addressOrEns}/souls", Souls, ["admin/souls"]);
     SkyRouter.route("{addressOrEns}/card", BusinessCard);

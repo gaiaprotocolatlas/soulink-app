@@ -4,10 +4,14 @@
         "webpack-prod": "webpack --mode production --config webpack.config.prod.js"
     },
     "dependencies": {
+        "@types/cytoscape": "^3.19.7",
         "@types/qrcode": "^1.4.1",
         "@types/superagent": "^4.1.12",
         "@walletconnect/web3-provider": "^1.4.1",
         "bowser": "^2.11.0",
+        "cytoscape": "^3.22.1",
+        "cytoscape-cose-bilkent": "^4.1.0",
+        "cytoscape-fcose": "^2.1.0",
         "ethers": "^5.0.32",
         "klip-sdk": "^2.0.1",
         "less": "^4.1.1",

@@ -108,8 +108,10 @@ export default class Layout extends View {
 
                 this.loadBackground();
                 this.loadPFP();
-                this.showButtons(addressOrEns);
+                this.showButtons();
             }
+
+            await fetch(`${Config.apiURI}/cache/${this.currentAddress}`);
         }
 
         if (this.addressOrEns !== "") {
@@ -139,78 +141,73 @@ export default class Layout extends View {
         }
     }
 
-    private async showButtons(addressOrEns: string) {
+    private async showButtons() {
 
-        const address = await NetworkProvider.resolveName(addressOrEns);
-        if (address !== null) {
-            this.currentAddress = address;
+        const walletAddress = await Wallet.loadAddress();
+        if (walletAddress === undefined) {
+            this.bookmarkButton.addClass("show");
 
-            const walletAddress = await Wallet.loadAddress();
-            if (walletAddress === undefined) {
-                this.bookmarkButton.addClass("show");
-
-                if (BookmarkManager.check(this.currentAddress) === true) {
-                    this.bookmarkHandler(this.currentAddress);
-                }
-
-                this.bookmarkButton.onDom("click", () => {
-                    if (this.currentAddress !== undefined) {
-                        BookmarkManager.toggle(this.currentAddress);
-                    }
-                });
+            if (this.currentAddress !== undefined && BookmarkManager.check(this.currentAddress) === true) {
+                this.bookmarkHandler(this.currentAddress);
             }
 
-            else if (this.currentAddress !== walletAddress) {
+            this.bookmarkButton.onDom("click", () => {
+                if (this.currentAddress !== undefined) {
+                    BookmarkManager.toggle(this.currentAddress);
+                }
+            });
+        }
 
-                const isLiked = await SoulinkContract.isLinked(
-                    await SoulinkContract.getTokenId(this.currentAddress),
-                    await SoulinkContract.getTokenId(walletAddress),
-                );
+        else if (this.currentAddress !== undefined && this.currentAddress !== walletAddress) {
 
-                if (isLiked !== true) {
+            const isLiked = await SoulinkContract.isLinked(
+                await SoulinkContract.getTokenId(this.currentAddress),
+                await SoulinkContract.getTokenId(walletAddress),
+            );
 
-                    this.profile.append(el("a.request-soulink-button", "Request Soulink", {
-                        click: async () => {
-                            const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
-                            const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                                { name: "to", type: "address" },
-                                { name: "deadline", type: "uint256" },
-                            ], {
-                                to: this.currentAddress,
+            if (isLiked !== true) {
+
+                this.profile.append(el("a.request-soulink-button", "Request Soulink", {
+                    click: async () => {
+                        const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
+                        const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
+                            { name: "to", type: "address" },
+                            { name: "deadline", type: "uint256" },
+                        ], {
+                            to: this.currentAddress,
+                            deadline,
+                        });
+                        await fetch(`${Config.apiURI}/request`, {
+                            method: "POST",
+                            body: JSON.stringify({
+                                requester: walletAddress,
+                                target: this.currentAddress,
+                                signature,
                                 deadline,
-                            });
-                            await fetch(`${Config.apiURI}/request`, {
-                                method: "POST",
-                                body: JSON.stringify({
-                                    requester: walletAddress,
-                                    target: this.currentAddress,
-                                    signature,
-                                    deadline,
-                                }),
-                            });
-                            new Alert("Soulink requested.");
-                        },
-                    }));
-                }
-
-                this.editButton.deleteClass("show");
-                this.bookmarkButton.addClass("show");
-
-                if (BookmarkManager.check(this.currentAddress) === true) {
-                    this.bookmarkHandler(this.currentAddress);
-                }
-
-                this.bookmarkButton.onDom("click", () => {
-                    if (this.currentAddress !== undefined) {
-                        BookmarkManager.toggle(this.currentAddress);
-                    }
-                });
+                            }),
+                        });
+                        new Alert("Soulink requested.");
+                    },
+                }));
             }
 
-            else {
-                this.editButton.addClass("show");
-                this.bookmarkButton.deleteClass("show");
+            this.editButton.deleteClass("show");
+            this.bookmarkButton.addClass("show");
+
+            if (BookmarkManager.check(this.currentAddress) === true) {
+                this.bookmarkHandler(this.currentAddress);
             }
+
+            this.bookmarkButton.onDom("click", () => {
+                if (this.currentAddress !== undefined) {
+                    BookmarkManager.toggle(this.currentAddress);
+                }
+            });
+        }
+
+        else {
+            this.editButton.addClass("show");
+            this.bookmarkButton.deleteClass("show");
         }
     }
 

@@ -2,7 +2,7 @@ import { DomNode, el } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 import SoulDisplay from "../components/SoulDisplay";
 import Config from "../Config";
-import NetworkProvider from "../network/NetworkProvider";
+import Bio from "../datamodel/Bio";
 import Layout from "./Layout";
 
 export default class Souls extends View {
@@ -28,13 +28,12 @@ export default class Souls extends View {
                 ));
 
                 (async () => {
-                    const address = await NetworkProvider.resolveName(addressOrEns);
 
-                    const result = await fetch(`${Config.apiURI}/linked/${address}`);
-                    const linkedAddresses: string[] = await result.json();
+                    const result = await fetch(`${Config.apiURI}/linked/${Layout.current.currentAddress}`);
+                    const linked: Bio[] = await result.json();
 
-                    for (const address of linkedAddresses) {
-                        new SoulDisplay(address, Layout.current.bio.color).appendTo(this.soulList!);
+                    for (const bio of linked) {
+                        new SoulDisplay(bio.id!, Layout.current.bio.color).appendTo(this.soulList!);
                     }
 
                     if (this.closed !== true) {

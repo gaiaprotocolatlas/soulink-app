@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import SoulDisplay from "../../components/SoulDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
+import Bio from "../../datamodel/Bio";
 import LinkRequest from "../../datamodel/LinkRequest";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
@@ -35,15 +36,18 @@ export default class SoulsSetting extends View {
 
                 (async () => {
                     const result = await fetch(`${Config.apiURI}/linked/${AdminLayout.current.address}`);
-                    const linkedAddresses: string[] = await result.json();
+                    const linked: Bio[] = await result.json();
+                    const linkedAddresses: string[] = [];
 
-                    for (const address of linkedAddresses) {
+                    for (const bio of linked) {
+                        const address = bio.id!;
                         new SoulDisplay(address, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
                             click: async () => {
                                 await SoulinkContract.breakLink(await SoulinkContract.getTokenId(address));
                                 new Alert("The transaction has been registered. Please wait until it is finished.");
                             },
                         })).appendTo(this.linkedContainer!);
+                        linkedAddresses.push(address);
                     }
 
                     const promises: Promise<void>[] = [];
@@ -132,5 +136,6 @@ export default class SoulsSetting extends View {
 
     public close(): void {
         this.container?.delete();
+        super.close();
     }
 }

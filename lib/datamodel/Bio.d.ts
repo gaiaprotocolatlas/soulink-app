@@ -1,4 +1,5 @@
 export default interface Bio {
+    id?: string;
     introduce?: string;
     color?: string;
     pfp?: {
@@ -14,5 +15,7 @@ export default interface Bio {
         title: string;
         url: string;
     }[];
+    cachedName?: string;
+    cachedPFP?: string;
 }
 //# sourceMappingURL=Bio.d.ts.map

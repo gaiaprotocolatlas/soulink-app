@@ -23,5 +23,6 @@ export default class Burn extends View {
 
     public close(): void {
         this.container.delete();
+        super.close();
     }
 }

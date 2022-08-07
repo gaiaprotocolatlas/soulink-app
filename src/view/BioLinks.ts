@@ -40,5 +40,6 @@ export default class BioLinks extends View {
 
     public close(): void {
         this.container?.delete();
+        super.close();
     }
 }

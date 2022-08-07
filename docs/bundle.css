@@ -976,6 +976,17 @@ body {
   border: 1px solid #ccc;
   color: #ccc;
 }
+.galaxy-view {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #EA8889, #5AADFB);
+  display: flex;
+  flex-direction: column;
+}
+.galaxy-view > .galaxy-container {
+  width: 100%;
+  height: 100%;
+}
 .admin-layout {
   min-height: 100%;
   background: linear-gradient(#5AADFB, #EA8889);

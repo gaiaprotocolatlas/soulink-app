@@ -46,4 +46,33 @@
         text-align   : center;
         color        : #fff;
     }
+
+    >.loading {
+        width         : 50px;
+        height        : 50px;
+        border-radius : 50%;
+        margin        : auto;
+        margin-top    : 20px;
+        position      : relative;
+        vertical-align: middle;
+        animation     : LoadingSoulsAnimation1 1.5s infinite linear;
+
+        &:before,
+        &:after {
+            content         : '';
+            margin          : -25px 0 0 -25px;
+            position        : absolute;
+            top             : 50%;
+            left            : 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            width           : 100%;
+            height          : 100%;
+            border-radius   : 50%;
+            animation       : LoadingSoulsAnimation2 1s infinite ease-in-out;
+        }
+
+        &:after {
+            animation-direction: reverse;
+        }
+    }
 }

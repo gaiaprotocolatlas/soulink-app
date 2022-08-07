@@ -110,7 +110,7 @@ export default class SoulsSetting extends View {
                 ).appendTo(this.toAcceptContainer!);
             }
 
-            else {
+            else if (request.accept !== undefined) {
                 new SoulDisplay(request.bio!, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [

@@ -1,6 +1,8 @@
 export default interface NFTInfo {
-    contract_address: string,
+    asset_contract: { address: string },
     token_id: string,
     name: string,
-    cached_file_url: string,
+    permalink: string,
+    image_url: string,
+    image_thumbnail_url: string,
 }

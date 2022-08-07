@@ -3,7 +3,7 @@ declare class NFTLoader {
     nfts: {
         [address: string]: NFTInfo[];
     };
-    private continuations;
+    private cursors;
     load(address: string): Promise<NFTInfo[]>;
     loadMore(address: string): Promise<NFTInfo[]>;
 }

@@ -1,6 +1,7 @@
 import { DomNode, Popup } from "skydapp-browser";
 export default class SelectNFTPopup extends Popup {
     content: DomNode;
+    private main;
     private nftContainer;
     private contractAddressInput;
     private tokenIdInput;

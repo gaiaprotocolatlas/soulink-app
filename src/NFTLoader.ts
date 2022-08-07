@@ -4,31 +4,47 @@ import NFTInfo from "./datamodel/NFTInfo";
 class NFTLoader {
 
     public nfts: { [address: string]: NFTInfo[] } = {};
-    private continuations: { [address: string]: string } = {};
+    private cursors: { [address: string]: string } = {};
 
     public async load(address: string): Promise<NFTInfo[]> {
         if (this.nfts[address] === undefined) {
-            const result = await fetch(`${Config.apiURI}/nfts/${address}`);
+            const result = await fetch(`${Config.apiURI}/opensea/nfts/${address}`);
             const data = await result.json();
-            this.nfts[address] = data.nfts;
-            if (data.continuation !== null) {
-                this.continuations[address] = data.continuation;
+            for (const asset of data.assets) {
+                if (asset.image_url === null) {
+                    asset.image_url = asset.collection.image_url;
+                }
+                if (asset.image_thumbnail_url === null) {
+                    asset.image_thumbnail_url = asset.image_url;
+                }
+            }
+            this.nfts[address] = data.assets;
+            if (data.next !== null) {
+                this.cursors[address] = data.next;
             }
         }
         return this.nfts[address];
     }
 
     public async loadMore(address: string): Promise<NFTInfo[]> {
-        if (this.continuations[address] !== undefined) {
-            const result = await fetch(`${Config.apiURI}/nfts/${address}?continuation=${this.continuations[address]}`);
+        if (this.cursors[address] !== undefined) {
+            const result = await fetch(`${Config.apiURI}/opensea/nfts/${address}?cursor=${this.cursors[address]}`);
             const data = await result.json();
-            this.nfts[address] = [...this.nfts[address], ...data.nfts];
-            if (data.continuation === null) {
-                delete this.continuations[address];
-            } else {
-                this.continuations[address] = data.continuation;
+            for (const asset of data.assets) {
+                if (asset.image_url === null) {
+                    asset.image_url = asset.collection.image_url;
+                }
+                if (asset.image_thumbnail_url === null) {
+                    asset.image_thumbnail_url = asset.image_url;
+                }
             }
-            return data.nfts;
+            this.nfts[address] = [...this.nfts[address], ...data.assets];
+            if (data.next === null) {
+                delete this.cursors[address];
+            } else {
+                this.cursors[address] = data.next;
+            }
+            return data.assets;
         }
         return [];
     }

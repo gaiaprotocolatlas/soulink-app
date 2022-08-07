@@ -25,20 +25,18 @@ export default class NFTs extends View {
                     this.nftContainer = el(".nft-container"),
                     loadMoreButton = el("a.load-more", "Load More", {
                         click: async () => {
-                            const loading = el(".loading").appendTo(this.container!);
+                            const loading = el(".loading").appendTo(this.container!, 1);
                             if (Layout.current.currentAddress !== undefined) {
                                 const nfts = await NFTLoader.loadMore(Layout.current.currentAddress);
                                 if (nfts.length === 0) {
                                     loadMoreButton.delete();
                                 } else {
                                     for (const nft of nfts) {
-                                        if (nft.cached_file_url !== null) {
-                                            this.nftContainer!.append(el("a.nft",
-                                                new NFTDisplay(nft.cached_file_url),
-                                                el(".name", nft.name === null ? "" : nft.name),
-                                                { href: `https://opensea.io/assets/${nft.contract_address}/${nft.token_id}`, target: "_blank" },
-                                            ));
-                                        }
+                                        this.nftContainer!.append(el("a.nft",
+                                            new NFTDisplay(nft.image_thumbnail_url),
+                                            el(".name", nft.name === null ? "" : nft.name),
+                                            { href: nft.permalink, target: "_blank" },
+                                        ));
                                     }
                                 }
                             }
@@ -51,16 +49,14 @@ export default class NFTs extends View {
 
                 (async () => {
                     if (Layout.current.currentAddress !== undefined) {
-                        const loading = el(".loading").appendTo(this.container!);
+                        const loading = el(".loading").appendTo(this.container!, 1);
                         const nfts = await NFTLoader.load(Layout.current.currentAddress);
                         for (const nft of nfts) {
-                            if (nft.cached_file_url !== null) {
-                                this.nftContainer?.append(el("a.nft",
-                                    new NFTDisplay(nft.cached_file_url),
-                                    el(".name", nft.name === null ? "" : nft.name),
-                                    { href: `https://opensea.io/assets/${nft.contract_address}/${nft.token_id}`, target: "_blank" },
-                                ));
-                            }
+                            this.nftContainer?.append(el("a.nft",
+                                new NFTDisplay(nft.image_thumbnail_url),
+                                el(".name", nft.name === null ? "" : nft.name),
+                                { href: nft.permalink, target: "_blank" },
+                            ));
                         }
                         if (nfts.length < 50) {
                             loadMoreButton.delete();

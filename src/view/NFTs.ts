@@ -25,23 +25,22 @@ export default class NFTs extends View {
                     this.nftContainer = el(".nft-container"),
                     loadMoreButton = el("a.load-more", "Load More", {
                         click: async () => {
-                            const loading = el(".loading").appendTo(this.container!, 1);
                             if (Layout.current.currentAddress !== undefined) {
+                                const loading = el(".loading").appendTo(this.container!, 1);
                                 const nfts = await NFTLoader.loadMore(Layout.current.currentAddress);
-                                if (nfts.length === 0) {
-                                    loadMoreButton.delete();
-                                } else {
-                                    for (const nft of nfts) {
-                                        this.nftContainer!.append(el("a.nft",
-                                            new NFTDisplay(nft.image_thumbnail_url),
-                                            el(".name", nft.name === null ? "" : nft.name),
-                                            { href: nft.permalink, target: "_blank" },
-                                        ));
-                                    }
+                                for (const nft of nfts) {
+                                    this.nftContainer!.append(el("a.nft",
+                                        new NFTDisplay(nft.image_thumbnail_url),
+                                        el(".name", nft.name === null ? "" : nft.name),
+                                        { href: nft.permalink, target: "_blank" },
+                                    ));
                                 }
-                            }
-                            if (this.closed !== true) {
-                                loading.delete();
+                                if (nfts.length < 50) {
+                                    loadMoreButton.delete();
+                                }
+                                if (this.closed !== true) {
+                                    loading.delete();
+                                }
                             }
                         },
                     }),

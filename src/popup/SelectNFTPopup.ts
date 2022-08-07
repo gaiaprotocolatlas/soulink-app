@@ -30,16 +30,15 @@ export default class SelectNFTPopup extends Popup {
                         click: async () => {
                             const loading = el(".loading").appendTo(this.main, 1);
                             const nfts = await NFTLoader.loadMore(AdminLayout.current.address);
-                            if (nfts.length === 0) {
+                            for (const nft of nfts) {
+                                this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
+                                    nft.image_thumbnail_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.image_thumbnail_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.image_thumbnail_url }),
+                                    el(".name", nft.name === null ? "" : nft.name),
+                                    { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
+                                ).appendTo(this.nftContainer);
+                            }
+                            if (nfts.length < 50) {
                                 this.loadMoreButton.delete();
-                            } else {
-                                for (const nft of nfts) {
-                                    this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
-                                        nft.image_thumbnail_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.image_thumbnail_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.image_thumbnail_url }),
-                                        el(".name", nft.name === null ? "" : nft.name),
-                                        { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
-                                    ).appendTo(this.nftContainer);
-                                }
                             }
                             if (this.deleted !== true) {
                                 loading.delete();

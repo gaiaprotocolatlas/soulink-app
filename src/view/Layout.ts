@@ -144,9 +144,14 @@ export default class Layout extends View {
 
     private async showButtons() {
 
+        // Clear.
+        this.editButton.deleteClass("show");
+        this.bookmarkButton.addClass("show");
+        this.bookmarkButton.empty().append(el("i.fa-regular.fa-star"));
+        this.bookmarkButton.deleteClass("bookmarked");
+
         const walletAddress = await Wallet.loadAddress();
         if (walletAddress === undefined) {
-            this.bookmarkButton.addClass("show");
 
             if (this.currentAddress !== undefined && BookmarkManager.check(this.currentAddress) === true) {
                 this.bookmarkHandler(this.currentAddress);
@@ -191,9 +196,6 @@ export default class Layout extends View {
                     },
                 }));
             }
-
-            this.editButton.deleteClass("show");
-            this.bookmarkButton.addClass("show");
 
             if (BookmarkManager.check(this.currentAddress) === true) {
                 this.bookmarkHandler(this.currentAddress);

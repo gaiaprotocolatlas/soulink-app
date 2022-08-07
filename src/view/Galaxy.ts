@@ -30,6 +30,10 @@ export default class Galaxy extends View {
         }
 
         const findName = (address: string) => {
+            return bios[address]?.cachedName ?? address;
+        };
+
+        const findShortenName = (address: string) => {
             return bios[address]?.cachedName ?? SkyUtil.shortenAddress(address);
         };
 
@@ -39,8 +43,8 @@ export default class Galaxy extends View {
 
         const elements: ElementDefinition[] = [];
         for (const link of data.links) {
-            elements.push({ data: { id: link.address0, label: findName(link.address0), image: findPFP(link.address0) } });
-            elements.push({ data: { id: link.address1, label: findName(link.address1), image: findPFP(link.address1) } });
+            elements.push({ data: { id: link.address0, name: findName(link.address0), label: findShortenName(link.address0), image: findPFP(link.address0) } });
+            elements.push({ data: { id: link.address1, name: findName(link.address1), label: findShortenName(link.address1), image: findPFP(link.address1) } });
             elements.push({
                 data: {
                     id: link.id,
@@ -111,7 +115,7 @@ export default class Galaxy extends View {
                     selector: "edge",
                     style: {
                         "curve-style": "bezier",
-                        "width": 1,
+                        "width": 0.5,
                         "line-color": "#fff",
                     },
                 },
@@ -140,20 +144,22 @@ export default class Galaxy extends View {
                 target.style('font-size', fontMaxSize * rank + fontMinSize);
                 target.style('color', fontColor);
             });
-            target_cy.edges().forEach(function (target) {
+            /*target_cy.edges().forEach(function (target) {
                 target.style('line-color', edgeBGColor);
                 target.style('target-arrow-color', edgeBGColor);
                 target.style('width', edgeWidth);
                 target.style('arrow-scale', arrowScale);
-            });
+            });*/
         }
 
         cy.on("tap", function (e) {
             if (e.cy === e.target) {
                 setResetFocus(e.cy);
             } else {
-                const id = e.target.data("id");
-                SkyRouter.go(`/${id}`);
+                const name = e.target.data("name");
+                if (name !== undefined) {
+                    SkyRouter.go(`/${name}`);
+                }
             }
         });
 

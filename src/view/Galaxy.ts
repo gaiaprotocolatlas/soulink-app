@@ -22,10 +22,10 @@ export default class Galaxy extends View {
     private async load() {
 
         const result = await fetch(`${Config.apiURI}/galaxy`);
-        const data: { bios: Bio[], links: { id: string, address0: string, address1: string }[] } = await result.json();
+        const data: { souls: Bio[], soulinks: { id: string, address0: string, address1: string }[] } = await result.json();
 
         const bios: { [address: string]: Bio } = {};
-        for (const bio of data.bios) {
+        for (const bio of data.souls) {
             bios[bio.id!] = bio;
         }
 
@@ -42,7 +42,7 @@ export default class Galaxy extends View {
         };
 
         const elements: ElementDefinition[] = [];
-        for (const link of data.links) {
+        for (const link of data.soulinks) {
             elements.push({ data: { id: link.address0, name: findName(link.address0), label: findShortenName(link.address0), image: findPFP(link.address0) } });
             elements.push({ data: { id: link.address1, name: findName(link.address1), label: findShortenName(link.address1), image: findPFP(link.address1) } });
             elements.push({

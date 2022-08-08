@@ -17,6 +17,7 @@ export default class Layout extends View {
     public content: DomNode;
 
     private container: DomNode;
+    private menu: DomNode;
     private profile: DomNode;
     private pfpContainer: DomNode | undefined;
     private editButton: DomNode;
@@ -46,7 +47,7 @@ export default class Layout extends View {
                         }
                     },
                 }),
-                el(".menu",
+                this.menu = el(".menu",
                     el(".bar",
                         this.dots["links"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
                         this.dots["souls"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) }),
@@ -122,6 +123,7 @@ export default class Layout extends View {
                     el(".introduce", this.bio.introduce),
                 );
 
+                this.menu.style({ color: this.bio.color });
                 this.profile.style({ color: this.bio.color });
 
                 this.loadBackground();

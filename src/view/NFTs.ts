@@ -29,11 +29,14 @@ export default class NFTs extends View {
                                 const loading = el(".loading").appendTo(this.container!, 1);
                                 const nfts = await NFTLoader.loadMore(Layout.current.currentAddress);
                                 for (const nft of nfts) {
-                                    this.nftContainer!.append(el("a.nft",
-                                        new NFTDisplay(nft.image_thumbnail_url),
-                                        el(".name", nft.name === null ? "" : nft.name),
-                                        { href: nft.permalink, target: "_blank" },
-                                    ));
+                                    if (this.nftContainer !== undefined) {
+                                        const nftDisplay = el("a.nft",
+                                            new NFTDisplay(nft.image_thumbnail_url),
+                                            el(".name", nft.name === null ? "" : nft.name),
+                                            { href: nft.permalink, target: "_blank" },
+                                        ).appendTo(this.nftContainer);
+                                        nftDisplay.style({ color: Layout.current.bio.color });
+                                    }
                                 }
                                 if (nfts.length < 50) {
                                     loadMoreButton.delete();
@@ -51,11 +54,14 @@ export default class NFTs extends View {
                         const loading = el(".loading").appendTo(this.container!, 1);
                         const nfts = await NFTLoader.load(Layout.current.currentAddress);
                         for (const nft of nfts) {
-                            this.nftContainer?.append(el("a.nft",
-                                new NFTDisplay(nft.image_thumbnail_url),
-                                el(".name", nft.name === null ? "" : nft.name),
-                                { href: nft.permalink, target: "_blank" },
-                            ));
+                            if (this.nftContainer !== undefined) {
+                                const nftDisplay = el("a.nft",
+                                    new NFTDisplay(nft.image_thumbnail_url),
+                                    el(".name", nft.name === null ? "" : nft.name),
+                                    { href: nft.permalink, target: "_blank" },
+                                ).appendTo(this.nftContainer);
+                                nftDisplay.style({ color: Layout.current.bio.color });
+                            }
                         }
                         if (nfts.length < 50) {
                             loadMoreButton.delete();

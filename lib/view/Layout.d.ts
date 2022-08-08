@@ -5,6 +5,7 @@ export default class Layout extends View {
     static current: Layout;
     content: DomNode;
     private container;
+    private menu;
     private profile;
     private pfpContainer;
     private editButton;

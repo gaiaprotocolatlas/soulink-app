@@ -1,6 +1,7 @@
 import { DomNode, el, SkyRouter } from "skydapp-browser";
 import { SkyUtil } from "skydapp-common";
 import Bio from "../datamodel/Bio";
+import PFPDisplay from "./PFPDisplay";
 
 export default class SoulDisplay extends DomNode {
 
@@ -11,7 +12,7 @@ export default class SoulDisplay extends DomNode {
         const name = bio.cachedName ?? bio.id!;
         this.append(
             el(".pfp-container",
-                el("img.pfp-display", { src: bio.cachedPFP ?? "/images/default-profile.png" }),
+                new PFPDisplay(bio.cachedPFP),
                 this.name = el(".name", name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(name) : name),
                 { click: () => SkyRouter.go(`/${name}`, undefined, true) },
             ),

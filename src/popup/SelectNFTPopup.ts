@@ -1,5 +1,5 @@
 import { DomNode, el, Popup } from "skydapp-browser";
-import Loading from "../components/Loading";
+import NFTDisplay from "../components/NFTDisplay";
 import NFTLoader from "../NFTLoader";
 import AdminLayout from "../view/admin/AdminLayout";
 
@@ -32,7 +32,7 @@ export default class SelectNFTPopup extends Popup {
                             const nfts = await NFTLoader.loadMore(AdminLayout.current.address);
                             for (const nft of nfts) {
                                 this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
-                                    nft.image_thumbnail_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.image_thumbnail_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.image_thumbnail_url }),
+                                    new NFTDisplay(nft.image_thumbnail_url),
                                     el(".name", nft.name === null ? "" : nft.name),
                                     { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
                                 ).appendTo(this.nftContainer);
@@ -78,7 +78,7 @@ export default class SelectNFTPopup extends Popup {
         const nfts = await NFTLoader.load(AdminLayout.current.address);
         for (const nft of nfts) {
             this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
-                nft.image_thumbnail_url.indexOf(".mp4") !== -1 ? el("video", { src: nft.image_thumbnail_url, defaultMuted: true, muted: true, autostart: true }) : el("img", { src: nft.image_thumbnail_url }),
+                new NFTDisplay(nft.image_thumbnail_url),
                 el(".name", nft.name === null ? "" : nft.name),
                 { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
             ).appendTo(this.nftContainer);

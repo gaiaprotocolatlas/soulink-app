@@ -1,16 +1,17 @@
-import { DomNode, el } from "skydapp-browser";
+import { DomNode } from "skydapp-browser";
 
-export default class NFTDisplay extends DomNode {
+export default class NFTDisplay extends DomNode<HTMLVideoElement> {
 
     constructor(url: string) {
-        super(".nft-display");
         if (url.indexOf(".mp4") !== -1) {
-            const video: DomNode<HTMLVideoElement> = el<HTMLVideoElement>("video", { src: url }).appendTo(this);
-            video.domElement.muted = true;
-            video.domElement.loop = true;
-            video.domElement.play();
+            super("video.nft-display");
+            this.domElement.src = url;
+            this.domElement.muted = true;
+            this.domElement.loop = true;
+            this.domElement.play();
         } else {
-            el("img", { src: url }).appendTo(this);
+            super("img.nft-display");
+            this.domElement.src = url;
         }
     }
 }

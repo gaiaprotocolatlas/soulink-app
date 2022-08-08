@@ -2,6 +2,7 @@ import { constants } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Loading from "../../components/Loading";
+import PFPDisplay from "../../components/PFPDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
@@ -173,7 +174,7 @@ export default class AdminLayout extends View {
                 this.pfpContainer.append(new ResponsiveImage("img", "/images/default-profile.png"));
             } else {
                 const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
-                this.pfpContainer.append(el("img.pfp-display", { src: metadata?.imageInfo?.cachedURL }));
+                this.pfpContainer.append(new PFPDisplay(metadata?.imageInfo?.cachedURL));
             }
             this.pfpContainer.deleteClass("loading");
         }

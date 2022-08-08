@@ -13,6 +13,8 @@ export default class Mint extends View {
     private container: DomNode;
     private priceDisplay: DomNode;
 
+    private interval: any;
+
     constructor(params: ViewParams) {
         super();
         BodyNode.append(this.container = el(".mint-view",
@@ -69,14 +71,28 @@ export default class Mint extends View {
         ));
 
         // when mint
-        SoulinkContract.on("Transfer", async (from: string, to: string) => {
-            if (from === "0x0000000000000000000000000000000000000000" && to === await Wallet.loadAddress()) {
-                SkyRouter.go("/mint/success", undefined, true);
+        SoulinkContract.on("Transfer", this.tansferHandler);
+
+        const check = async () => {
+            const address = await Wallet.loadAddress();
+            if (address !== undefined) {
+                const balance = await SoulinkContract.balanceOf(address);
+                if (balance.gt(0)) {
+                    SkyRouter.go("/mint/success", undefined, true);
+                }
             }
-        });
+        };
+        this.interval = setInterval(check, 15000);
+        check();
 
         this.loadPrice();
     }
+
+    private tansferHandler = async (from: string, to: string) => {
+        if (from === "0x0000000000000000000000000000000000000000" && to === await Wallet.loadAddress()) {
+            SkyRouter.go("/mint/success", undefined, true);
+        }
+    };
 
     private async loadPrice() {
         const price = await SoulinkMinterContract.mintPrice();
@@ -84,6 +100,8 @@ export default class Mint extends View {
     }
 
     public close(): void {
+        SoulinkContract.off("Transfer", this.tansferHandler);
+        clearInterval(this.interval);
         this.container.delete();
         super.close();
     }

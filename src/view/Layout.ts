@@ -27,8 +27,8 @@ export default class Layout extends View {
 
     public bio: Bio = { links: [] };
 
-    private currentLink: DomNode | undefined;
-    private links: { [name: string]: DomNode } = {};
+    private currentDot: DomNode | undefined;
+    private dots: { [name: string]: DomNode } = {};
 
     constructor(params: ViewParams, uri: string) {
         super();
@@ -47,9 +47,14 @@ export default class Layout extends View {
                     },
                 }),
                 el(".menu",
-                    this.links["links"] = el("a", "Links", { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
-                    this.links["souls"] = el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
-                    this.links["nfts"] = el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
+                    el(".bar",
+                        this.dots["links"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
+                        this.dots["souls"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) }),
+                        this.dots["nfts"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
+                    ),
+                    el("a", "Links", { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
+                    el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
+                    el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
                 ),
                 el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
                 //el("a.share", el("i.fa-solid.fa-share-nodes"), {
@@ -212,14 +217,14 @@ export default class Layout extends View {
     }
 
     private highlight(uri: string) {
-        this.currentLink?.deleteClass("on");
+        this.currentDot?.deleteClass("on");
         if (uri.indexOf("/") === -1) {
-            this.currentLink = this.links["links"];
+            this.currentDot = this.dots["links"];
         } else {
             uri = uri.substring(uri.indexOf("/") + 1);
-            this.currentLink = this.links[uri.substring(uri.indexOf("/") + 1)];
+            this.currentDot = this.dots[uri.substring(uri.indexOf("/") + 1)];
         }
-        this.currentLink?.addClass("on");
+        this.currentDot?.addClass("on");
     }
 
     public changeParams(params: ViewParams, uri: string): void {

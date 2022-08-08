@@ -12,8 +12,8 @@ export default class Layout extends View {
     private addressOrEns;
     currentAddress: string | undefined;
     bio: Bio;
-    private currentLink;
-    private links;
+    private currentDot;
+    private dots;
     constructor(params: ViewParams, uri: string);
     ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
     private loadBackground;

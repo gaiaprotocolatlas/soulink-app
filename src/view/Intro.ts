@@ -3,12 +3,16 @@ import { View } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import SoulDisplay from "../components/SoulDisplay";
 import Config from "../Config";
+import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
+import Wallet from "../network/Wallet";
 
 export default class Intro extends View {
 
     private container: DomNode;
     private bookmarkList: DomNode;
+    private mintButton: DomNode;
+    private adminButton: DomNode;
 
     constructor() {
         super();
@@ -35,10 +39,10 @@ export default class Intro extends View {
                         ),
                         el("h6.mobile", el("b", "Let’s"), " Link!"),
                         el(".button-container",
-                            el("a", el("b", "Mint"), " Soulink", {
+                            this.mintButton = el("a", el("b", "Mint"), " Soulink", {
                                 click: () => SkyRouter.go("/mint", undefined, true),
                             }),
-                            el("a", "Admin", {
+                            this.adminButton = el("a", "Admin", {
                                 click: () => SkyRouter.go("/admin", undefined, true),
                             }),
                         ),
@@ -54,7 +58,20 @@ export default class Intro extends View {
                 ),
             ),
         ));
+        this.check();
         this.loadBookmarks();
+    }
+
+    private async check() {
+        const address = await Wallet.loadAddress();
+        if (address !== undefined) {
+            const balance = await SoulinkContract.balanceOf(address);
+            if (balance.gt(0)) {
+                this.mintButton.delete();
+            } else {
+                this.adminButton.delete();
+            }
+        }
     }
 
     private async loadBookmarks() {

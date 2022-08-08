@@ -39,13 +39,22 @@ export default class Layout extends View {
                 this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
                     click: () => SkyRouter.go("/admin", undefined, true),
                 }),
-                this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-star")),
+                this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-star"), {
+                    click: () => {
+                        if (this.currentAddress !== undefined) {
+                            BookmarkManager.toggle(this.currentAddress);
+                        }
+                    },
+                }),
                 el(".menu",
-                    this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go(`/${this.addressOrEns}`, undefined, true) } }),
+                    this.links["links"] = el("a", "Links", { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
                     this.links["souls"] = el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
-                    this.links["nfts"] = el("a", "NFTs", { click: () => { SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) } }),
+                    this.links["nfts"] = el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
                 ),
-                el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => { SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) } }),
+                el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
+                //el("a.share", el("i.fa-solid.fa-share-nodes"), {
+                //    click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
+                //}),
             ),
             el("main",
                 this.profile = el(".profile"),
@@ -146,22 +155,16 @@ export default class Layout extends View {
 
         // Clear.
         this.editButton.deleteClass("show");
-        this.bookmarkButton.addClass("show");
+        this.bookmarkButton.deleteClass("show");
         this.bookmarkButton.empty().append(el("i.fa-regular.fa-star"));
         this.bookmarkButton.deleteClass("bookmarked");
 
         const walletAddress = await Wallet.loadAddress();
         if (walletAddress === undefined) {
-
+            this.bookmarkButton.addClass("show");
             if (this.currentAddress !== undefined && BookmarkManager.check(this.currentAddress) === true) {
                 this.bookmarkHandler(this.currentAddress);
             }
-
-            this.bookmarkButton.onDom("click", () => {
-                if (this.currentAddress !== undefined) {
-                    BookmarkManager.toggle(this.currentAddress);
-                }
-            });
         }
 
         else if (this.currentAddress !== undefined && this.currentAddress !== walletAddress) {
@@ -197,20 +200,14 @@ export default class Layout extends View {
                 }));
             }
 
+            this.bookmarkButton.addClass("show");
             if (BookmarkManager.check(this.currentAddress) === true) {
                 this.bookmarkHandler(this.currentAddress);
             }
-
-            this.bookmarkButton.onDom("click", () => {
-                if (this.currentAddress !== undefined) {
-                    BookmarkManager.toggle(this.currentAddress);
-                }
-            });
         }
 
         else {
             this.editButton.addClass("show");
-            this.bookmarkButton.deleteClass("show");
         }
     }
 

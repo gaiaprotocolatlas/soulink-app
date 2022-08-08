@@ -735,11 +735,18 @@ body {
   display: flex;
   position: relative;
 }
-.layout > header > .edit {
+.layout > header > a {
   position: absolute;
-  left: 20px;
   top: 20px;
+  z-index: 999;
   color: #fff;
+}
+.layout > header > a:hover,
+.layout > header > a.on {
+  color: #55ffb6;
+}
+.layout > header > .edit {
+  left: 20px;
   display: none;
 }
 .layout > header > .edit.show {
@@ -749,10 +756,7 @@ body {
   animation: FadeInAnimation 1s;
 }
 .layout > header > .bookmark {
-  position: absolute;
   left: 20px;
-  top: 20px;
-  color: #fff;
   display: none;
 }
 .layout > header > .bookmark.show {
@@ -765,10 +769,10 @@ body {
   color: #55ffb6;
 }
 .layout > header > .card {
-  position: absolute;
   right: 20px;
-  top: 20px;
-  color: #fff;
+}
+.layout > header > .share {
+  right: 20px;
 }
 .layout > header > .menu {
   position: relative;
@@ -1064,12 +1068,17 @@ body {
   position: absolute;
   left: 20px;
   top: 20px;
+  z-index: 999;
   color: #fff;
 }
 @media only screen and (max-width: 859px) {
   .admin-layout > header > .background {
     top: 30px;
   }
+}
+.admin-layout > header > .background:hover,
+.admin-layout > header > .background.on {
+  color: #55ffb6;
 }
 .admin-layout > header > .menu {
   display: flex;

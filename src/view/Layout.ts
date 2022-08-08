@@ -57,7 +57,7 @@ export default class Layout extends View {
                     el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
                     el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
                 ),
-                el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
+                this.dots["card"] = el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
                 //el("a.share", el("i.fa-solid.fa-share-nodes"), {
                 //    click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
                 //}),

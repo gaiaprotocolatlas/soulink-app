@@ -12,12 +12,21 @@
         display : flex;
         position: relative;
 
-        >.edit {
+        >a {
             position: absolute;
-            left    : 20px;
             top     : 20px;
+            z-index : 999;
             color   : #fff;
-            display : none;
+
+            &:hover,
+            &.on {
+                color: #55ffb6;
+            }
+        }
+
+        >.edit {
+            left   : 20px;
+            display: none;
 
             &.show {
                 display          : block;
@@ -28,11 +37,8 @@
         }
 
         >.bookmark {
-            position: absolute;
-            left    : 20px;
-            top     : 20px;
-            color   : #fff;
-            display : none;
+            left   : 20px;
+            display: none;
 
             &.show {
                 display          : block;
@@ -47,10 +53,11 @@
         }
 
         >.card {
-            position: absolute;
-            right   : 20px;
-            top     : 20px;
-            color   : #fff;
+            right: 20px;
+        }
+
+        >.share {
+            right: 20px;
         }
 
         >.menu {

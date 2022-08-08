@@ -3,6 +3,7 @@ import { SkyUtil, View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import Loading from "../components/Loading";
 import NotExistsDisplay from "../components/NotExistsDisplay";
+import PFPDisplay from "../components/PFPDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
@@ -155,7 +156,7 @@ export default class Layout extends View {
     }
 
     private async loadPFP() {
-        this.pfpContainer?.empty().append(el("img.pfp-display", { src: this.bio.cachedPFP ?? "/images/default-profile.png" }));
+        this.pfpContainer?.empty().append(new PFPDisplay(this.bio.cachedPFP));
     }
 
     private async showButtons() {

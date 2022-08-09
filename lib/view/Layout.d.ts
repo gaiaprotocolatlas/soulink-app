@@ -16,6 +16,7 @@ export default class Layout extends View {
     bio: Bio;
     private currentDot;
     private dots;
+    private shareButton;
     constructor(params: ViewParams, uri: string);
     ready(addressOrEns: string, proc: () => Promise<void>): Promise<void>;
     private loadBackground;

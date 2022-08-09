@@ -32,6 +32,7 @@ export default class Layout extends View {
 
     private currentDot: DomNode | undefined;
     private dots: { [name: string]: DomNode } = {};
+    private shareButton: DomNode;
 
     constructor(params: ViewParams, uri: string) {
         super();
@@ -62,9 +63,9 @@ export default class Layout extends View {
                         el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
                     ),
                     this.dots["card"] = el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
-                    //el("a.share", el("i.fa-solid.fa-share-nodes"), {
-                    //    click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
-                    //}),
+                    this.shareButton = el("a.share", el("i.fa-solid.fa-share-nodes"), {
+                        click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
+                    }),
                 ),
                 el("main",
                     this.profile = el(".profile"),
@@ -336,11 +337,20 @@ export default class Layout extends View {
     private highlight(uri: string) {
         this.currentDot?.deleteClass("on");
         if (uri.indexOf("/") === -1) {
-            this.currentDot = this.dots["links"];
+            this.currentDot = this.dots.links;
         } else {
             uri = uri.substring(uri.indexOf("/") + 1);
             this.currentDot = this.dots[uri.substring(uri.indexOf("/") + 1)];
         }
+
+        if (navigator.share !== undefined && uri === "card") {
+            this.dots.card.style({ display: "none" });
+            this.shareButton.style({ display: "block" });
+        } else {
+            this.dots.card.style({ display: "block" });
+            this.shareButton.style({ display: "none" });
+        }
+
         this.currentDot?.addClass("on");
     }
 

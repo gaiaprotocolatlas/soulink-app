@@ -35,24 +35,38 @@ import Souls from "./view/Souls";
         "{addressOrEns}/nfts",
         "{addressOrEns}/souls",
         "{addressOrEns}/card",
-    ], Layout, ["mint", "admin", "admin/links", "admin/souls", "owner", "galaxy"]);
+    ], Layout, [
+        "mint", "owner", "galaxy",
+        "me", "my/links", "my/souls",
+        "admin", "admin/links", "admin/souls",
+    ]);
 
-    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, ["mint", "admin", "admin/links", "owner", "galaxy"]);
+    SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, [
+        "mint", "owner", "galaxy",
+        "me", "my/links",
+        "admin", "admin/links",
+    ]);
+
     SkyRouter.route("{addressOrEns}/nfts", NFTs);
-    SkyRouter.route("{addressOrEns}/souls", Souls, ["admin/souls"]);
+    SkyRouter.route("{addressOrEns}/souls", Souls, ["my/souls", "admin/souls"]);
+    SkyRouter.redirect("{addressOrEns}/soulmates", "{addressOrEns}/souls");
     SkyRouter.route("{addressOrEns}/card", BusinessCard);
 
     // admin
     SkyRouter.route([
-        "admin", "admin/links",
-        "admin/nfts",
-        "admin/appearance",
-        "admin/souls",
+        "me", "my/links",
+        "my/nfts",
+        "my/appearance",
+        "my/souls",
     ], AdminLayout);
 
-    SkyRouter.route(["admin", "admin/links"], BioLinksSetting);
-    SkyRouter.route("admin/appearance", AppearanceSetting);
-    SkyRouter.route("admin/souls", SoulsSetting);
+    SkyRouter.route(["me", "my/links"], BioLinksSetting);
+    SkyRouter.route("my/appearance", AppearanceSetting);
+    SkyRouter.route("my/souls", SoulsSetting);
+
+    SkyRouter.redirect(["admin", "admin/links"], "me");
+    SkyRouter.redirect("admin/appearance", "my/appearance");
+    SkyRouter.redirect("admin/souls", "my/souls");
 
     // owner
     SkyRouter.route([

@@ -39,7 +39,7 @@ export default class Layout extends View {
         BodyNode.append(this.container = el(".layout",
             el("header",
                 this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
-                    click: () => SkyRouter.go("/admin", undefined, true),
+                    click: () => SkyRouter.go("/me", undefined, true),
                 }),
                 this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-star"), {
                     click: () => {

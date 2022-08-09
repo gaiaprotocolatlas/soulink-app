@@ -12,7 +12,7 @@ class NFTLoader {
             const data = await result.json();
             for (const asset of data.assets) {
                 if (asset.name === null) {
-                    asset.name = "Unknown";
+                    asset.name = `${asset.collection.name} #${asset.token_id}`;
                 }
                 if (asset.image_url === null) {
                     asset.image_url = asset.collection.image_url;
@@ -38,7 +38,7 @@ class NFTLoader {
             const data = await result.json();
             for (const asset of data.assets) {
                 if (asset.name === null) {
-                    asset.name = "Unknown";
+                    asset.name = `${asset.collection.name} #${asset.token_id}`;
                 }
                 if (asset.image_url === null) {
                     asset.image_url = asset.collection.image_url;

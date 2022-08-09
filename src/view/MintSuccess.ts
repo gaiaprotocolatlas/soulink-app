@@ -10,7 +10,7 @@ export default class MintSuccess extends View {
         BodyNode.append(this.container = el(".mint-success-view",
             new ResponsiveImage("img", "/images/mint-image.png"),
             el("p", "Yay! Now ", el("b", "Soulink"), " is forever yours !"),
-            { click: () => SkyRouter.go("/admin", undefined, true) },
+            { click: () => SkyRouter.go("/me", undefined, true) },
         ));
     }
 

@@ -42,8 +42,8 @@ export default class Intro extends View {
                             this.mintButton = el("a", el("b", "Mint"), " Soulink", {
                                 click: () => SkyRouter.go("/mint", undefined, true),
                             }),
-                            this.adminButton = el("a", "Admin", {
-                                click: () => SkyRouter.go("/admin", undefined, true),
+                            this.adminButton = el("a", "My Soul", {
+                                click: () => SkyRouter.go("/me", undefined, true),
                             }),
                         ),
                         el("h6.no-mobile", el("b", "Let’s"), " Link!"),

@@ -11,6 +11,7 @@ export default class AdminLayout extends View {
     private nameDisplay;
     private introduceTextarea;
     address: string;
+    private name;
     private prevBio;
     bio: Bio;
     private currentLink;

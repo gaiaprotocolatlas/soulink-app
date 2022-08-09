@@ -25,6 +25,7 @@ export default class AdminLayout extends View {
     private introduceTextarea: DomNode | undefined;
 
     public address = constants.AddressZero;
+    private name: string = constants.AddressZero;
 
     private prevBio: Bio = { links: [] };
     public bio: Bio = { links: [] };
@@ -126,11 +127,13 @@ export default class AdminLayout extends View {
 
                     this.nameDisplay = el(".name").appendTo(this.profile);
                     (async () => {
-                        let name = await NetworkProvider.lookupAddress(address);
+                        const name = await NetworkProvider.lookupAddress(address);
                         if (name === null) {
-                            name = address;
+                            this.name = address;
+                        } else {
+                            this.name = name;
                         }
-                        this.nameDisplay?.appendText(name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(name) : name);
+                        this.nameDisplay?.appendText(this.name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(this.name) : this.name);
                         this.nameDisplay?.style({ color: AdminLayout.current.bio.color });
                     })();
 
@@ -205,6 +208,7 @@ export default class AdminLayout extends View {
         this.checkChanges();
         loading.delete();
         new Alert("Changes Saved!");
+        SkyRouter.go(`/${this.name}`);
     }
 
     public checkChanges() {

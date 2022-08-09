@@ -483,6 +483,10 @@ body {
   text-decoration: none;
 }
 .mint-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   min-height: 100%;
   background: linear-gradient(#5AADFB, #EA8889);
   display: flex;
@@ -650,6 +654,10 @@ body {
   text-align: center;
 }
 .mint-success-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   min-height: 100%;
   background: radial-gradient(circle at center, #EA8889, #5AADFB);
   display: flex;
@@ -687,6 +695,10 @@ body {
   }
 }
 .mint-failed-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   min-height: 100%;
   background: radial-gradient(circle at center, #EA8889, #5AADFB);
   display: flex;

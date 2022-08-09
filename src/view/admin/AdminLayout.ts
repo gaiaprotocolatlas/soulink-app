@@ -127,11 +127,15 @@ export default class AdminLayout extends View {
 
                     this.nameDisplay = el(".name").appendTo(this.profile);
                     (async () => {
-                        const name = await NetworkProvider.lookupAddress(address);
-                        if (name === null) {
-                            this.name = address;
+                        if (this.bio.cachedName !== undefined) {
+                            this.name = this.bio.cachedName;
                         } else {
-                            this.name = name;
+                            const name = await NetworkProvider.lookupAddress(address);
+                            if (name === null) {
+                                this.name = address;
+                            } else {
+                                this.name = name;
+                            }
                         }
                         this.nameDisplay?.appendText(this.name.indexOf("0x") === 0 ? SkyUtil.shortenAddress(this.name) : this.name);
                         this.nameDisplay?.style({ color: AdminLayout.current.bio.color });

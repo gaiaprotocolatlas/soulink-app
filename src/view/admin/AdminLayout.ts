@@ -2,11 +2,11 @@ import { constants } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Loading from "../../components/Loading";
+import NFTDisplay from "../../components/NFTDisplay";
 import PFPDisplay from "../../components/PFPDisplay";
 import Config from "../../Config";
 import SoulinkContract from "../../contracts/SoulinkContract";
 import Bio from "../../datamodel/Bio";
-import MetadataLoader from "../../MetadataLoader";
 import NetworkProvider from "../../network/NetworkProvider";
 import Wallet from "../../network/Wallet";
 import Alert from "../../popup/Alert";
@@ -17,6 +17,7 @@ export default class AdminLayout extends View {
     public static current: AdminLayout;
     public content: DomNode;
 
+    private background: DomNode;
     private container: DomNode;
     private pfpContainer: DomNode | undefined;
     private profile: DomNode;
@@ -36,36 +37,39 @@ export default class AdminLayout extends View {
         super();
         AdminLayout.current = this;
 
-        BodyNode.append(this.container = el(".admin-layout",
-            el("header",
-                el("a.background", el("i.fa-solid.fa-panorama"), {
-                    click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
-                        if (address === undefined || tokenId === undefined) {
-                            delete this.bio.background;
-                        } else {
-                            this.bio.background = { address, tokenId };
-                        }
-                        this.checkChanges();
-                        this.loadBackground();
+        BodyNode.append(
+            this.background = el(".background-container"),
+            this.container = el(".admin-layout",
+                el("header",
+                    el("a.background", el("i.fa-solid.fa-panorama"), {
+                        click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
+                            if (address === undefined || tokenId === undefined) {
+                                delete this.bio.background;
+                            } else {
+                                this.bio.background = { address, tokenId };
+                            }
+                            this.checkChanges();
+                            this.loadBackground();
+                        }),
                     }),
-                }),
-                el(".menu",
-                    this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/me", undefined, true) } }),
-                    this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/my/souls", undefined, true) } }),
-                    this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/my/appearance", undefined, true) } }),
+                    el(".menu",
+                        this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/me", undefined, true) } }),
+                        this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/my/souls", undefined, true) } }),
+                        this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/my/appearance", undefined, true) } }),
+                    ),
+                    this.saveButton = el("a.save", "Save", { click: () => this.save() }),
                 ),
-                this.saveButton = el("a.save", "Save", { click: () => this.save() }),
+                el("main",
+                    this.profile = el(".profile"),
+                    this.content = el(".content"),
+                ),
+                el("footer",
+                    el("a", new ResponsiveImage("img", "/images/logo.png"), {
+                        click: () => SkyRouter.go("/", undefined, true),
+                    }),
+                ),
             ),
-            el("main",
-                this.profile = el(".profile"),
-                this.content = el(".content"),
-            ),
-            el("footer",
-                el("a", new ResponsiveImage("img", "/images/logo.png"), {
-                    click: () => SkyRouter.go("/", undefined, true),
-                }),
-            ),
-        ));
+        );
 
         document.title = "Soulink Admin";
         this.highlight(uri);
@@ -154,29 +158,38 @@ export default class AdminLayout extends View {
     }
 
     private async loadBackground() {
-        this.container.style({ backgroundImage: undefined });
+        this.background.empty();
         if (this.bio.background !== undefined) {
-            this.container.addClass("loading");
-            const metadata: any = await MetadataLoader.loadMetadata(this.bio.background.address, this.bio.background.tokenId);
-            const url = metadata?.imageInfo?.cachedURL;
-            if (url !== undefined) {
-                this.container.style({ backgroundImage: `url(${url})` });
+            if (this.bio.cachedBackground !== undefined && this.bio.cachedBackground !== null) {
+                this.background.append(new NFTDisplay(this.bio.cachedBackground));
+            } else {
+                this.background.addClass("loading");
+                const result = await fetch(`${Config.apiURI}/background/${this.address}`);
+                const str = await result.text();
+                if (str !== "") {
+                    this.background.append(new NFTDisplay(str));
+                }
+                this.background.deleteClass("loading");
             }
-            this.container.deleteClass("loading");
         }
     }
 
     private async loadPFP() {
         if (this.pfpContainer !== undefined) {
             this.pfpContainer.empty();
-            this.pfpContainer.addClass("loading");
             if (this.bio?.pfp === undefined) {
                 this.pfpContainer.append(new ResponsiveImage("img", "/images/default-profile.png"));
+            } else if (this.bio.cachedPFP !== undefined && this.bio.cachedPFP !== null) {
+                this.pfpContainer.append(new PFPDisplay(this.bio.cachedPFP));
             } else {
-                const metadata: any = await MetadataLoader.loadMetadata(this.bio.pfp.address, this.bio.pfp.tokenId);
-                this.pfpContainer.append(new PFPDisplay(metadata?.imageInfo?.cachedURL));
+                this.pfpContainer.addClass("loading");
+                const result = await fetch(`${Config.apiURI}/pfp/${this.address}`);
+                const str = await result.text();
+                if (str !== "") {
+                    this.pfpContainer.append(new PFPDisplay(str));
+                }
+                this.pfpContainer.deleteClass("loading");
             }
-            this.pfpContainer.deleteClass("loading");
         }
     }
 
@@ -219,6 +232,7 @@ export default class AdminLayout extends View {
 
     public close(): void {
         this.container.delete();
+        this.background.delete();
         super.close();
     }
 }

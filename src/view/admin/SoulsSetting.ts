@@ -35,10 +35,8 @@ export default class SoulsSetting extends View {
                 ));
 
                 (async () => {
-                    const promises: Promise<void>[] = [];
-                    promises.push(this.loadRequest());
-                    promises.push(this.loadLinked());
-                    await Promise.all(promises);
+                    const linked = await this.loadLinked();
+                    await this.loadRequest(linked);
                     loading.delete();
                 })();
             }
@@ -58,16 +56,22 @@ export default class SoulsSetting extends View {
                 },
             })).appendTo(this.linkedContainer!);
         }
+
+        return bios;
     }
 
-    private async loadRequest() {
+    private async loadRequest(linked: Bio[]) {
 
         const result = await fetch(`${Config.apiURI}/request/${AdminLayout.current.address}`);
         const requests: LinkRequest[] = await result.json();
 
         for (const request of requests) {
 
-            if (request.accept === undefined && request.requester !== AdminLayout.current.address) {
+            if (
+                request.accept === undefined &&
+                request.requester !== AdminLayout.current.address &&
+                linked.find((l) => l.id === request.requester) === undefined
+            ) {
                 const requestDisplay = new SoulDisplay(request.bio ?? { id: request.requester, links: [] }, AdminLayout.current.bio.color,
                     el("a", el("i.fa-solid.fa-check"), {
                         click: async () => {
@@ -110,7 +114,11 @@ export default class SoulsSetting extends View {
                 ).appendTo(this.toAcceptContainer!);
             }
 
-            else if (request.accept !== undefined && request.requester === AdminLayout.current.address) {
+            else if (
+                request.accept !== undefined &&
+                request.requester === AdminLayout.current.address &&
+                linked.find((l) => l.id === request.target) === undefined
+            ) {
                 new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [

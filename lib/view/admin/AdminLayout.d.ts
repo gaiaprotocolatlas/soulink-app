@@ -4,6 +4,7 @@ import Bio from "../../datamodel/Bio";
 export default class AdminLayout extends View {
     static current: AdminLayout;
     content: DomNode;
+    private background;
     private container;
     private pfpContainer;
     private profile;

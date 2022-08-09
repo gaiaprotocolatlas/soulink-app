@@ -2,12 +2,12 @@ import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-brows
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
 import Loading from "../components/Loading";
+import NFTDisplay from "../components/NFTDisplay";
 import NotExistsDisplay from "../components/NotExistsDisplay";
 import PFPDisplay from "../components/PFPDisplay";
 import Config from "../Config";
 import SoulinkContract from "../contracts/SoulinkContract";
 import Bio from "../datamodel/Bio";
-import MetadataLoader from "../MetadataLoader";
 import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
 import Alert from "../popup/Alert";
@@ -17,6 +17,7 @@ export default class Layout extends View {
     public static current: Layout;
     public content: DomNode;
 
+    private background: DomNode;
     private container: DomNode;
     private menu: DomNode;
     private profile: DomNode;
@@ -36,43 +37,46 @@ export default class Layout extends View {
         super();
         Layout.current = this;
 
-        BodyNode.append(this.container = el(".layout",
-            el("header",
-                this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
-                    click: () => SkyRouter.go("/me", undefined, true),
-                }),
-                this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-star"), {
-                    click: () => {
-                        if (this.currentAddress !== undefined) {
-                            BookmarkManager.toggle(this.currentAddress);
-                        }
-                    },
-                }),
-                this.menu = el(".menu",
-                    el(".bar",
-                        this.dots["links"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
-                        this.dots["souls"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) }),
-                        this.dots["nfts"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
+        BodyNode.append(
+            this.background = el(".background-container"),
+            this.container = el(".layout",
+                el("header",
+                    this.editButton = el("a.edit", el("i.fa-solid.fa-pen"), {
+                        click: () => SkyRouter.go("/me", undefined, true),
+                    }),
+                    this.bookmarkButton = el("a.bookmark", el("i.fa-regular.fa-bookmark"), {
+                        click: () => {
+                            if (this.currentAddress !== undefined) {
+                                BookmarkManager.toggle(this.currentAddress);
+                            }
+                        },
+                    }),
+                    this.menu = el(".menu",
+                        el(".bar",
+                            this.dots["links"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
+                            this.dots["souls"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) }),
+                            this.dots["nfts"] = el("a", el(".dot"), { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
+                        ),
+                        el("a", "Links", { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
+                        el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
+                        el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
                     ),
-                    el("a", "Links", { click: () => SkyRouter.go(`/${this.addressOrEns}`, undefined, true) }),
-                    el("a.long", "Linked Souls", { click: () => { SkyRouter.go(`/${this.addressOrEns}/souls`, undefined, true) } }),
-                    el("a", "NFTs", { click: () => SkyRouter.go(`/${this.addressOrEns}/nfts`, undefined, true) }),
+                    this.dots["card"] = el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
+                    //el("a.share", el("i.fa-solid.fa-share-nodes"), {
+                    //    click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
+                    //}),
                 ),
-                this.dots["card"] = el("a.card", el("i.fa-solid.fa-id-card-clip"), { click: () => SkyRouter.go(`/${this.addressOrEns}/card`, undefined, true) }),
-                //el("a.share", el("i.fa-solid.fa-share-nodes"), {
-                //    click: () => navigator.share({ url: `https://soul.ink/${this.addressOrEns}` }),
-                //}),
+                el("main",
+                    this.profile = el(".profile"),
+                    this.content = el(".content"),
+                ),
+                el("footer",
+                    el("a", new ResponsiveImage("img", "/images/logo.png"), {
+                        click: () => SkyRouter.go("/", undefined, true),
+                    }),
+                ),
             ),
-            el("main",
-                this.profile = el(".profile"),
-                this.content = el(".content"),
-            ),
-            el("footer",
-                el("a", new ResponsiveImage("img", "/images/logo.png"), {
-                    click: () => SkyRouter.go("/", undefined, true),
-                }),
-            ),
-        ));
+        );
 
         this.highlight(uri);
         BookmarkManager.on("bookmark", this.bookmarkHandler);
@@ -132,7 +136,7 @@ export default class Layout extends View {
                 this.showButtons();
             }
 
-            await fetch(`${Config.apiURI}/cache/${this.currentAddress}`);
+            await fetch(`${Config.apiURI}/cache/name/${this.currentAddress}`);
         }
 
         if (this.addressOrEns !== "") {
@@ -143,20 +147,39 @@ export default class Layout extends View {
     }
 
     private async loadBackground() {
-        this.container.style({ backgroundImage: undefined });
+        this.background.empty();
         if (this.bio.background !== undefined) {
-            this.container.addClass("loading");
-            const metadata: any = await MetadataLoader.loadMetadata(this.bio.background.address, this.bio.background.tokenId);
-            const url = metadata?.imageInfo?.cachedURL;
-            if (url !== undefined) {
-                this.container.style({ backgroundImage: `url(${url})` });
+            if (this.bio.cachedBackground !== undefined && this.bio.cachedBackground !== null) {
+                this.background.append(new NFTDisplay(this.bio.cachedBackground));
+            } else {
+                this.background.addClass("loading");
+                const result = await fetch(`${Config.apiURI}/background/${this.currentAddress}`);
+                const str = await result.text();
+                if (str !== "") {
+                    this.background.append(new NFTDisplay(str));
+                }
+                this.background.deleteClass("loading");
             }
-            this.container.deleteClass("loading");
         }
     }
 
     private async loadPFP() {
-        this.pfpContainer?.empty().append(new PFPDisplay(this.bio.cachedPFP));
+        if (this.pfpContainer !== undefined) {
+            this.pfpContainer.empty();
+            if (this.bio?.pfp === undefined) {
+                this.pfpContainer.append(new ResponsiveImage("img", "/images/default-profile.png"));
+            } else if (this.bio.cachedPFP !== undefined && this.bio.cachedPFP !== null) {
+                this.pfpContainer.append(new PFPDisplay(this.bio.cachedPFP));
+            } else {
+                this.pfpContainer.addClass("loading");
+                const result = await fetch(`${Config.apiURI}/pfp/${this.currentAddress}`);
+                const str = await result.text();
+                if (str !== "") {
+                    this.pfpContainer.append(new PFPDisplay(str));
+                }
+                this.pfpContainer.deleteClass("loading");
+            }
+        }
     }
 
     private async showButtons() {
@@ -164,7 +187,7 @@ export default class Layout extends View {
         // Clear.
         this.editButton.deleteClass("show");
         this.bookmarkButton.deleteClass("show");
-        this.bookmarkButton.empty().append(el("i.fa-regular.fa-star"));
+        this.bookmarkButton.empty().append(el("i.fa-regular.fa-bookmark"));
         this.bookmarkButton.deleteClass("bookmarked");
 
         const walletAddress = await Wallet.loadAddress();
@@ -182,30 +205,55 @@ export default class Layout extends View {
                 await SoulinkContract.getTokenId(walletAddress),
             );
 
+            // 연결되어있지 않을 때
             if (isLiked !== true) {
 
-                this.profile.append(el("a.request-soulink-button", "Request Soulink", {
-                    click: async () => {
-                        const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
-                        const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                            { name: "to", type: "address" },
-                            { name: "deadline", type: "uint256" },
-                        ], {
-                            to: this.currentAddress,
-                            deadline,
-                        });
-                        await fetch(`${Config.apiURI}/request`, {
-                            method: "POST",
-                            body: JSON.stringify({
-                                requester: walletAddress,
-                                target: this.currentAddress,
-                                signature,
-                                deadline,
-                            }),
-                        });
-                        new Alert("Soulink requested.");
-                    },
-                }));
+                // 내가 신청한 경우
+                const result1 = await fetch(`${Config.apiURI}/request/${walletAddress}/${this.currentAddress}`);
+                const str1 = await result1.text();
+                if (str1 !== "") {
+                    const data = JSON.parse(str1);
+
+                    // 상대가 수락하면 링크 연결
+                }
+
+                else {
+
+                    // 내가 신청받은 경우
+                    const result2 = await fetch(`${Config.apiURI}/request/${this.currentAddress}/${walletAddress}`);
+                    const str2 = await result2.text();
+                    if (str2 !== "") {
+                        const data = JSON.parse(str2);
+
+                        // 수락, 거절 버튼 추가
+                    }
+
+                    else {
+
+                        this.profile.append(el("a.request-soulink-button", "Request Soulink", {
+                            click: async () => {
+                                const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
+                                const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
+                                    { name: "to", type: "address" },
+                                    { name: "deadline", type: "uint256" },
+                                ], {
+                                    to: this.currentAddress,
+                                    deadline,
+                                });
+                                await fetch(`${Config.apiURI}/request`, {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        requester: walletAddress,
+                                        target: this.currentAddress,
+                                        signature,
+                                        deadline,
+                                    }),
+                                });
+                                new Alert("Soulink requested.");
+                            },
+                        }));
+                    }
+                }
             }
 
             this.bookmarkButton.addClass("show");
@@ -236,14 +284,14 @@ export default class Layout extends View {
 
     private bookmarkHandler = (address: string) => {
         if (address === this.currentAddress) {
-            this.bookmarkButton.empty().append(el("i.fa-solid.fa-star"));
+            this.bookmarkButton.empty().append(el("i.fa-solid.fa-bookmark"));
             this.bookmarkButton.addClass("bookmarked");
         }
     };
 
     private unbookmarkHandler = (address: string) => {
         if (address === this.currentAddress) {
-            this.bookmarkButton.empty().append(el("i.fa-regular.fa-star"));
+            this.bookmarkButton.empty().append(el("i.fa-regular.fa-bookmark"));
             this.bookmarkButton.deleteClass("bookmarked");
         }
     };
@@ -252,6 +300,7 @@ export default class Layout extends View {
         BookmarkManager.off("bookmark", this.bookmarkHandler);
         BookmarkManager.off("unbookmark", this.unbookmarkHandler);
         this.container.delete();
+        this.background.delete();
         super.close();
     }
 }

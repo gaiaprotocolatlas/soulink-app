@@ -17,5 +17,6 @@ export default interface Bio {
     }[];
     cachedName?: string;
     cachedPFP?: string;
+    cachedBackground?: string;
 }
 //# sourceMappingURL=Bio.d.ts.map

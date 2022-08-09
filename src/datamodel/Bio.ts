@@ -15,4 +15,5 @@ export default interface Bio {
 
     cachedName?: string,
     cachedPFP?: string,
+    cachedBackground?: string,
 }

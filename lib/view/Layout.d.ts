@@ -4,6 +4,7 @@ import Bio from "../datamodel/Bio";
 export default class Layout extends View {
     static current: Layout;
     content: DomNode;
+    private background;
     private container;
     private menu;
     private profile;

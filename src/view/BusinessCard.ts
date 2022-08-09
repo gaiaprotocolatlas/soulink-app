@@ -27,7 +27,7 @@ export default class BusinessCard extends View {
 
                 Layout.current.content.append(this.container = el(".business-card-view",
                     el("img.qr", { src: qrcodeSrc }),
-                    this.bookmarkButton = el("a.bookmark", "Favorite"),
+                    this.bookmarkButton = el("a.bookmark", "Bookmark"),
                 ));
 
                 this.loadBookmarked();
@@ -60,14 +60,14 @@ export default class BusinessCard extends View {
 
     private bookmarkHandler = (address: string) => {
         if (address === Layout.current.currentAddress) {
-            this.bookmarkButton?.empty().appendText("Unfavorite");
+            this.bookmarkButton?.empty().appendText("Bookmarked");
             this.bookmarkButton?.addClass("bookmarked");
         }
     };
 
     private unbookmarkHandler = (address: string) => {
         if (address === Layout.current.currentAddress) {
-            this.bookmarkButton?.empty().appendText("Favorite");
+            this.bookmarkButton?.empty().appendText("Bookmark");
             this.bookmarkButton?.deleteClass("bookmarked");
         }
     };

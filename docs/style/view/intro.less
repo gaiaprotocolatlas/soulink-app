@@ -5,197 +5,167 @@
     flex-direction: column;
 
     >header {
-        height: 150px;
+        height  : 150px;
+        position: relative;
 
         @media @phone {
-            height: 60px;
+            height: 100px;
+        }
+
+        >a {
+            position: absolute;
+            top     : 20px;
+            z-index : 999;
+            color   : #fff;
+
+            &:hover,
+            &.on {
+                color: #55ffb6;
+            }
+        }
+
+        >.bookmarks {
+            left: 20px;
+        }
+
+        >.galaxy {
+            right: 20px;
         }
     }
 
     >main {
-        flex-grow: 1;
+        flex-grow      : 1;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        gap            : 150px;
 
-        >.bookmark-list {
-            display      : block;
-            width        : 320px;
-            margin       : auto;
-            margin-bottom: 50px;
+        @media @tablet {
+            gap: 50px;
+        }
 
-            >h1 {
-                color        : #55ffb6;
-                text-align   : center;
-                margin-bottom: 20px;
+        @media @phone {
+            display: block;
+            width  : 320px;
+            margin : auto;
+
+            >:nth-child(2) {
+                margin-top: 28px;
+            }
+        }
+
+        >:nth-child(1) {
+            position   : relative;
+            font-family: OCRAStd;
+            padding-top: 10px;
+
+            >h2 {
+                position : absolute;
+                top      : 0;
+                color    : #55ffb6;
+                font-size: 22px;
             }
 
-            >.bookmark {
-                display    : flex;
-                gap        : 10px;
-                align-items: center;
+            >h1 {
+                position : absolute;
+                top      : 30px;
+                font-size: 38px;
+                color    : #fff;
+            }
 
-                >.pfp {
-                    flex-grow  : 1;
-                    display    : flex;
-                    gap        : 20px;
-                    align-items: center;
-                    cursor     : pointer;
+            @media @phone {
+                padding-top: 30px;
+                text-align : right;
 
-                    >.name {
-                        font-family: OCRAStd;
-                        word-break : break-all;
-                    }
-                }
-
-                >a {
-                    border         : 1px solid #fff;
-                    color          : #fff;
-                    width          : 40px;
-                    height         : 40px;
-                    border-radius  : 20px;
-                    font-size      : 20px;
-                    display        : flex;
-                    align-items    : center;
-                    justify-content: center;
-
-                    &:hover {
-                        background-color: rgba(255, 255, 255, 0.4);
-                    }
+                >img {
+                    width: 220px;
                 }
             }
         }
 
-        >section {
-            display        : flex;
-            align-items    : center;
-            justify-content: center;
-            gap            : 150px;
-
-            @media @tablet {
-                gap: 50px;
+        >:nth-child(2) {
+            @media @pc-and-tablet {
+                min-width: 420px;
             }
 
-            @media @phone {
-                display: block;
-                width  : 320px;
-                margin : auto;
-
-                >:nth-child(2) {
-                    margin-top: 28px;
-                }
-            }
-
-            >:nth-child(1) {
-                position   : relative;
-                font-family: OCRAStd;
-                padding-top: 10px;
-
-                >h2 {
-                    position : absolute;
-                    top      : 0;
-                    color    : #55ffb6;
-                    font-size: 22px;
-                }
-
-                >h1 {
-                    position : absolute;
-                    top      : 30px;
-                    font-size: 38px;
-                    color    : #fff;
-                }
+            >p {
+                font-size    : 20px;
+                line-height  : 34px;
+                margin-bottom: 25px;
 
                 @media @phone {
-                    padding-top: 30px;
-                    text-align : right;
+                    font-size  : 18px;
+                    line-height: 28px;
+                }
 
-                    >img {
-                        width: 220px;
+                >b {
+                    font-weight: bold;
+                    color      : #fff;
+                }
+
+                >strong {
+                    font-weight: bold;
+                    color      : #55ffb6;
+                }
+            }
+
+            >h6 {
+                font-family: OCRAStd;
+                font-size  : 38px;
+                color      : #fff;
+
+                >b {
+                    color: #55ffb6;
+                }
+
+                &.mobile {
+                    font-size : 14px;
+                    margin-top: 50px;
+                    text-align: center;
+
+                    @media @pc-and-tablet {
+                        display: none;
+                    }
+                }
+
+                &.no-mobile {
+                    margin-top: 35px;
+
+                    @media @phone {
+                        display: none;
+                    }
+
+                    @media @tablet {
+                        margin-top: 15px;
                     }
                 }
             }
 
-            >:nth-child(2) {
-                @media @pc-and-tablet {
-                    min-width: 420px;
-                }
+            >.button-container {
+                .float-wrapper();
 
-                >p {
-                    font-size    : 20px;
-                    line-height  : 34px;
-                    margin-bottom: 25px;
-
-                    @media @phone {
-                        font-size  : 18px;
-                        line-height: 28px;
-                    }
-
-                    >b {
-                        font-weight: bold;
-                        color      : #fff;
-                    }
-
-                    >strong {
-                        font-weight: bold;
-                        color      : #55ffb6;
-                    }
-                }
-
-                >h6 {
-                    font-family: OCRAStd;
-                    font-size  : 38px;
-                    color      : #fff;
+                >a {
+                    float        : left;
+                    margin-right : 15px;
+                    display      : block;
+                    width        : 195px;
+                    height       : 44px;
+                    font-family  : OCRAStd;
+                    font-size    : 13px;
+                    border-radius: 22px;
+                    border       : solid 2px #55ffb6;
+                    color        : #fff;
+                    text-align   : center;
+                    line-height  : 44px;
 
                     >b {
                         color: #55ffb6;
                     }
 
-                    &.mobile {
-                        font-size : 14px;
-                        margin-top: 50px;
-                        text-align: center;
-
-                        @media @pc-and-tablet {
-                            display: none;
-                        }
-                    }
-
-                    &.no-mobile {
-                        margin-top: 35px;
-
-                        @media @phone {
-                            display: none;
-                        }
-
-                        @media @tablet {
-                            margin-top: 15px;
-                        }
-                    }
-                }
-
-                >.button-container {
-                    .float-wrapper();
-
-                    >a {
-                        float        : left;
-                        margin-right : 15px;
-                        display      : block;
-                        width        : 195px;
-                        height       : 44px;
-                        font-family  : OCRAStd;
-                        font-size    : 13px;
-                        border-radius: 22px;
-                        border       : solid 2px #55ffb6;
-                        color        : #fff;
-                        text-align   : center;
-                        line-height  : 44px;
-
-                        >b {
-                            color: #55ffb6;
-                        }
-
-                        @media @phone {
-                            float     : none;
-                            margin    : auto;
-                            margin-top: 12px;
-                        }
+                    @media @phone {
+                        float     : none;
+                        margin    : auto;
+                        margin-top: 12px;
                     }
                 }
             }

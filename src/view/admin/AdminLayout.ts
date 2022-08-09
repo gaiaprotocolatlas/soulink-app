@@ -108,7 +108,7 @@ export default class AdminLayout extends View {
                     this.profile.append(
                         el(".pfp",
                             this.pfpContainer = el(".pfp-container"),
-                            el(".add", el("i.fa-solid.fa-plus")),
+                            el(".add", el("i.fa-regular.fa-plus")),
                             {
                                 click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
                                     if (address === undefined || tokenId === undefined) {

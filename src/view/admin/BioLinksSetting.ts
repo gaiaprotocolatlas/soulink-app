@@ -20,7 +20,7 @@ export default class BioLinksSetting extends View {
                 AdminLayout.current.content.append(this.container = el(".bio-link-setting-view",
                     this.linkContainer = el(".link-container"),
                     this.bar = el(".bar"),
-                    el("a.add", el("i.fa-solid.fa-plus"), {
+                    el("a.add", el("i.fa-regular.fa-plus"), {
                         click: () => {
                             AdminLayout.current.bio.links.push({
                                 title: "",
@@ -44,7 +44,7 @@ export default class BioLinksSetting extends View {
                 const linkDisplay = el(".link",
                     el("input", { value: link.title, placeholder: "Title" }, { keyup: (event) => { link.title = event.target.value; AdminLayout.current.checkChanges(); } }),
                     el("input", { value: link.url, placeholder: "URL" }, { keyup: (event) => { link.url = event.target.value; AdminLayout.current.checkChanges(); } }),
-                    el("a.handle", el("i.fa-solid.fa-grip-vertical"), {
+                    el("a.handle", el("i.fa-solid.fa-grip-dots-vertical"), {
                         mousedown: () => { linkDisplay.domElement.draggable = true },
                         mouseup: () => { linkDisplay.domElement.draggable = false },
                         touchstart: () => { linkDisplay.domElement.draggable = true },

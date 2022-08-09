@@ -49,7 +49,7 @@ export default class SoulsSetting extends View {
         const bios: Bio[] = await result.json();
 
         for (const bio of bios) {
-            new SoulDisplay(bio, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-solid.fa-link-slash"), {
+            new SoulDisplay(bio, AdminLayout.current.bio.color, el("a.unlink", el("i.fa-light.fa-link-slash"), {
                 click: async () => {
                     await SoulinkContract.breakLink(await SoulinkContract.getTokenId(bio.id!));
                     new Alert("The transaction has been registered. Please wait until it is finished.");
@@ -73,7 +73,7 @@ export default class SoulsSetting extends View {
                 linked.find((l) => l.id === request.requester) === undefined
             ) {
                 const requestDisplay = new SoulDisplay(request.bio ?? { id: request.requester, links: [] }, AdminLayout.current.bio.color,
-                    el("a", el("i.fa-solid.fa-check"), {
+                    el("a", el("i.fa-light.fa-check"), {
                         click: async () => {
                             const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                             const signature = await Wallet.signTypedData(AdminLayout.current.address, "Soulink", "1", SoulinkContract.address, "RequestLink", [
@@ -96,7 +96,7 @@ export default class SoulsSetting extends View {
                             new Alert("Soulink accepted.");
                         },
                     }),
-                    el("a", el("i.fa-solid.fa-xmark"), {
+                    el("a", el("i.fa-light.fa-xmark"), {
                         click: async () => {
                             const signedMessage = await Wallet.signMessage("Ignore the request.");
                             const loading = new Loading("Ignoring...").appendTo(this.container!);
@@ -121,7 +121,7 @@ export default class SoulsSetting extends View {
                 request.requester === AdminLayout.current.address &&
                 linked.find((l) => l.id === request.target) === undefined
             ) {
-                const soulDisplay = new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
+                const soulDisplay = new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-light.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,

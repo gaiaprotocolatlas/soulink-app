@@ -302,159 +302,133 @@ body {
 }
 .intro-view > header {
   height: 150px;
+  position: relative;
 }
 @media only screen and (max-width: 859px) {
   .intro-view > header {
-    height: 60px;
+    height: 100px;
   }
+}
+.intro-view > header > a {
+  position: absolute;
+  top: 20px;
+  z-index: 999;
+  color: #fff;
+}
+.intro-view > header > a:hover,
+.intro-view > header > a.on {
+  color: #55ffb6;
+}
+.intro-view > header > .bookmarks {
+  left: 20px;
+}
+.intro-view > header > .galaxy {
+  right: 20px;
 }
 .intro-view > main {
   flex-grow: 1;
-}
-.intro-view > main > .bookmark-list {
-  display: block;
-  width: 320px;
-  margin: auto;
-  margin-bottom: 50px;
-}
-.intro-view > main > .bookmark-list > h1 {
-  color: #55ffb6;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.intro-view > main > .bookmark-list > .bookmark {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-.intro-view > main > .bookmark-list > .bookmark > .pfp {
-  flex-grow: 1;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  cursor: pointer;
-}
-.intro-view > main > .bookmark-list > .bookmark > .pfp > .name {
-  font-family: OCRAStd;
-  word-break: break-all;
-}
-.intro-view > main > .bookmark-list > .bookmark > a {
-  border: 1px solid #fff;
-  color: #fff;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.intro-view > main > .bookmark-list > .bookmark > a:hover {
-  background-color: rgba(255, 255, 255, 0.4);
-}
-.intro-view > main > section {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 150px;
 }
 @media only screen and (min-width: 860px) and (max-width: 959px) {
-  .intro-view > main > section {
+  .intro-view > main {
     gap: 50px;
   }
 }
 @media only screen and (max-width: 859px) {
-  .intro-view > main > section {
+  .intro-view > main {
     display: block;
     width: 320px;
     margin: auto;
   }
-  .intro-view > main > section > :nth-child(2) {
+  .intro-view > main > :nth-child(2) {
     margin-top: 28px;
   }
 }
-.intro-view > main > section > :nth-child(1) {
+.intro-view > main > :nth-child(1) {
   position: relative;
   font-family: OCRAStd;
   padding-top: 10px;
 }
-.intro-view > main > section > :nth-child(1) > h2 {
+.intro-view > main > :nth-child(1) > h2 {
   position: absolute;
   top: 0;
   color: #55ffb6;
   font-size: 22px;
 }
-.intro-view > main > section > :nth-child(1) > h1 {
+.intro-view > main > :nth-child(1) > h1 {
   position: absolute;
   top: 30px;
   font-size: 38px;
   color: #fff;
 }
 @media only screen and (max-width: 859px) {
-  .intro-view > main > section > :nth-child(1) {
+  .intro-view > main > :nth-child(1) {
     padding-top: 30px;
     text-align: right;
   }
-  .intro-view > main > section > :nth-child(1) > img {
+  .intro-view > main > :nth-child(1) > img {
     width: 220px;
   }
 }
 @media only screen and (min-width: 860px) {
-  .intro-view > main > section > :nth-child(2) {
+  .intro-view > main > :nth-child(2) {
     min-width: 420px;
   }
 }
-.intro-view > main > section > :nth-child(2) > p {
+.intro-view > main > :nth-child(2) > p {
   font-size: 20px;
   line-height: 34px;
   margin-bottom: 25px;
 }
 @media only screen and (max-width: 859px) {
-  .intro-view > main > section > :nth-child(2) > p {
+  .intro-view > main > :nth-child(2) > p {
     font-size: 18px;
     line-height: 28px;
   }
 }
-.intro-view > main > section > :nth-child(2) > p > b {
+.intro-view > main > :nth-child(2) > p > b {
   font-weight: bold;
   color: #fff;
 }
-.intro-view > main > section > :nth-child(2) > p > strong {
+.intro-view > main > :nth-child(2) > p > strong {
   font-weight: bold;
   color: #55ffb6;
 }
-.intro-view > main > section > :nth-child(2) > h6 {
+.intro-view > main > :nth-child(2) > h6 {
   font-family: OCRAStd;
   font-size: 38px;
   color: #fff;
 }
-.intro-view > main > section > :nth-child(2) > h6 > b {
+.intro-view > main > :nth-child(2) > h6 > b {
   color: #55ffb6;
 }
-.intro-view > main > section > :nth-child(2) > h6.mobile {
+.intro-view > main > :nth-child(2) > h6.mobile {
   font-size: 14px;
   margin-top: 50px;
   text-align: center;
 }
 @media only screen and (min-width: 860px) {
-  .intro-view > main > section > :nth-child(2) > h6.mobile {
+  .intro-view > main > :nth-child(2) > h6.mobile {
     display: none;
   }
 }
-.intro-view > main > section > :nth-child(2) > h6.no-mobile {
+.intro-view > main > :nth-child(2) > h6.no-mobile {
   margin-top: 35px;
 }
 @media only screen and (max-width: 859px) {
-  .intro-view > main > section > :nth-child(2) > h6.no-mobile {
+  .intro-view > main > :nth-child(2) > h6.no-mobile {
     display: none;
   }
 }
 @media only screen and (min-width: 860px) and (max-width: 959px) {
-  .intro-view > main > section > :nth-child(2) > h6.no-mobile {
+  .intro-view > main > :nth-child(2) > h6.no-mobile {
     margin-top: 15px;
   }
 }
-.intro-view > main > section > :nth-child(2) > .button-container:after {
+.intro-view > main > :nth-child(2) > .button-container:after {
   content: " ";
   display: block;
   font-size: 0;
@@ -462,7 +436,7 @@ body {
   clear: both;
   visibility: hidden;
 }
-.intro-view > main > section > :nth-child(2) > .button-container > a {
+.intro-view > main > :nth-child(2) > .button-container > a {
   float: left;
   margin-right: 15px;
   display: block;
@@ -476,11 +450,11 @@ body {
   text-align: center;
   line-height: 44px;
 }
-.intro-view > main > section > :nth-child(2) > .button-container > a > b {
+.intro-view > main > :nth-child(2) > .button-container > a > b {
   color: #55ffb6;
 }
 @media only screen and (max-width: 859px) {
-  .intro-view > main > section > :nth-child(2) > .button-container > a {
+  .intro-view > main > :nth-child(2) > .button-container > a {
     float: none;
     margin: auto;
     margin-top: 12px;
@@ -1077,15 +1051,110 @@ body {
   color: #ccc;
 }
 .galaxy-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at center, #EA8889, #5AADFB);
   display: flex;
   flex-direction: column;
 }
+.galaxy-view > header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  font-family: OCRAStd;
+  font-size: 16px;
+  color: #fff;
+  position: relative;
+}
+.galaxy-view > header > .back {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  z-index: 999;
+  color: #fff;
+}
+.galaxy-view > header > .back:hover,
+.galaxy-view > header > .back.on {
+  color: #55ffb6;
+}
 .galaxy-view > .galaxy-container {
+  flex-grow: 1;
+}
+.bookmarks-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
+  background: linear-gradient(#5AADFB, #EA8889);
+}
+.bookmarks-view > header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  font-family: OCRAStd;
+  font-size: 16px;
+  color: #fff;
+  position: relative;
+}
+.bookmarks-view > header > .back {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  z-index: 999;
+  color: #fff;
+}
+.bookmarks-view > header > .back:hover,
+.bookmarks-view > header > .back.on {
+  color: #55ffb6;
+}
+.bookmarks-view > .bookmark-list {
+  display: block;
+  width: 320px;
+  margin: auto;
+  margin-bottom: 50px;
+}
+.bookmarks-view > .bookmark-list > h1 {
+  color: #55ffb6;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.bookmarks-view > .bookmark-list > .bookmark {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.bookmarks-view > .bookmark-list > .bookmark > .pfp {
+  flex-grow: 1;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  cursor: pointer;
+}
+.bookmarks-view > .bookmark-list > .bookmark > .pfp > .name {
+  font-family: OCRAStd;
+  word-break: break-all;
+}
+.bookmarks-view > .bookmark-list > .bookmark > a {
+  border: 1px solid #fff;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bookmarks-view > .bookmark-list > .bookmark > a:hover {
+  background-color: rgba(255, 255, 255, 0.4);
 }
 .admin-layout {
   position: absolute;
@@ -1201,7 +1270,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  font-size: 15px;
 }
 .admin-layout > main > .profile > .name {
   margin-top: 10px;
@@ -1293,7 +1362,7 @@ body {
   align-items: center;
   margin: auto;
   margin-top: 20px;
-  font-size: 14px;
+  font-size: 15px;
 }
 .souls-setting-view > .soul-list {
   width: 330px;

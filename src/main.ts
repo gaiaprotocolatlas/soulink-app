@@ -1,10 +1,10 @@
-import { msg, SkyRouter } from "skydapp-browser";
-import superagent from "superagent";
+import { SkyRouter } from "skydapp-browser";
 import AdminLayout from "./view/admin/AdminLayout";
 import AppearanceSetting from "./view/admin/AppearanceSetting";
 import BioLinksSetting from "./view/admin/BioLinksSetting";
 import SoulsSetting from "./view/admin/SoulsSetting";
 import BioLinks from "./view/BioLinks";
+import Bookmarks from "./view/Bookmarks";
 import BusinessCard from "./view/BusinessCard";
 import Galaxy from "./view/Galaxy";
 import Intro from "./view/Intro";
@@ -22,13 +22,13 @@ import Souls from "./view/Souls";
         SkyRouter.go(sessionStorage.__spa_path);
         sessionStorage.removeItem("__spa_path");
     }
-    msg.parseCSV((await superagent.get("/msg.csv")).text);
 
     SkyRouter.route("", Intro);
     SkyRouter.route("mint", Mint);
     SkyRouter.route("mint/success", MintSuccess);
     SkyRouter.route("mint/failed", MintFailed);
     SkyRouter.route("galaxy", Galaxy);
+    SkyRouter.route("bookmarks", Bookmarks);
 
     SkyRouter.route([
         "{addressOrEns}", "{addressOrEns}/links",
@@ -36,13 +36,13 @@ import Souls from "./view/Souls";
         "{addressOrEns}/souls",
         "{addressOrEns}/card",
     ], Layout, [
-        "mint", "owner", "galaxy",
+        "mint", "owner", "galaxy", "bookmarks",
         "me", "my/links", "my/souls",
         "admin", "admin/links", "admin/souls",
     ]);
 
     SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, [
-        "mint", "owner", "galaxy",
+        "mint", "owner", "galaxy", "bookmarks",
         "me", "my/links",
         "admin", "admin/links",
     ]);

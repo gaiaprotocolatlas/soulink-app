@@ -14,6 +14,10 @@ export default class Galaxy extends View {
     constructor(params: ViewParams) {
         super();
         BodyNode.append(this.container = el(".galaxy-view",
+            el("header",
+                el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => SkyRouter.go("/", undefined, true) }),
+                el("h1", "Soul Galaxy"),
+            ),
             this.galaxyContainer = el(".galaxy-container"),
         ));
         this.load();
@@ -57,8 +61,8 @@ export default class Galaxy extends View {
         const _rank_cy = cytoscape({ elements });
 
         var pageRank = _rank_cy.elements().pageRank({});
-        var nodeMaxSize = 80;
-        var nodeMinSize = 4;
+        var nodeMaxSize = 24;
+        var nodeMinSize = 6;
         var fontMaxSize = 7;
         var fontMinSize = 4;
 

@@ -171,18 +171,47 @@
                 font-size       : 16px;
                 text-align      : center;
                 line-height     : 20px;
+                margin-bottom   : 20px;
             }
 
+            >.help {
+                display         : block;
+                width           : 100%;
+                background-color: transparent;
+                font-family     : ProximaNovaCond-Regular;
+                font-size       : 16px;
+                text-align      : center;
+                line-height     : 20px;
+            }
+
+            >.confirm-soulink-button,
+            >.accept-soulink-button,
             >.request-soulink-button {
                 width        : 180px;
                 margin       : auto;
-                margin-top   : 20px;
+                margin-top   : 10px;
                 display      : block;
                 border-radius: 18px;
                 border       : solid 2px #55ffb6;
                 line-height  : 36px;
                 text-align   : center;
                 color        : #55ffb6;
+
+                -webkit-animation: FadeInAnimation 1s;
+                -moz-animation   : FadeInAnimation 1s;
+                animation        : FadeInAnimation 1s;
+            }
+
+            >.ignore-soulink-button {
+                width        : 180px;
+                margin       : auto;
+                margin-top   : 20px;
+                display      : block;
+                border-radius: 18px;
+                border       : solid 2px #fff;
+                line-height  : 36px;
+                text-align   : center;
+                color        : #fff;
 
                 -webkit-animation: FadeInAnimation 1s;
                 -moz-animation   : FadeInAnimation 1s;

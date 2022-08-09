@@ -93,12 +93,13 @@ export default class SoulsSetting extends View {
                                 }),
                             });
                             requestDisplay.delete();
+                            new Alert("Soulink accepted.");
                         },
                     }),
                     el("a", el("i.fa-solid.fa-xmark"), {
                         click: async () => {
-                            const signedMessage = await Wallet.signMessage("Cancel the link request.");
-                            const loading = new Loading("Canceling...").appendTo(this.container!);
+                            const signedMessage = await Wallet.signMessage("Ignore the request.");
+                            const loading = new Loading("Ignoring...").appendTo(this.container!);
                             await fetch(`${Config.apiURI}/cancel`, {
                                 method: "POST",
                                 body: JSON.stringify({
@@ -109,6 +110,7 @@ export default class SoulsSetting extends View {
                             });
                             loading.delete();
                             requestDisplay.delete();
+                            new Alert("Ignored.");
                         },
                     }),
                 ).appendTo(this.toAcceptContainer!);
@@ -119,7 +121,7 @@ export default class SoulsSetting extends View {
                 request.requester === AdminLayout.current.address &&
                 linked.find((l) => l.id === request.target) === undefined
             ) {
-                new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
+                const soulDisplay = new SoulDisplay(request.bio ?? { id: request.target, links: [] }, AdminLayout.current.bio.color, el("a.link", el("i.fa-solid.fa-link"), {
                     click: async () => {
                         await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
                             request.signature,
@@ -128,6 +130,7 @@ export default class SoulsSetting extends View {
                             request.deadline,
                             request.accept!.deadline,
                         ]);
+                        soulDisplay.delete();
                         new Alert("The transaction has been registered. Please wait until it is finished.");
                     },
                 })).appendTo(this.toLinkContainer!);

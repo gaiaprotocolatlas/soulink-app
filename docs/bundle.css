@@ -892,17 +892,43 @@ body {
   font-size: 16px;
   text-align: center;
   line-height: 20px;
+  margin-bottom: 20px;
 }
+.layout > main > .profile > .help {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  font-family: ProximaNovaCond-Regular;
+  font-size: 16px;
+  text-align: center;
+  line-height: 20px;
+}
+.layout > main > .profile > .confirm-soulink-button,
+.layout > main > .profile > .accept-soulink-button,
 .layout > main > .profile > .request-soulink-button {
   width: 180px;
   margin: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   display: block;
   border-radius: 18px;
   border: solid 2px #55ffb6;
   line-height: 36px;
   text-align: center;
   color: #55ffb6;
+  -webkit-animation: FadeInAnimation 1s;
+  -moz-animation: FadeInAnimation 1s;
+  animation: FadeInAnimation 1s;
+}
+.layout > main > .profile > .ignore-soulink-button {
+  width: 180px;
+  margin: auto;
+  margin-top: 20px;
+  display: block;
+  border-radius: 18px;
+  border: solid 2px #fff;
+  line-height: 36px;
+  text-align: center;
+  color: #fff;
   -webkit-animation: FadeInAnimation 1s;
   -moz-animation: FadeInAnimation 1s;
   animation: FadeInAnimation 1s;
@@ -1034,6 +1060,7 @@ body {
 .business-card-view > img.qr {
   display: block;
   margin: auto;
+  border-radius: 6px;
 }
 .business-card-view > .bookmark {
   display: block;

@@ -212,9 +212,28 @@ export default class Layout extends View {
                 const result1 = await fetch(`${Config.apiURI}/request/${walletAddress}/${this.currentAddress}`);
                 const str1 = await result1.text();
                 if (str1 !== "") {
-                    const data = JSON.parse(str1);
+                    const request = JSON.parse(str1);
 
                     // 상대가 수락하면 링크 연결
+                    if (request.accept !== undefined) {
+
+                        const help = el("p.help", "This person has accepted your Soulink request!").appendTo(this.profile);
+
+                        const confirmButton = el("a.confirm-soulink-button", "Confirm Soulink", {
+                            click: async () => {
+                                await SoulinkContract.setLink(await SoulinkContract.getTokenId(request.target), [
+                                    request.signature,
+                                    request.accept.signature,
+                                ], [
+                                    request.deadline,
+                                    request.accept.deadline,
+                                ]);
+                                help.delete();
+                                confirmButton.delete();
+                                new Alert("The transaction has been registered. Please wait until it is finished.");
+                            },
+                        }).appendTo(this.profile);
+                    }
                 }
 
                 else {
@@ -223,14 +242,60 @@ export default class Layout extends View {
                     const result2 = await fetch(`${Config.apiURI}/request/${this.currentAddress}/${walletAddress}`);
                     const str2 = await result2.text();
                     if (str2 !== "") {
-                        const data = JSON.parse(str2);
+
+                        const help = el("p.help", "This person has already requested to be Soulinked with you.").appendTo(this.profile);
 
                         // 수락, 거절 버튼 추가
+                        const acceptButton = el("a.accept-soulink-button", "Accept Soulink", {
+                            click: async () => {
+                                const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
+                                const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
+                                    { name: "to", type: "address" },
+                                    { name: "deadline", type: "uint256" },
+                                ], {
+                                    to: this.currentAddress,
+                                    deadline,
+                                });
+                                await fetch(`${Config.apiURI}/accept`, {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        requester: this.currentAddress,
+                                        target: walletAddress,
+                                        signature,
+                                        deadline,
+                                    }),
+                                });
+                                help.delete();
+                                acceptButton.delete();
+                                ignoreButton.delete();
+                                new Alert("Soulink accepted.");
+                            },
+                        }).appendTo(this.profile);
+
+                        const ignoreButton = el("a.ignore-soulink-button", "Ignore", {
+                            click: async () => {
+                                const signedMessage = await Wallet.signMessage("Ignore the request.");
+                                const loading = new Loading("Ignoring...").appendTo(this.container);
+                                await fetch(`${Config.apiURI}/ignore`, {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        signedMessage,
+                                        requester: this.currentAddress,
+                                        target: walletAddress,
+                                    }),
+                                });
+                                loading.delete();
+                                help.delete();
+                                acceptButton.delete();
+                                ignoreButton.delete();
+                                new Alert("Ignored.");
+                            },
+                        }).appendTo(this.profile);
                     }
 
                     else {
 
-                        this.profile.append(el("a.request-soulink-button", "Request Soulink", {
+                        const requestButton = el("a.request-soulink-button", "Request Soulink", {
                             click: async () => {
                                 const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                                 const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
@@ -249,9 +314,10 @@ export default class Layout extends View {
                                         deadline,
                                     }),
                                 });
+                                requestButton.delete();
                                 new Alert("Soulink requested.");
                             },
-                        }));
+                        }).appendTo(this.profile);
                     }
                 }
             }

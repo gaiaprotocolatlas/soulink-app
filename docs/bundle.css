@@ -1119,7 +1119,7 @@ body {
   display: block;
   width: 320px;
   margin: auto;
-  margin-bottom: 50px;
+  padding-bottom: 50px;
 }
 .bookmarks-view > .bookmark-list > h1 {
   color: #55ffb6;

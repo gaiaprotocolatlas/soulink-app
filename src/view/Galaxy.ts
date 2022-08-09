@@ -61,10 +61,10 @@ export default class Galaxy extends View {
         const _rank_cy = cytoscape({ elements });
 
         var pageRank = _rank_cy.elements().pageRank({});
-        var nodeMaxSize = 24;
-        var nodeMinSize = 6;
+        var nodeMaxSize = 60;
+        var nodeMinSize = 14;
         var fontMaxSize = 7;
-        var fontMinSize = 4;
+        var fontMinSize = 3;
 
         var dimColor = '#f4f4f8';
         var textOutlineColor = 'white';
@@ -119,7 +119,7 @@ export default class Galaxy extends View {
                     selector: "edge",
                     style: {
                         "curve-style": "bezier",
-                        "width": 0.3,
+                        "width": 0.5,
                         "line-color": "#fff",
                     },
                 },

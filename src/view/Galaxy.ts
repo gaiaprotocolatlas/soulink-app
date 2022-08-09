@@ -4,7 +4,7 @@ import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Config from "../Config";
 import Bio from "../datamodel/Bio";
 
-cytoscape.use(require("cytoscape-cose-bilkent"));
+cytoscape.use(require("cytoscape-fcose"));
 
 export default class Galaxy extends View {
 
@@ -119,7 +119,7 @@ export default class Galaxy extends View {
                     selector: "edge",
                     style: {
                         "curve-style": "bezier",
-                        "width": 0.5,
+                        "width": 0.3,
                         "line-color": "#fff",
                     },
                 },
@@ -131,7 +131,7 @@ export default class Galaxy extends View {
                 },
             ],
             layout: {
-                name: "cose-bilkent",
+                name: "fcose",
                 animate: false,
                 gravityRangeCompound: 1.5,
                 fit: true,

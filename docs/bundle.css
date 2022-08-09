@@ -1051,6 +1051,7 @@ body {
   display: block;
   margin: auto;
   border-radius: 6px;
+  width: 279px;
 }
 .business-card-view > .bookmark {
   display: block;

@@ -41,6 +41,15 @@ export default class AdminLayout extends View {
             this.background = el(".background-container"),
             this.container = el(".admin-layout",
                 el("header",
+                    el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => SkyRouter.go("/", undefined, true) }),
+                    el(".menu",
+                        this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/me", undefined, true) } }),
+                        this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/my/souls", undefined, true) } }),
+                        this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/my/appearance", undefined, true) } }),
+                    ),
+                    this.saveButton = el("a.save", "Save", { click: () => this.save() }),
+                ),
+                el("main",
                     el("a.background", el("i.fa-solid.fa-panorama"), {
                         click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
                             if (address === undefined || tokenId === undefined) {
@@ -52,14 +61,6 @@ export default class AdminLayout extends View {
                             this.loadBackground();
                         }),
                     }),
-                    el(".menu",
-                        this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/me", undefined, true) } }),
-                        this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/my/souls", undefined, true) } }),
-                        this.links["appearance"] = el("a", "Appearance", { click: () => { SkyRouter.go("/my/appearance", undefined, true) } }),
-                    ),
-                    this.saveButton = el("a.save", "Save", { click: () => this.save() }),
-                ),
-                el("main",
                     this.profile = el(".profile"),
                     this.content = el(".content"),
                 ),
@@ -218,7 +219,7 @@ export default class AdminLayout extends View {
 
     private highlight(uri: string) {
         this.currentLink?.deleteClass("on");
-        if (uri === "admin") {
+        if (uri === "me") {
             this.currentLink = this.links["links"];
         } else {
             this.currentLink = this.links[uri.substring(uri.indexOf("/") + 1)];

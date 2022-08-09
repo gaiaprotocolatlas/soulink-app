@@ -1167,35 +1167,28 @@ body {
   flex-direction: column;
 }
 .admin-layout > header {
-  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 0 20px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 @media only screen and (max-width: 859px) {
   .admin-layout > header {
     gap: 20px;
   }
 }
-.admin-layout > header > .background {
-  position: absolute;
-  left: 20px;
-  top: 20px;
-  z-index: 999;
-  color: #fff;
-}
-@media only screen and (max-width: 859px) {
-  .admin-layout > header > .background {
-    top: 30px;
-  }
-}
-.admin-layout > header > .background:hover,
-.admin-layout > header > .background.on {
-  color: #55ffb6;
-}
 .admin-layout > header > .menu {
+  flex-grow: 1;
+  height: 100%;
   display: flex;
   gap: 20px;
 }
@@ -1205,37 +1198,47 @@ body {
   }
 }
 .admin-layout > header > .menu > a {
-  color: #fff;
-  padding: 6px 20px;
-  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 20px;
 }
 @media only screen and (max-width: 859px) {
   .admin-layout > header > .menu > a {
-    padding: 6px 14px;
+    padding: 0 14px;
   }
 }
 .admin-layout > header > .menu > a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #eee;
 }
 .admin-layout > header > .menu > a.on {
-  border: 1px solid #fff;
+  border-bottom: 2px solid #000;
 }
 .admin-layout > header > a.save {
-  padding: 6px 20px;
+  padding: 12px 20px;
   border-radius: 16px;
   background-color: #ccc;
   color: #000;
-}
-@media only screen and (max-width: 859px) {
-  .admin-layout > header > a.save {
-    padding: 6px 14px;
-  }
 }
 .admin-layout > header > a.save.on {
   background-color: #55FFB6;
 }
 .admin-layout > main {
+  margin-top: 60px;
   flex-grow: 1;
+  position: relative;
+  padding-top: 50px;
+}
+.admin-layout > main > .background {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  z-index: 999;
+  color: #fff;
+}
+.admin-layout > main > .background:hover,
+.admin-layout > main > .background.on {
+  color: #55ffb6;
 }
 .admin-layout > main > .profile {
   width: 320px;

@@ -1,0 +1,16 @@
+{
+    "menu": [
+        {
+            "uri": "me",
+            "key": "Links"
+        },
+        {
+            "uri": "my/souls",
+            "key": "Souls"
+        },
+        {
+            "uri": "my/appearance",
+            "key": "Appearance"
+        }
+    ]
+}

@@ -100,7 +100,7 @@ export default class SoulsSetting extends View {
                         click: async () => {
                             const signedMessage = await Wallet.signMessage("Ignore the request.");
                             const loading = new Loading("Ignoring...").appendTo(this.container!);
-                            await fetch(`${Config.apiURI}/cancel`, {
+                            await fetch(`${Config.apiURI}/ignore`, {
                                 method: "POST",
                                 body: JSON.stringify({
                                     signedMessage,

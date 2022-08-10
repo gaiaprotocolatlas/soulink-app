@@ -73,7 +73,7 @@ export default class AdminLayout extends View {
             ),
         );
 
-        document.title = "Soulink Admin";
+        document.title = "My Souls page";
         this.highlight(uri);
     }
 

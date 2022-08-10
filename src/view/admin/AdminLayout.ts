@@ -172,7 +172,7 @@ export default class AdminLayout extends View {
                 this.background.append(new NFTDisplay(this.bio.cachedBackground));
             } else {
                 this.background.addClass("loading");
-                const result = await fetch(`${Config.apiURI}/background/${this.address}`);
+                const result = await fetch(`${Config.apiURI}/background-loader/${this.bio.background.address}/${this.bio.background.tokenId}`);
                 const str = await result.text();
                 if (str !== "") {
                     this.background.append(new NFTDisplay(str));
@@ -191,7 +191,7 @@ export default class AdminLayout extends View {
                 this.pfpContainer.append(new PFPDisplay(this.bio.cachedPFP));
             } else {
                 this.pfpContainer.addClass("loading");
-                const result = await fetch(`${Config.apiURI}/pfp/${this.address}`);
+                const result = await fetch(`${Config.apiURI}/pfp-loader/${this.bio.pfp.address}/${this.bio.pfp.tokenId}`);
                 const str = await result.text();
                 if (str !== "") {
                     this.pfpContainer.append(new PFPDisplay(str));

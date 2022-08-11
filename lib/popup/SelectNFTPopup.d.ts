@@ -1,5 +1,7 @@
 import { DomNode, Popup } from "skydapp-browser";
 export default class SelectNFTPopup extends Popup {
+    private currentContract;
+    private currentTokenId;
     content: DomNode;
     private main;
     private nftContainer;
@@ -8,10 +10,8 @@ export default class SelectNFTPopup extends Popup {
     private nftDisplays;
     private currentNFTDisplay;
     private loadMoreButton;
-    private currentContract;
-    private currentTokenId;
-    constructor(select: (contract: string | undefined, tokenId: string | undefined) => void);
+    constructor(currentContract: string | undefined, currentTokenId: string | undefined, select: (contract: string | undefined, tokenId: string | undefined) => void);
     private loadNFTs;
-    private onNFT;
+    private selectNFT;
 }
 //# sourceMappingURL=SelectNFTPopup.d.ts.map

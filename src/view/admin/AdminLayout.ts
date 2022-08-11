@@ -52,15 +52,19 @@ export default class AdminLayout extends View {
                 ),
                 el("main",
                     el("a.background", el("i.fa-solid.fa-panorama"), {
-                        click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
-                            if (address === undefined || tokenId === undefined) {
-                                delete this.bio.background;
-                            } else {
-                                this.bio.background = { address, tokenId };
-                            }
-                            this.checkChanges();
-                            this.loadBackground();
-                        }),
+                        click: () => new SelectNFTPopup(
+                            this.bio.background?.address,
+                            this.bio.background?.tokenId,
+                            async (address: string | undefined, tokenId: string | undefined) => {
+                                if (address === undefined || tokenId === undefined) {
+                                    delete this.bio.background;
+                                } else {
+                                    this.bio.background = { address, tokenId };
+                                }
+                                this.checkChanges();
+                                this.loadBackground();
+                            },
+                        ),
                     }),
                     this.profile = el(".profile"),
                     this.content = el(".content"),
@@ -112,15 +116,19 @@ export default class AdminLayout extends View {
                             this.pfpContainer = el(".pfp-container"),
                             el(".add", el("i.fa-regular.fa-plus")),
                             {
-                                click: () => new SelectNFTPopup(async (address: string | undefined, tokenId: string | undefined) => {
-                                    if (address === undefined || tokenId === undefined) {
-                                        delete this.bio.pfp;
-                                    } else {
-                                        this.bio.pfp = { address, tokenId };
-                                    }
-                                    this.checkChanges();
-                                    this.loadPFP();
-                                }),
+                                click: () => new SelectNFTPopup(
+                                    this.bio.pfp?.address,
+                                    this.bio.pfp?.tokenId,
+                                    async (address: string | undefined, tokenId: string | undefined) => {
+                                        if (address === undefined || tokenId === undefined) {
+                                            delete this.bio.pfp;
+                                        } else {
+                                            this.bio.pfp = { address, tokenId };
+                                        }
+                                        this.checkChanges();
+                                        this.loadPFP();
+                                    },
+                                ),
                             },
                         ),
                     );

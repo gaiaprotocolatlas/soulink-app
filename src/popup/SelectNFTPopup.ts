@@ -15,10 +15,11 @@ export default class SelectNFTPopup extends Popup {
     private currentNFTDisplay: DomNode | undefined;
     private loadMoreButton: DomNode;
 
-    private currentContract: string | undefined;
-    private currentTokenId: string | undefined;
-
-    constructor(select: (contract: string | undefined, tokenId: string | undefined) => void) {
+    constructor(
+        private currentContract: string | undefined,
+        private currentTokenId: string | undefined,
+        select: (contract: string | undefined, tokenId: string | undefined) => void,
+    ) {
         super(".popup-background");
 
         this.append(
@@ -34,7 +35,7 @@ export default class SelectNFTPopup extends Popup {
                                 this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
                                     new NFTDisplay(nft.image_thumbnail_url),
                                     el(".name", nft.name === null ? "" : nft.name),
-                                    { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
+                                    { click: () => this.selectNFT(nft.asset_contract.address, nft.token_id) },
                                 ).appendTo(this.nftContainer);
                             }
                             if (nfts.length < 50) {
@@ -43,17 +44,19 @@ export default class SelectNFTPopup extends Popup {
                             if (this.deleted !== true) {
                                 loading.delete();
                             }
+
+                            this.selectNFT(this.currentContract, this.currentTokenId);
                         },
                     }),
                 ),
                 el(".info-form",
                     this.contractAddressInput = el("input", {
                         placeholder: "Contract Address",
-                        keyup: (event) => { if (this.currentTokenId !== undefined) { this.onNFT(event.target.value, this.currentTokenId) } },
+                        keyup: (event) => { if (this.currentTokenId !== undefined) { this.selectNFT(event.target.value, this.currentTokenId) } },
                     }),
                     this.tokenIdInput = el("input", {
                         placeholder: "Token Id",
-                        keyup: (event) => { if (this.currentContract !== undefined) { this.onNFT(this.currentContract, event.target.value) } },
+                        keyup: (event) => { if (this.currentContract !== undefined) { this.selectNFT(this.currentContract, event.target.value) } },
                     }),
                 ),
                 el(".button-container",
@@ -76,11 +79,18 @@ export default class SelectNFTPopup extends Popup {
     private async loadNFTs() {
         const loading = el(".loading").appendTo(this.main, 1);
         const nfts = await NFTLoader.load(AdminLayout.current.address);
+
+        this.nftDisplays["empty"] = el("a.nft",
+            el(".empty"),
+            el(".name", "Empty"),
+            { click: () => this.selectNFT(undefined, undefined) },
+        ).appendTo(this.nftContainer);
+
         for (const nft of nfts) {
             this.nftDisplays[`${nft.asset_contract.address}-${nft.token_id}`] = el("a.nft",
                 new NFTDisplay(nft.image_thumbnail_url),
                 el(".name", nft.name === null ? "" : nft.name),
-                { click: () => this.onNFT(nft.asset_contract.address, nft.token_id) },
+                { click: () => this.selectNFT(nft.asset_contract.address, nft.token_id) },
             ).appendTo(this.nftContainer);
         }
         if (nfts.length < 50) {
@@ -89,18 +99,20 @@ export default class SelectNFTPopup extends Popup {
         if (this.deleted !== true) {
             loading.delete();
         }
+
+        this.selectNFT(this.currentContract, this.currentTokenId);
     }
 
-    private onNFT(contract: string, tokenId: string) {
+    private selectNFT(contract: string | undefined, tokenId: string | undefined) {
 
         this.currentContract = contract;
         this.currentTokenId = tokenId;
 
-        this.contractAddressInput.domElement.value = contract;
-        this.tokenIdInput.domElement.value = tokenId;
+        this.contractAddressInput.domElement.value = contract ?? "";
+        this.tokenIdInput.domElement.value = tokenId ?? "";
 
         this.currentNFTDisplay?.deleteClass("selected");
-        this.currentNFTDisplay = this.nftDisplays[`${contract}-${tokenId}`];
+        this.currentNFTDisplay = this.nftDisplays[contract === undefined || tokenId === undefined ? "empty" : `${contract}-${tokenId}`];
         this.currentNFTDisplay?.addClass("selected");
     }
 }

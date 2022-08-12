@@ -62,7 +62,7 @@ export default class AdminLayout extends View {
                                     this.bio.background = { address, tokenId };
                                 }
                                 this.checkChanges();
-                                this.loadBackground();
+                                this.loadBackground(true);
                             },
                         ),
                     }),
@@ -126,7 +126,7 @@ export default class AdminLayout extends View {
                                             this.bio.pfp = { address, tokenId };
                                         }
                                         this.checkChanges();
-                                        this.loadPFP();
+                                        this.loadPFP(true);
                                     },
                                 ),
                             },
@@ -163,8 +163,8 @@ export default class AdminLayout extends View {
                     this.introduceTextarea.domElement.style.height = "1px";
                     this.introduceTextarea.domElement.style.height = `${this.introduceTextarea.domElement.scrollHeight}px`;
 
-                    this.loadBackground();
-                    this.loadPFP();
+                    this.loadBackground(false);
+                    this.loadPFP(false);
 
                     await proc();
                 }
@@ -173,10 +173,10 @@ export default class AdminLayout extends View {
         loading.delete();
     }
 
-    private async loadBackground() {
+    private async loadBackground(force: boolean) {
         this.background.empty();
         if (this.bio.background !== undefined) {
-            if (this.bio.cachedBackground !== undefined && this.bio.cachedBackground !== null) {
+            if (force !== true && this.bio.cachedBackground !== undefined && this.bio.cachedBackground !== null) {
                 this.background.append(new NFTDisplay(this.bio.cachedBackground));
             } else {
                 this.background.addClass("loading");
@@ -190,12 +190,12 @@ export default class AdminLayout extends View {
         }
     }
 
-    private async loadPFP() {
+    private async loadPFP(force: boolean) {
         if (this.pfpContainer !== undefined) {
             this.pfpContainer.empty();
             if (this.bio?.pfp === undefined) {
                 this.pfpContainer.append(new ResponsiveImage("img", "/images/default-profile.png"));
-            } else if (this.bio.cachedPFP !== undefined && this.bio.cachedPFP !== null) {
+            } else if (force !== true && this.bio.cachedPFP !== undefined && this.bio.cachedPFP !== null) {
                 this.pfpContainer.append(new PFPDisplay(this.bio.cachedPFP));
             } else {
                 this.pfpContainer.addClass("loading");

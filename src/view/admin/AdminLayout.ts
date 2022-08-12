@@ -210,17 +210,21 @@ export default class AdminLayout extends View {
     }
 
     private async save() {
-        const signedMessage = await Wallet.signMessage("Save your changes.");
-        const loading = new Loading("Saving...").appendTo(this.container);
-        await fetch(`${Config.apiURI}/bio`, {
-            method: "POST",
-            body: JSON.stringify({ signedMessage, bio: this.bio }),
-        });
-        this.prevBio = JSON.parse(JSON.stringify(this.bio));
-        this.checkChanges();
-        loading.delete();
-        new Alert("Changes Saved!");
-        SkyRouter.go(`/${this.name}`);
+        if (this.address !== await Wallet.loadAddress()) {
+            new Alert(`Whoa! Looks like you’ve signed in with another account. Please sign back in with ${this.address} to continue.`);
+        } else {
+            const signedMessage = await Wallet.signMessage("Save your changes.");
+            const loading = new Loading("Saving...").appendTo(this.container);
+            await fetch(`${Config.apiURI}/bio`, {
+                method: "POST",
+                body: JSON.stringify({ signedMessage, bio: this.bio }),
+            });
+            this.prevBio = JSON.parse(JSON.stringify(this.bio));
+            this.checkChanges();
+            loading.delete();
+            new Alert("Changes Saved!");
+            SkyRouter.go(`/${this.name}`);
+        }
     }
 
     public checkChanges() {

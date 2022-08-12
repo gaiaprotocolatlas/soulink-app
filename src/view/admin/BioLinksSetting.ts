@@ -7,6 +7,7 @@ export default class BioLinksSetting extends View {
     private container: DomNode | undefined;
     private linkContainer: DomNode | undefined;
     private bar: DomNode | undefined;
+    private emptyMessage: DomNode | undefined;
     private toIndex = 0;
 
     constructor() {
@@ -20,6 +21,7 @@ export default class BioLinksSetting extends View {
                 AdminLayout.current.content.append(this.container = el(".bio-link-setting-view",
                     this.linkContainer = el(".link-container"),
                     this.bar = el(".bar"),
+                    this.emptyMessage = el("p.empty", "This Soul has no external links."),
                     el("a.add", el("i.fa-regular.fa-plus"), {
                         click: () => {
                             AdminLayout.current.bio.links.push({
@@ -84,6 +86,12 @@ export default class BioLinksSetting extends View {
                     this.showLinks();
                     this.hideBar();
                 });
+            }
+
+            if (this.linkContainer.children.length === 0) {
+                this.emptyMessage?.addClass("show");
+            } else {
+                this.emptyMessage?.deleteClass("show");
             }
         }
     }

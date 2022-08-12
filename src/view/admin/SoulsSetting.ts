@@ -136,6 +136,14 @@ export default class SoulsSetting extends View {
                 })).appendTo(this.toLinkContainer!);
             }
         }
+
+        if (
+            this.toLinkContainer?.children.length === 0 &&
+            this.toAcceptContainer?.children.length === 0 &&
+            this.linkedContainer?.children.length === 0
+        ) {
+            this.container?.append(el("p.empty", "This Soul isn’t Soulinked with anyone yet."));
+        }
     }
 
     public close(): void {

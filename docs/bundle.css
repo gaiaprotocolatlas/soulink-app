@@ -951,6 +951,12 @@ body {
   text-decoration: none;
   color: #000;
 }
+.bio-links-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+}
 .nfts-view > .nft-container {
   margin: auto;
   width: 336px;
@@ -970,6 +976,12 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.nfts-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }
 .nfts-view > .loading {
   width: 50px;
@@ -1016,6 +1028,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+.souls-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }
 .souls-view > .loading {
   width: 50px;
@@ -1172,6 +1190,12 @@ body {
 }
 .bookmarks-view > .bookmark-list > .bookmark > a:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+.bookmarks-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }
 .admin-layout {
   position: absolute;
@@ -1371,6 +1395,16 @@ body {
   left: -999999px;
   top: -999999px;
 }
+.bio-link-setting-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
+  display: none;
+}
+.bio-link-setting-view > .empty.show {
+  display: block;
+}
 .bio-link-setting-view > a.add {
   color: #ff0f34;
   background-color: #fff;
@@ -1387,6 +1421,12 @@ body {
 .souls-setting-view > .soul-list {
   width: 330px;
   margin: auto;
+}
+.souls-setting-view > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }
 .souls-setting-view > .loading {
   width: 50px;
@@ -1519,6 +1559,12 @@ body {
 .select-nft-popup > main > .nft-container > .nft.selected {
   background-color: #55ffb6;
   border-radius: 6px;
+}
+.select-nft-popup > main > .empty {
+  width: 330px;
+  padding: 10px;
+  margin: auto;
+  text-align: center;
 }
 .select-nft-popup > main > .loading {
   width: 50px;

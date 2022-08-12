@@ -22,6 +22,10 @@ export default class BioLinks extends View {
                     this.linkContainer = el(".link-container"),
                 ));
 
+                if (Layout.current.bio.links.length === 0) {
+                    this.container.append(el("p.empty", "This Soul has no external links."));
+                }
+
                 for (const link of Layout.current.bio.links) {
                     this.linkContainer.append(el("a.link",
                         el(".title", link.title),

@@ -32,6 +32,10 @@ export default class Souls extends View {
                     const result = await fetch(`${Config.apiURI}/linked/${Layout.current.currentAddress}`);
                     const linked: Bio[] = await result.json();
 
+                    if (linked.length === 0) {
+                        this.container?.append(el("p.empty", "This Soul isn’t Soulinked with anyone yet."));
+                    }
+
                     for (const bio of linked) {
                         new SoulDisplay(bio, Layout.current.bio.color).appendTo(this.soulList!);
                     }

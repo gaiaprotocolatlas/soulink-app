@@ -93,6 +93,9 @@ export default class SelectNFTPopup extends Popup {
                 { click: () => this.selectNFT(nft.asset_contract.address, nft.token_id) },
             ).appendTo(this.nftContainer);
         }
+        if (nfts.length === 0) {
+            this.main.append(el("p.empty", "This Soul does not own any NFTs yet."));
+        }
         if (nfts.length < 50) {
             this.loadMoreButton.delete();
         }

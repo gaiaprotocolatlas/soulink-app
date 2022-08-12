@@ -23,7 +23,9 @@ export default class Bookmarks extends View {
     }
 
     private async load() {
-        if (BookmarkManager.all.length > 0) {
+        if (BookmarkManager.all.length === 0) {
+            this.container.append(el("p.empty", "You have no bookmarked Souls."));
+        } else {
             const result = await fetch(`${Config.apiURI}/bios?addresses=${JSON.stringify(BookmarkManager.all)}`);
             const bios: Bio[] = await result.json();
 

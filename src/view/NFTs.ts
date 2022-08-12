@@ -63,6 +63,9 @@ export default class NFTs extends View {
                                 nftDisplay.style({ color: Layout.current.bio.color });
                             }
                         }
+                        if (nfts.length === 0) {
+                            this.container?.append(el("p.empty", "This Soul does not own any NFTs yet."));
+                        }
                         if (nfts.length < 50) {
                             loadMoreButton.delete();
                         }

@@ -14,7 +14,7 @@ export default class Bookmarks extends View {
         super();
         BodyNode.append(this.container = el(".bookmarks-view",
             el("header",
-                el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => SkyRouter.go("/", undefined, true) }),
+                el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => history.back() }),
                 el("h1", "Bookmarks"),
             ),
             this.bookmarkList = el(".bookmark-list"),

@@ -3,6 +3,7 @@ import { BodyNode, DomNode, el, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import Config from "../Config";
 import Bio from "../datamodel/Bio";
+import NetworkProvider from "../network/NetworkProvider";
 
 cytoscape.use(require("cytoscape-fcose"));
 
@@ -15,15 +16,15 @@ export default class Galaxy extends View {
         super();
         BodyNode.append(this.container = el(".galaxy-view",
             el("header",
-                el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => SkyRouter.go("/", undefined, true) }),
+                el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => history.back() }),
                 el("h1", "Soul Galaxy"),
             ),
             this.galaxyContainer = el(".galaxy-container"),
         ));
-        this.load();
+        this.load(params.addressOrEns);
     }
 
-    private async load() {
+    private async load(addressOrEns: string | undefined) {
 
         const result = await fetch(`${Config.apiURI}/galaxy`);
         const data: { souls: Bio[], soulinks: { id: string, address0: string, address1: string }[] } = await result.json();
@@ -288,6 +289,36 @@ export default class Galaxy extends View {
         waitForWebfonts(['OCRAStd'], function () {
             cy.forceRender();
         })
+
+        cy.zoom(3);
+
+        if (addressOrEns !== undefined) {
+
+            let address;
+            if (addressOrEns.indexOf("0x") === 0) {
+                address = addressOrEns;
+            } else {
+
+                const result = await fetch(`${Config.apiURI}/cached-address/${addressOrEns}`);
+                const cachedAddress = await result.text();
+                if (cachedAddress !== "") {
+                    address = cachedAddress;
+                } else {
+                    const _address = await NetworkProvider.resolveName(addressOrEns);
+                    if (_address !== null) {
+                        address = _address;
+                    }
+                }
+            }
+
+            if (address !== undefined) {
+                cy.center(cy.$(`#${address}`));
+            }
+        }
+    }
+
+    public changeParams(params: ViewParams, uri: string): void {
+        this.load(params.addressOrEns);
     }
 
     public close(): void {

@@ -1024,7 +1024,11 @@ body {
   width: 330px;
   margin: auto;
 }
+.souls-view > .galaxy {
+  text-align: center;
+}
 .souls-view > .soul-list {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;

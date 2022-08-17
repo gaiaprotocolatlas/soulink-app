@@ -1,4 +1,4 @@
-import { DomNode, el } from "skydapp-browser";
+import { DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 import SoulDisplay from "../components/SoulDisplay";
 import Config from "../Config";
@@ -23,6 +23,11 @@ export default class Souls extends View {
 
                 let loading;
                 Layout.current.content.append(this.container = el(".souls-view",
+                    el(".galaxy",
+                        el("a", new ResponsiveImage("img", "/images/user-galaxy.png"), {
+                            click: () => SkyRouter.go(`/galaxy/${addressOrEns}`, undefined, true),
+                        }),
+                    ),
                     this.soulList = el(".soul-list"),
                     loading = el(".loading"),
                 ));

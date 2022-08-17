@@ -27,7 +27,7 @@ import Souls from "./view/Souls";
     SkyRouter.route("mint", Mint);
     SkyRouter.route("mint/success", MintSuccess);
     SkyRouter.route("mint/failed", MintFailed);
-    SkyRouter.route("galaxy", Galaxy);
+    SkyRouter.route(["galaxy", "galaxy/{addressOrEns}"], Galaxy);
     SkyRouter.route("bookmarks", Bookmarks);
 
     SkyRouter.route([
@@ -36,13 +36,13 @@ import Souls from "./view/Souls";
         "{addressOrEns}/souls",
         "{addressOrEns}/card",
     ], Layout, [
-        "mint", "owner", "galaxy", "bookmarks",
+        "mint", "owner", "galaxy", "galaxy/{addressOrEns}", "bookmarks",
         "me", "my/links", "my/souls",
         "admin", "admin/links", "admin/souls",
     ]);
 
     SkyRouter.route(["{addressOrEns}", "{addressOrEns}/links"], BioLinks, [
-        "mint", "owner", "galaxy", "bookmarks",
+        "mint", "owner", "galaxy", "galaxy/{addressOrEns}", "bookmarks",
         "me", "my/links",
         "admin", "admin/links",
     ]);

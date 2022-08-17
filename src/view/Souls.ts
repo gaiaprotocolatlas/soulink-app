@@ -25,7 +25,7 @@ export default class Souls extends View {
                 let loading;
                 Layout.current.content.append(this.container = el(".souls-view",
                     galaxy = el(".galaxy",
-                        el("a", new ResponsiveImage("img", "/images/user-galaxy.png"), "View in Galaxy", {
+                        el("a", new ResponsiveImage("img", "/images/user-galaxy.png"), "View Galaxy", {
                             click: () => SkyRouter.go(`/galaxy/${addressOrEns}`, undefined, true),
                         }),
                     ),

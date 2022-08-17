@@ -19,7 +19,7 @@ import Souls from "./view/Souls";
 
 (async () => {
     if (sessionStorage.__spa_path) {
-        SkyRouter.go(sessionStorage.__spa_path);
+        SkyRouter.goNoHistory(sessionStorage.__spa_path);
         sessionStorage.removeItem("__spa_path");
     }
 

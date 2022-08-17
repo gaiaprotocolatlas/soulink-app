@@ -120,7 +120,7 @@ export default class Galaxy extends View {
                     selector: "edge",
                     style: {
                         "curve-style": "bezier",
-                        "width": 0.5,
+                        "width": 0.2,
                         "line-color": "#fff",
                     },
                 },

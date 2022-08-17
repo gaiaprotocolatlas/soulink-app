@@ -1025,7 +1025,14 @@ body {
   margin: auto;
 }
 .souls-view > .galaxy {
+  display: flex;
+  justify-content: center;
+}
+.souls-view > .galaxy > a {
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  gap: 10px;
 }
 .souls-view > .soul-list {
   margin-top: 20px;

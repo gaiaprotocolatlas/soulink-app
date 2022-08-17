@@ -21,16 +21,19 @@ export default class Souls extends View {
         await Layout.current.ready(addressOrEns, async () => {
             if (this.closed !== true) {
 
+                let galaxy;
                 let loading;
                 Layout.current.content.append(this.container = el(".souls-view",
-                    el(".galaxy",
-                        el("a", new ResponsiveImage("img", "/images/user-galaxy.png"), {
+                    galaxy = el(".galaxy",
+                        el("a", new ResponsiveImage("img", "/images/user-galaxy.png"), "View in Galaxy", {
                             click: () => SkyRouter.go(`/galaxy/${addressOrEns}`, undefined, true),
                         }),
                     ),
                     this.soulList = el(".soul-list"),
                     loading = el(".loading"),
                 ));
+
+                galaxy.style({ color: Layout.current.bio.color });
 
                 (async () => {
 

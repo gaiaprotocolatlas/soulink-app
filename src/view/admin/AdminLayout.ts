@@ -217,7 +217,7 @@ export default class AdminLayout extends View {
             const loading = new Loading("Saving...").appendTo(this.container);
             await fetch(`${Config.apiURI}/bio`, {
                 method: "POST",
-                body: JSON.stringify({ signedMessage, bio: this.bio }),
+                body: JSON.stringify({ address: this.address, signedMessage, bio: this.bio }),
             });
             this.prevBio = JSON.parse(JSON.stringify(this.bio));
             this.checkChanges();

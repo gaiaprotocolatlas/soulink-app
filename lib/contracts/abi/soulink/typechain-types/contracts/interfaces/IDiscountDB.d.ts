@@ -10,12 +10,25 @@ export interface IDiscountDBInterface extends utils.Interface {
     encodeFunctionData(functionFragment: "getDiscountRate", values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]): string;
     decodeFunctionResult(functionFragment: "getDiscountRate", data: BytesLike): Result;
     events: {
+        "UpdateERC1155DiscountRate(address,uint256,uint16)": EventFragment;
         "UpdateNFTDiscountRate(address,uint16)": EventFragment;
         "UpdateUserDiscountRate(address,uint16)": EventFragment;
     };
+    getEvent(nameOrSignatureOrTopic: "UpdateERC1155DiscountRate"): EventFragment;
     getEvent(nameOrSignatureOrTopic: "UpdateNFTDiscountRate"): EventFragment;
     getEvent(nameOrSignatureOrTopic: "UpdateUserDiscountRate"): EventFragment;
 }
+export interface UpdateERC1155DiscountRateEventObject {
+    token: string;
+    tokenId: BigNumber;
+    discountRate: number;
+}
+export declare type UpdateERC1155DiscountRateEvent = TypedEvent<[
+    string,
+    BigNumber,
+    number
+], UpdateERC1155DiscountRateEventObject>;
+export declare type UpdateERC1155DiscountRateEventFilter = TypedEventFilter<UpdateERC1155DiscountRateEvent>;
 export interface UpdateNFTDiscountRateEventObject {
     nft: string;
     discountRate: number;
@@ -56,6 +69,8 @@ export interface IDiscountDB extends BaseContract {
         getDiscountRate(target: PromiseOrValue<string>, data: PromiseOrValue<BytesLike>, overrides?: CallOverrides): Promise<number>;
     };
     filters: {
+        "UpdateERC1155DiscountRate(address,uint256,uint16)"(token?: null, tokenId?: null, discountRate?: null): UpdateERC1155DiscountRateEventFilter;
+        UpdateERC1155DiscountRate(token?: null, tokenId?: null, discountRate?: null): UpdateERC1155DiscountRateEventFilter;
         "UpdateNFTDiscountRate(address,uint16)"(nft?: null, discountRate?: null): UpdateNFTDiscountRateEventFilter;
         UpdateNFTDiscountRate(nft?: null, discountRate?: null): UpdateNFTDiscountRateEventFilter;
         "UpdateUserDiscountRate(address,uint16)"(user?: null, discountRate?: null): UpdateUserDiscountRateEventFilter;

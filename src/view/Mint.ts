@@ -1,9 +1,14 @@
 import { utils } from "ethers";
+import { defaultAbiCoder } from "ethers/lib/utils";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
 import Loading from "../components/Loading";
+import Config from "../Config";
+import DiscountDBContract from "../contracts/DiscountDBContract";
 import SoulinkContract from "../contracts/SoulinkContract";
 import SoulinkMinterContract from "../contracts/SoulinkMinterContract";
+import ERC1155Contract from "../contracts/standards/ERC1155Contract";
+import ERC721Contract from "../contracts/standards/ERC721Contract";
 import NetworkProvider from "../network/NetworkProvider";
 import Wallet from "../network/Wallet";
 import Alert from "../popup/Alert";
@@ -12,6 +17,7 @@ export default class Mint extends View {
 
     private container: DomNode;
     private priceDisplay: DomNode;
+    private help: DomNode;
 
     private interval: any;
 
@@ -34,6 +40,7 @@ export default class Mint extends View {
                             el("p.quantity", "Quantity : MAX 1 per wallet : ", el("span", el("b", "1"))),
                             el("p.price", "Price: ", el("span", this.priceDisplay = el("b", "..."), "eth")),
                         ),
+                        this.help = el("p.help"),
                         el("a.mint", "Mint", {
                             click: async () => {
                                 const loading = new Loading("Minting...").appendTo(this.container);
@@ -95,8 +102,53 @@ export default class Mint extends View {
     };
 
     private async loadPrice() {
+
+        let discountPercent = 0;
+        let discountNFT: string | undefined;
+
+        const user = await Wallet.loadAddress();
+        if (user !== undefined) {
+            const promises: Promise<void>[] = [];
+            for (const [address, type] of Object.entries(Config.discountNFTs)) {
+
+                // ERC 721
+                if (type === 1) {
+                    promises.push((async () => {
+                        const balance = await new ERC721Contract(address).balanceOf(user);
+                        if (balance.gt(0)) {
+                            discountPercent = await DiscountDBContract.getDiscountRate(user, defaultAbiCoder.encode(["address"], [address]));
+                            discountNFT = address;
+                        }
+                    })());
+                }
+
+                // ERC 1155
+                else if (type === 2) {
+                    promises.push((async () => {
+                        const balance = await new ERC1155Contract(address).balanceOf(user, 0);
+                        if (balance.gt(0)) {
+                            discountPercent = await DiscountDBContract.getDiscountRate(user, defaultAbiCoder.encode(["address", "uint256"], [address, 0]));
+                            discountNFT = address;
+                        }
+                    })());
+                }
+            }
+            await Promise.all(promises);
+        }
+
         const price = await SoulinkMinterContract.mintPrice();
-        this.priceDisplay.empty().appendText(utils.formatEther(price));
+        this.priceDisplay.empty().appendText(utils.formatEther(price.mul(10000 - discountPercent).div(10000)));
+
+        if (discountNFT !== undefined) {
+            let name = "";
+            if (discountNFT === "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb") { name = "CryptoPunks"; }
+            if (discountNFT === "0xb48E526d935BEe3891222f6aC10A253e31CCaBE1") { name = "Gaia Protocol Genesis"; }
+            if (discountNFT === "0xe7df0DcA32eb23F4182055dC6a2053A3fF239315") { name = "Gaia Protocol Supernova"; }
+            if (discountNFT === "0xFfFd676Bffd8797f34C2Adc3E808F374CAEe49D8") { name = "Gaia Protocol Stable DAO"; }
+            if (discountNFT === "0xa7298e98362625b65d08bb4c25992c503a0d48db") { name = "The Koreans"; }
+            if (discountNFT === "0xDb63fFDc5FE6A6433dC503Fe33108f5057735058") { name = "Project GMGN"; }
+            this.help.empty().appendText(`This discount is applied to you because you are own a(an) ${name}.`);
+        }
     }
 
     public close(): void {

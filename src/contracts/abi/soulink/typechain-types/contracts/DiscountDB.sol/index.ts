@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { DiscountDBV0 } from "./DiscountDBV0";
+export type { DiscountDBV1 } from "./DiscountDBV1";

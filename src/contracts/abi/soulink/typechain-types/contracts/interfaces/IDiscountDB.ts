@@ -42,13 +42,28 @@ export interface IDiscountDBInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "UpdateERC1155DiscountRate(address,uint256,uint16)": EventFragment;
     "UpdateNFTDiscountRate(address,uint16)": EventFragment;
     "UpdateUserDiscountRate(address,uint16)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "UpdateERC1155DiscountRate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateNFTDiscountRate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateUserDiscountRate"): EventFragment;
 }
+
+export interface UpdateERC1155DiscountRateEventObject {
+  token: string;
+  tokenId: BigNumber;
+  discountRate: number;
+}
+export type UpdateERC1155DiscountRateEvent = TypedEvent<
+  [string, BigNumber, number],
+  UpdateERC1155DiscountRateEventObject
+>;
+
+export type UpdateERC1155DiscountRateEventFilter =
+  TypedEventFilter<UpdateERC1155DiscountRateEvent>;
 
 export interface UpdateNFTDiscountRateEventObject {
   nft: string;
@@ -123,6 +138,17 @@ export interface IDiscountDB extends BaseContract {
   };
 
   filters: {
+    "UpdateERC1155DiscountRate(address,uint256,uint16)"(
+      token?: null,
+      tokenId?: null,
+      discountRate?: null
+    ): UpdateERC1155DiscountRateEventFilter;
+    UpdateERC1155DiscountRate(
+      token?: null,
+      tokenId?: null,
+      discountRate?: null
+    ): UpdateERC1155DiscountRateEventFilter;
+
     "UpdateNFTDiscountRate(address,uint16)"(
       nft?: null,
       discountRate?: null

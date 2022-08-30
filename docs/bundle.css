@@ -587,7 +587,6 @@ body {
 }
 .mint-view > main > section > section > .info {
   margin-top: 40px;
-  margin-bottom: 34px;
   display: flex;
   justify-content: space-between;
 }
@@ -621,7 +620,11 @@ body {
   border-radius: 6.5px;
   background-color: #55ffb6;
 }
+.mint-view > main > section > section > .help {
+  margin-top: 14px;
+}
 .mint-view > main > section > section > a.mint {
+  margin-top: 24px;
   display: block;
   width: 211px;
   height: 48px;

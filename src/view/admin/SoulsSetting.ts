@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { DomNode, el } from "skydapp-browser";
 import { View } from "skydapp-common";
 import Loading from "../../components/Loading";
@@ -84,10 +85,10 @@ export default class SoulsSetting extends View {
                             } else {
                                 const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                                 const signature = await Wallet.signTypedData(AdminLayout.current.address, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                                    { name: "to", type: "address" },
+                                    { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    to: request.requester,
+                                    targetId: BigNumber.from(request.requester),
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/accept`, {

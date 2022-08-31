@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { SkyUtil, View, ViewParams } from "skydapp-common";
 import BookmarkManager from "../BookmarkManager";
@@ -251,10 +252,10 @@ export default class Layout extends View {
                             click: async () => {
                                 const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                                 const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                                    { name: "to", type: "address" },
+                                    { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    to: this.currentAddress,
+                                    targetId: BigNumber.from(this.currentAddress),
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/accept`, {
@@ -300,10 +301,10 @@ export default class Layout extends View {
                             click: async () => {
                                 const deadline = Math.floor(Date.now() / 1000) + 315360000; // +10년
                                 const signature = await Wallet.signTypedData(walletAddress, "Soulink", "1", SoulinkContract.address, "RequestLink", [
-                                    { name: "to", type: "address" },
+                                    { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    to: this.currentAddress,
+                                    targetId: BigNumber.from(this.currentAddress),
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/request`, {

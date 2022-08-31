@@ -85,7 +85,7 @@ export default class Mint extends View {
             if (address !== undefined) {
                 const balance = await SoulinkContract.balanceOf(address);
                 if (balance.gt(0)) {
-                    SkyRouter.go("/mint/success", undefined, true);
+                    //SkyRouter.go("/mint/success", undefined, true);
                 }
             }
         };
@@ -137,17 +137,20 @@ export default class Mint extends View {
         }
 
         const price = await SoulinkMinterContract.mintPrice();
-        this.priceDisplay.empty().appendText(utils.formatEther(price.mul(10000 - discountPercent).div(10000)));
 
-        if (discountNFT !== undefined) {
-            let name = "";
-            if (discountNFT === "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb") { name = "CryptoPunks"; }
-            if (discountNFT === "0xb48E526d935BEe3891222f6aC10A253e31CCaBE1") { name = "Gaia Protocol Genesis"; }
-            if (discountNFT === "0xe7df0DcA32eb23F4182055dC6a2053A3fF239315") { name = "Gaia Protocol Supernova"; }
-            if (discountNFT === "0xFfFd676Bffd8797f34C2Adc3E808F374CAEe49D8") { name = "Gaia Protocol Stable DAO"; }
-            if (discountNFT === "0xa7298e98362625b65d08bb4c25992c503a0d48db") { name = "The Koreans"; }
-            if (discountNFT === "0xDb63fFDc5FE6A6433dC503Fe33108f5057735058") { name = "Project GMGN"; }
-            this.help.empty().appendText(`This discount is applied to you because you are own a(an) ${name}.`);
+        if (this.closed !== true) {
+            this.priceDisplay.empty().appendText(utils.formatEther(price.mul(10000 - discountPercent).div(10000)));
+
+            if (discountNFT !== undefined) {
+                let name = "";
+                if (discountNFT === "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb") { name = "CryptoPunks"; }
+                if (discountNFT === "0xb48E526d935BEe3891222f6aC10A253e31CCaBE1") { name = "Gaia Protocol"; }
+                if (discountNFT === "0xe7df0DcA32eb23F4182055dC6a2053A3fF239315") { name = "Gaia Protocol"; }
+                if (discountNFT === "0xFfFd676Bffd8797f34C2Adc3E808F374CAEe49D8") { name = "Gaia Protocol"; }
+                if (discountNFT === "0xa7298e98362625b65d08bb4c25992c503a0d48db") { name = "The Koreans"; }
+                if (discountNFT === "0xDb63fFDc5FE6A6433dC503Fe33108f5057735058") { name = "Project GMGN"; }
+                this.help.empty().appendText(`This discount is applied to you because you are own a(an) ${name}.`);
+            }
         }
     }
 

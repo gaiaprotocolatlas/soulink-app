@@ -1,4 +1,6 @@
 import { SkyRouter } from "skydapp-browser";
+import Config from "./Config";
+import Wallet from "./network/Wallet";
 import AdminLayout from "./view/admin/AdminLayout";
 import AppearanceSetting from "./view/admin/AppearanceSetting";
 import BioLinksSetting from "./view/admin/BioLinksSetting";
@@ -74,4 +76,8 @@ import Souls from "./view/Souls";
     ], OwnerLayout);
 
     SkyRouter.route(["owner", "owner/discount"], DiscountSetting);
+
+    if (await Wallet.loadChainId() !== Config.chainId) {
+        alert(`Wrong Network. Please change to ${Config.network}.`);
+    }
 })();

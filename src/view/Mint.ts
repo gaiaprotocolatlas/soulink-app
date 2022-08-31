@@ -18,6 +18,7 @@ export default class Mint extends View {
     private container: DomNode;
     private priceDisplay: DomNode;
     private help: DomNode;
+    private discountData: string = "0x";
 
     private interval: any;
 
@@ -54,7 +55,7 @@ export default class Mint extends View {
                                         loading.delete();
                                     } else {
                                         try {
-                                            await SoulinkMinterContract.mint(false, "0x");
+                                            await SoulinkMinterContract.mint(false, this.discountData);
                                             loading.delete();
                                         } catch (error) {
                                             console.error(error);
@@ -116,7 +117,8 @@ export default class Mint extends View {
                     promises.push((async () => {
                         const balance = await new ERC721Contract(address).balanceOf(user);
                         if (balance.gt(0)) {
-                            discountPercent = await DiscountDBContract.getDiscountRate(user, defaultAbiCoder.encode(["address"], [address]));
+                            this.discountData = defaultAbiCoder.encode(["address"], [address]);
+                            discountPercent = await DiscountDBContract.getDiscountRate(user, this.discountData);
                             discountNFT = address;
                         }
                     })());
@@ -127,7 +129,8 @@ export default class Mint extends View {
                     promises.push((async () => {
                         const balance = await new ERC1155Contract(address).balanceOf(user, 0);
                         if (balance.gt(0)) {
-                            discountPercent = await DiscountDBContract.getDiscountRate(user, defaultAbiCoder.encode(["address", "uint256"], [address, 0]));
+                            this.discountData = defaultAbiCoder.encode(["address", "uint256"], [address, 0]);
+                            discountPercent = await DiscountDBContract.getDiscountRate(user, this.discountData);
                             discountNFT = address;
                         }
                     })());

@@ -56,7 +56,7 @@ export default class Mint extends View {
                                         loading.delete();
                                     } else {
                                         try {
-                                            await SoulinkMinterContract.mint(this.discountData === "0x", this.discountData, this.price);
+                                            await SoulinkMinterContract.mint(this.discountData !== "0x", this.discountData, this.price);
                                             loading.delete();
                                         } catch (error) {
                                             console.error(error);

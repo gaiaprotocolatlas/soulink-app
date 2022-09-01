@@ -87,7 +87,7 @@ export default class Mint extends View {
             if (address !== undefined) {
                 const balance = await SoulinkContract.balanceOf(address);
                 if (balance.gt(0)) {
-                    //SkyRouter.go("/mint/success", undefined, true);
+                    SkyRouter.go("/mint/success", undefined, true);
                 }
             }
         };

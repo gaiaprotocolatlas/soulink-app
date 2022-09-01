@@ -255,7 +255,7 @@ export default class Layout extends View {
                                     { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    targetId: this.currentAddress,
+                                    targetId: BigNumber.from(this.currentAddress).toString(),
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/accept`, {
@@ -304,7 +304,7 @@ export default class Layout extends View {
                                     { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    targetId: this.currentAddress,
+                                    targetId: BigNumber.from(this.currentAddress).toString(),
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/request`, {

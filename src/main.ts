@@ -80,4 +80,5 @@ import Souls from "./view/Souls";
     if (await Wallet.loadChainId() !== Config.chainId) {
         alert(`Wrong Network. Please change to ${Config.network}.`);
     }
+    console.log("TEST!");
 })();

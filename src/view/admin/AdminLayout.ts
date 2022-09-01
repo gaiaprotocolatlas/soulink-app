@@ -42,7 +42,7 @@ export default class AdminLayout extends View {
             this.background = el(".background-container"),
             this.container = el(".admin-layout",
                 el("header",
-                    el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => SkyRouter.go("/", undefined, true) }),
+                    el("a.back", el("i.fa-light.fa-arrow-left"), { click: () => history.back() }),
                     el(".menu",
                         this.links["links"] = el("a", "Links", { click: () => { SkyRouter.go("/me", undefined, true) } }),
                         this.links["souls"] = el("a", "Souls", { click: () => { SkyRouter.go("/my/souls", undefined, true) } }),

@@ -4,7 +4,7 @@ import Contract from "./Contract";
 declare class SoulinkMinterContract extends Contract<SoulinkMinter> {
     constructor();
     mintPrice(): Promise<BigNumber>;
-    mint(discount: boolean, data: string): Promise<void>;
+    mint(discount: boolean, data: string, price: BigNumber): Promise<void>;
 }
 declare const _default: SoulinkMinterContract;
 export default _default;

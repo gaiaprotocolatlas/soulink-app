@@ -14,9 +14,9 @@ class SoulinkMinterContract extends Contract<SoulinkMinter> {
         return await this.contract.mintPrice();
     }
 
-    public async mint(discount: boolean, data: string) {
+    public async mint(discount: boolean, data: string, price: BigNumber) {
         const contract = await this.connectAndGetWalletContract();
-        await contract?.mint(discount, data, { value: await this.mintPrice() });
+        await contract?.mint(discount, data, { value: price });
     }
 }
 

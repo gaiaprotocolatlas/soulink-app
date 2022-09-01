@@ -88,7 +88,7 @@ export default class SoulsSetting extends View {
                                     { name: "targetId", type: "uint256" },
                                     { name: "deadline", type: "uint256" },
                                 ], {
-                                    targetId: BigNumber.from(request.requester).toString(),
+                                    targetId: request.requester,
                                     deadline,
                                 });
                                 await fetch(`${Config.apiURI}/accept`, {

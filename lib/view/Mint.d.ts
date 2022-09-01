@@ -4,6 +4,7 @@ export default class Mint extends View {
     private priceDisplay;
     private help;
     private discountData;
+    private price;
     private interval;
     constructor(params: ViewParams);
     private tansferHandler;

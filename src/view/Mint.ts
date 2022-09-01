@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { defaultAbiCoder } from "ethers/lib/utils";
 import { BodyNode, DomNode, el, ResponsiveImage, SkyRouter } from "skydapp-browser";
 import { View, ViewParams } from "skydapp-common";
@@ -19,6 +19,7 @@ export default class Mint extends View {
     private priceDisplay: DomNode;
     private help: DomNode;
     private discountData: string = "0x";
+    private price = BigNumber.from(0);
 
     private interval: any;
 
@@ -55,7 +56,7 @@ export default class Mint extends View {
                                         loading.delete();
                                     } else {
                                         try {
-                                            await SoulinkMinterContract.mint(this.discountData === "0x", this.discountData);
+                                            await SoulinkMinterContract.mint(this.discountData === "0x", this.discountData, this.price);
                                             loading.delete();
                                         } catch (error) {
                                             console.error(error);
@@ -139,10 +140,11 @@ export default class Mint extends View {
             await Promise.all(promises);
         }
 
-        const price = await SoulinkMinterContract.mintPrice();
+        this.price = await SoulinkMinterContract.mintPrice();
 
         if (this.closed !== true) {
-            this.priceDisplay.empty().appendText(utils.formatEther(price.mul(10000 - discountPercent).div(10000)));
+            this.price = this.price.mul(10000 - discountPercent).div(10000);
+            this.priceDisplay.empty().appendText(utils.formatEther(this.price));
 
             if (discountNFT !== undefined) {
                 let name = "";

@@ -8,4 +8,5 @@ import type * as test from "./test";
 export type { test };
 export type { Soulink } from "./Soulink";
 export type { SoulinkMinter } from "./SoulinkMinter";
+export type { SoulinkSignatureChecker } from "./SoulinkSignatureChecker";
 //# sourceMappingURL=index.d.ts.map

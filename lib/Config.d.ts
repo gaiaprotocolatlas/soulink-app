@@ -7,6 +7,7 @@ declare const _default: {
         Soulink: string;
         SoulinkMinter: string;
         DiscountDB: string;
+        SoulinkSignatureChecker: string;
     };
     discountNFTs: {
         "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb"?: undefined;
@@ -25,6 +26,7 @@ declare const _default: {
         Soulink: string;
         SoulinkMinter: string;
         DiscountDB: string;
+        SoulinkSignatureChecker: string;
     };
     discountNFTs: {
         "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb": number;

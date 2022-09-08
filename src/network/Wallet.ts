@@ -1,7 +1,8 @@
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, ethers, utils } from "ethers";
 import { EventContainer } from "skydapp-common";
 import Config from "../Config";
+import * as SigUtil from "@metamask/eth-sig-util";
 
 class Wallet extends EventContainer {
 
@@ -162,14 +163,18 @@ class Wallet extends EventContainer {
         });
 
         if (this.existsInjectedProvider === true) {
-            return await this.ethereum.request({
+            let sig = await this.ethereum.request({
                 method: "eth_signTypedData_v4",
                 params: [owner, data],
                 from: owner,
             });
+            if (sig.substring(130, 132) === "00") {
+                sig = sig.substring(0, 130) + "1b" + sig.substring(132);
+            }
+            return sig;
         } else {
             return await this.walletConnectProvider?.request({
-                method: "eth_signTypedData",
+                method: "eth_signTypedData_v4",
                 params: [owner, data],
                 from: owner,
             });

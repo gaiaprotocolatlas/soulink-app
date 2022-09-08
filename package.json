@@ -8,6 +8,7 @@
         "@types/qrcode": "^1.4.1",
         "@types/superagent": "^4.1.12",
         "@walletconnect/web3-provider": "^1.4.1",
+        "@metamask/eth-sig-util": "^4.0.1",
         "bowser": "^2.11.0",
         "cytoscape": "^3.22.1",
         "cytoscape-cose-bilkent": "^4.1.0",

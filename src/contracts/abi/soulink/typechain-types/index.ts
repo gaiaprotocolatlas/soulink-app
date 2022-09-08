@@ -30,8 +30,6 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
-export type { DiscountDBV0 } from "./contracts/DiscountDB.sol/DiscountDBV0";
-export { DiscountDBV0__factory } from "./factories/contracts/DiscountDB.sol/DiscountDBV0__factory";
 export type { DiscountDBV1 } from "./contracts/DiscountDB.sol/DiscountDBV1";
 export { DiscountDBV1__factory } from "./factories/contracts/DiscountDB.sol/DiscountDBV1__factory";
 export type { IDiscountDB } from "./contracts/interfaces/IDiscountDB";
@@ -46,6 +44,8 @@ export type { Soulink } from "./contracts/Soulink";
 export { Soulink__factory } from "./factories/contracts/Soulink__factory";
 export type { SoulinkMinter } from "./contracts/SoulinkMinter";
 export { SoulinkMinter__factory } from "./factories/contracts/SoulinkMinter__factory";
+export type { SoulinkSignatureChecker } from "./contracts/SoulinkSignatureChecker";
+export { SoulinkSignatureChecker__factory } from "./factories/contracts/SoulinkSignatureChecker__factory";
 export type { SoulBoundToken } from "./contracts/standards/SoulBoundToken";
 export { SoulBoundToken__factory } from "./factories/contracts/standards/SoulBoundToken__factory";
 export type { ERC1155Mock } from "./contracts/test/ERC1155Mock";

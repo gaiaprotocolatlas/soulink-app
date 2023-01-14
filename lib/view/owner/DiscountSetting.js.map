@@ -1,1 +1,1 @@
-{"version":3,"file":"DiscountSetting.js","sourceRoot":"","sources":["../../../src/view/owner/DiscountSetting.ts"],"names":[],"mappings":";;AAAA,mDAAsC;AAEtC,MAAqB,eAAgB,SAAQ,qBAAI;CAChD;AADD,kCACC"}
+{"version":3,"file":"DiscountSetting.js","sourceRoot":"","sources":["../../../src/view/owner/DiscountSetting.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,gBAAgB,CAAC;AAEtC,MAAM,CAAC,OAAO,OAAO,eAAgB,SAAQ,IAAI;CAChD"}

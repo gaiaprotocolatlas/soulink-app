@@ -53,7 +53,7 @@ export default class Intro extends View {
                 new ResponsiveImage("img", "/images/bottom-logo.png"),
                 el(".sns",
                     el("a", "Twitter", { href: "https://twitter.com/soulinksbt", target: "_blank" }),
-                    el("a", "Discord", { href: "https://discord.gg/u9hzMr848H", target: "_blank" }),
+                    el("a", "Discord", { href: "https://discord.gg/gaiaprotocol", target: "_blank" }),
                 ),
             ),
         ));

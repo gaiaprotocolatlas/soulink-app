@@ -1,0 +1,1 @@
+{"version":3,"file":"NFTImage.d.ts","sourceRoot":"","sources":["../../src/components/NFTImage.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,iBAAiB,CAAC;AAE1C,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,OAAO,CAAC,gBAAgB,GAAG,gBAAgB,CAAC;gBAElE,GAAG,EAAE,MAAM;CAsB1B"}

@@ -35,6 +35,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.js', '.less'],
+        extensionAlias: {
+            ".js": [".js", ".ts"],
+        },
         fallback: {
             url: require.resolve("url/"),
             os: require.resolve("os-browserify/browser"),
@@ -42,7 +45,9 @@ module.exports = {
             https: require.resolve("https-browserify"),
             stream: require.resolve("stream-browserify"),
             assert: require.resolve("assert/"),
-            crypto: require.resolve("crypto-browserify")
+            crypto: require.resolve("crypto-browserify"),
+            util: require.resolve("util/"),
+            buffer: require.resolve("buffer/")
         },
     },
     output: {
